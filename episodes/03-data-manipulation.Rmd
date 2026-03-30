@@ -1,0 +1,62 @@
+---
+title: "Data Manipulation"
+teaching: 60
+exercises: 30
+---
+
+:::::::::::::::::::::::::::::::::::::: questions
+
+- How do I filter, sort, and recode data in R the way I do in SPSS?
+- What is the tidyverse and why does it matter?
+- How do I create new variables from existing ones?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Filter rows, select columns, and sort data using dplyr
+- Create new variables and recode existing ones
+- Chain operations together using the pipe operator
+- Recognize the SPSS menu equivalent for each operation
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## The tidyverse approach
+
+TODO: Introduce dplyr as "SPSS menus, but written as verbs"
+
+## SPSS to R mapping
+
+TODO: For each operation, show the SPSS menu path and the R equivalent:
+- Data > Select Cases = `filter()`
+- Data > Sort Cases = `arrange()`
+- Transform > Compute Variable = `mutate()`
+- Transform > Recode into Different Variables = `case_when()`
+- Edit > Find (selecting columns) = `select()`
+- Data > Split File = `group_by()`
+- Data > Aggregate = `summarise()`
+
+## The pipe operator
+
+TODO: Explain `|>` as "and then" — chaining operations like a recipe
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1
+
+TODO: Data manipulation exercise using local dataset (CBS Aruba CPI or similar).
+
+:::::::::::::::::::::::: solution
+
+TODO: Solution code here.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- dplyr verbs (`filter`, `select`, `mutate`, `arrange`, `summarise`) replace SPSS menu operations
+- The pipe operator `|>` chains operations together, making code readable
+- `group_by()` combined with `summarise()` replaces SPSS Split File + Aggregate
+
+::::::::::::::::::::::::::::::::::::::::::::::::

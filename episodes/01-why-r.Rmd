@@ -1,0 +1,70 @@
+---
+title: "The Case for Switching"
+teaching: 45
+exercises: 0
+---
+
+:::::::::::::::::::::::::::::::::::::: questions
+
+- Why should I switch from SPSS to R?
+- What can R do that SPSS cannot?
+- How much does SPSS actually cost compared to R?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Describe the practical advantages of R over SPSS for research
+- See live examples of R capabilities that go beyond SPSS
+- Understand the cost and reproducibility arguments for switching
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Introduction
+
+TODO: This episode is a motivational opening. No coding by participants yet —
+this is a live demonstration by the instructor.
+
+### What you will see
+
+1. Pulling live data from the World Bank for Aruba, Curacao, and Sint Maarten
+2. Creating a publication-quality visualization in under 10 lines of code
+3. A reproducible report that updates automatically when data changes
+4. An interactive dashboard built entirely in R
+
+### The cost comparison
+
+| Tool | Annual cost per user | 5-year cost |
+|------|---------------------|-------------|
+| SPSS (standard license) | AWG 400+ | AWG 2,000+ |
+| R + RStudio | Free | Free |
+
+### What R gives you that SPSS does not
+
+- **Reproducibility**: Every step is documented in a script
+- **Collaboration**: Share your exact analysis with anyone
+- **Cost**: Free, forever
+- **Packages**: Over 20,000 extensions on CRAN
+- **Career**: R is the tool of choice in data science
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+This episode is entirely instructor-led demonstration. The goal is motivation,
+not instruction. Keep it visual and impressive. Show, do not explain.
+
+Suggested demo flow:
+1. Open RStudio, run `WDI::WDI(country=c("AW","CW","SX"), indicator="ST.INT.ARVL")`
+2. Pipe directly into a ggplot2 chart
+3. Show a pre-built R Markdown report, change a parameter, re-knit
+4. If time: show a Shiny app with local data
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- R is free, open-source, and runs on any operating system
+- R scripts make your analysis fully reproducible
+- R can pull data from APIs, create interactive visualizations, and automate reports — things SPSS cannot do
+- Switching builds on your existing statistical knowledge, not replaces it
+
+::::::::::::::::::::::::::::::::::::::::::::::::

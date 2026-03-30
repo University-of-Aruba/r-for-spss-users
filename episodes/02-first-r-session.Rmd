@@ -1,0 +1,65 @@
+---
+title: "Your First R Session"
+teaching: 60
+exercises: 30
+---
+
+:::::::::::::::::::::::::::::::::::::: questions
+
+- How does RStudio compare to the SPSS interface?
+- How do I import data, including SPSS `.sav` files?
+- How do I get descriptive statistics and frequency tables in R?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Navigate the RStudio interface and identify the equivalent of SPSS panels
+- Import CSV and SPSS `.sav` files into R
+- Run basic descriptive statistics and frequency tables
+- Inspect variables and data structure
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## RStudio orientation
+
+TODO: Map SPSS interface to RStudio:
+- SPSS Data View = RStudio Environment pane
+- SPSS Output Viewer = RStudio Console
+- SPSS Syntax Editor = RStudio Script Editor
+- SPSS Variable View = `str()` or `glimpse()`
+
+## Importing data
+
+TODO: Cover:
+- `read_csv()` for CSV files
+- `haven::read_sav()` for SPSS .sav files
+- Viewing data with `View()`, `head()`, `str()`, `glimpse()`
+
+## Descriptive statistics
+
+TODO: SPSS equivalents:
+- Analyze > Descriptive Statistics > Descriptives = `summary()`
+- Analyze > Descriptive Statistics > Frequencies = `table()`
+- Variable View = `str()` / `glimpse()`
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1
+
+TODO: Import the course dataset and calculate descriptive statistics.
+
+:::::::::::::::::::::::: solution
+
+TODO: Solution code here.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- RStudio is your workspace — it combines a script editor, console, and data viewer
+- `haven::read_sav()` imports SPSS files directly, preserving labels
+- `summary()`, `table()`, and `str()` replace the Descriptives and Frequencies menus in SPSS
+
+::::::::::::::::::::::::::::::::::::::::::::::::

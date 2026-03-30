@@ -1,0 +1,71 @@
+---
+title: "Statistical Analysis in R"
+teaching: 80
+exercises: 40
+---
+
+:::::::::::::::::::::::::::::::::::::: questions
+
+- How do I run t-tests, ANOVA, correlations, and regression in R?
+- How does R output compare to SPSS output tables?
+- How do I extract and report results?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Run independent and paired samples t-tests
+- Conduct one-way ANOVA with post-hoc tests
+- Calculate correlations and run simple linear regression
+- Interpret R output by mapping it to familiar SPSS output tables
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## From SPSS dialogs to R functions
+
+TODO: For each test, show a screenshot of the SPSS dialog alongside R code:
+
+### T-tests
+
+- Analyze > Compare Means > Independent-Samples T Test = `t.test(y ~ group, data = df)`
+- Analyze > Compare Means > Paired-Samples T Test = `t.test(x, y, paired = TRUE)`
+
+### ANOVA
+
+- Analyze > Compare Means > One-Way ANOVA = `aov(y ~ group, data = df)` + `summary()`
+- Post-hoc: `TukeyHSD()`
+
+### Correlation
+
+- Analyze > Correlate > Bivariate = `cor.test(df$x, df$y)`
+
+### Regression
+
+- Analyze > Regression > Linear = `lm(y ~ x1 + x2, data = df)` + `summary()`
+
+## Reading R output
+
+TODO: Show how to interpret R output, mapping to the SPSS output tables
+participants already know. Use `broom::tidy()` for clean output.
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1
+
+TODO: Run a complete analysis workflow on local data — descriptives, test,
+interpret, report.
+
+:::::::::::::::::::::::: solution
+
+TODO: Solution code here.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- Every SPSS statistical test has a direct R equivalent, usually in a single function call
+- R output is more compact than SPSS — `broom::tidy()` converts it to a clean table
+- The workflow in R is: load data, run test, extract results, visualize — all in a script
+
+::::::::::::::::::::::::::::::::::::::::::::::::

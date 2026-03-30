@@ -2,28 +2,19 @@
 title: Setup
 ---
 
-FIXME: Setup instructions live in this document. Please specify the tools and
-the data sets the Learner needs to have installed.
-
-## Data Sets
-
-<!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
--->
-Download the [data zip file](https://example.com/FIXME) and unzip it to your Desktop
+You need to install R and RStudio before the course. Both are free. Follow the
+instructions below for your operating system. If you run into problems, join the
+optional installation clinic one week before the course.
 
 ## Software Setup
 
 ::::::::::::::::::::::::::::::::::::::: discussion
 
-### Details
+### Install R and RStudio
 
-Setup for different systems can be presented in dropdown menus via a `spoiler`
-tag. They will join to this discussion block, so you can give a general overview
-of the software used in this lesson here and fill out the individual operating
-systems (and potentially add more, e.g. online setup) in the solutions blocks.
+You need both R (the language) and RStudio (the interface). Think of R as the
+engine and RStudio as the dashboard — you will work in RStudio, but it needs R
+installed to run.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -31,24 +22,62 @@ systems (and potentially add more, e.g. online setup) in the solutions blocks.
 
 ### Windows
 
-Use PuTTY
+1. Download R from [CRAN](https://cran.r-project.org/bin/windows/base/) — click
+   "Download R for Windows", then "base", then the download link.
+2. Run the installer with default settings.
+3. Download RStudio from
+   [Posit](https://posit.co/download/rstudio-desktop/) — click "Download
+   RStudio Desktop".
+4. Run the RStudio installer with default settings.
+5. Open RStudio — if you see a console panel with the R version number, you are
+   ready.
 
 ::::::::::::::::::::::::
 
 :::::::::::::::: spoiler
 
-### MacOS
+### macOS
 
-Use Terminal.app
+1. Download R from [CRAN](https://cran.r-project.org/bin/macosx/) — choose the
+   `.pkg` file that matches your Mac (Apple Silicon or Intel).
+2. Open the `.pkg` file and follow the installer.
+3. Download RStudio from
+   [Posit](https://posit.co/download/rstudio-desktop/).
+4. Drag RStudio to your Applications folder.
+5. Open RStudio — if you see a console panel with the R version number, you are
+   ready.
 
 ::::::::::::::::::::::::
-
 
 :::::::::::::::: spoiler
 
 ### Linux
 
-Use Terminal
+1. Follow the instructions for your distribution at
+   [CRAN](https://cran.r-project.org/bin/linux/).
+2. Download RStudio from
+   [Posit](https://posit.co/download/rstudio-desktop/) — choose the `.deb` or
+   `.rpm` file for your distribution.
+3. Install and open RStudio.
 
 ::::::::::::::::::::::::
 
+## R Packages
+
+During the course, we will install packages together. If you want to get ahead,
+open RStudio and run this command in the console:
+
+```r
+install.packages(c("tidyverse", "haven", "rmarkdown"))
+```
+
+- **tidyverse** includes dplyr (data manipulation), ggplot2 (visualization),
+  readr (reading data), and more
+- **haven** reads SPSS `.sav` files directly into R
+- **rmarkdown** creates reproducible reports
+
+## Pre-course Survey
+
+Before the course, you will receive a short questionnaire about which SPSS
+analyses you use most often. This helps us tailor exercises to what you actually
+need.

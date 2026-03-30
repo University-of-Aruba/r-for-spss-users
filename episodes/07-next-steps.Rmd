@@ -1,0 +1,62 @@
+---
+title: "Where to Go from Here"
+teaching: 30
+exercises: 15
+---
+
+:::::::::::::::::::::::::::::::::::::: questions
+
+- Where do I find help when I get stuck?
+- What resources are available for continued learning?
+- How do I access Dutch Caribbean data directly from R?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Know where to find help: documentation, community forums, Stack Overflow
+- Access Dutch Caribbean data using R packages (cbsodataR, WDI)
+- Build a personal library of R scripts that replace SPSS workflows
+- Understand the Carpentries community and further learning paths
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Getting help
+
+TODO: Cover:
+- `?function_name` and `help()`
+- Stack Overflow `[r]` tag
+- Posit Community (community.rstudio.com)
+- R-bloggers
+- Cheat sheets from Posit
+
+## Dutch Caribbean data in R
+
+TODO: Demonstrate:
+- `cbsodataR` for CBS Netherlands StatLine data (BES islands)
+- `WDI` package for World Bank data (all islands)
+- Direct downloads from CBS Aruba and CBS Curacao
+
+## Building your script library
+
+TODO: Encourage participants to:
+- Save every analysis as a script
+- Comment what each section does
+- Build a personal collection of "recipes" for common analyses
+
+## Continued learning
+
+TODO: Recommend:
+- r4stats.com (Bob Muenchen) — SPSS-R comparison reference
+- The Carpentries community
+- Free online courses (Coursera, DataCamp)
+- The DCDC Network as a peer support community
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- R has a large, active community — you are never stuck alone
+- `cbsodataR` and `WDI` let you pull Dutch Caribbean data directly into R
+- Save your analyses as scripts and build a personal reference library
+- The DCDC Network is your regional peer community for continued learning
+
+::::::::::::::::::::::::::::::::::::::::::::::::

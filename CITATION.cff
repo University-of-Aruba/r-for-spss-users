@@ -1,11 +1,5 @@
-# This template CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to replace its contents
-# with information about your lesson.
-# Remember to update this file periodically, 
-# ensuring that the author list and other fields remain accurate.
-
 cff-version: 1.2.0
-title: FIXME
+title: Introduction to R for SPSS Users
 message: >-
   Please cite this lesson using the information in this file
   when you refer to it in publications, and/or if you
@@ -13,10 +7,24 @@ message: >-
   training material.
 type: dataset
 authors:
-  - given-names: FIXME
-    family-names: FIXME
+  - given-names: Rendell
+    family-names: de Kort
+    affiliation: University of Aruba / DCDC Network
+    orcid: 'https://orcid.org/0000-0000-0000-0000'
 abstract: >-
-  FIXME Replace this with a short abstract describing the
-  lesson, e.g. its target audience and main intended
-  learning objectives.
+  A hands-on workshop designed for researchers, students, and
+  institutional staff who currently use SPSS and want to transition
+  to R. The course maps common SPSS workflows to R equivalents,
+  covering data manipulation with tidyverse, visualization with
+  ggplot2, statistical analysis, and reproducible reporting with
+  R Markdown. Uses Dutch Caribbean datasets as teaching examples.
+  Developed by the DCDC Network as open educational materials.
+keywords:
+  - R programming
+  - SPSS
+  - statistical analysis
+  - Dutch Caribbean
+  - open educational resources
+  - DCDC Network
 license: CC-BY-4.0
+repository-code: 'https://github.com/University-of-Aruba/r-for-spss-users'

@@ -1,0 +1,64 @@
+---
+title: "Visualization with ggplot2"
+teaching: 40
+exercises: 20
+---
+
+:::::::::::::::::::::::::::::::::::::: questions
+
+- How do I create charts in R that look better than SPSS Chart Builder output?
+- What is the ggplot2 "grammar of graphics" approach?
+- How do I customize colors, labels, and themes?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Build bar charts, histograms, scatterplots, and line charts with ggplot2
+- Customize plots with labels, colors, and themes for publication quality
+- Compare ggplot2 output with SPSS Chart Builder equivalents
+- Create faceted plots to compare groups
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## The grammar of graphics
+
+TODO: Explain the layered approach:
+- `ggplot(data, aes(x, y))` — set up the canvas
+- `+ geom_*()` — add the visual layer
+- `+ labs()` — add labels
+- `+ theme_*()` — style it
+
+## Common chart types
+
+TODO: For each, show SPSS Chart Builder equivalent:
+- Bar chart: Graphs > Chart Builder (bar) = `geom_bar()` / `geom_col()`
+- Histogram: Graphs > Chart Builder (histogram) = `geom_histogram()`
+- Scatterplot: Graphs > Chart Builder (scatter) = `geom_point()`
+- Line chart: = `geom_line()`
+- Boxplot: = `geom_boxplot()`
+
+## Making it publication-ready
+
+TODO: Demonstrate layering from basic to polished using Aruba tourism data
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1
+
+TODO: Create a visualization using local data, progressively improving it.
+
+:::::::::::::::::::::::: solution
+
+TODO: Solution code here.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- ggplot2 builds plots in layers: data, aesthetics, geometry, labels, theme
+- Every SPSS Chart Builder chart has a ggplot2 equivalent that offers more control
+- Faceting (`facet_wrap`) lets you create small multiples — something SPSS Chart Builder handles poorly
+
+::::::::::::::::::::::::::::::::::::::::::::::::

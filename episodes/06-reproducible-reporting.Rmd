@@ -1,0 +1,66 @@
+---
+title: "Reproducible Reporting"
+teaching: 40
+exercises: 20
+---
+
+:::::::::::::::::::::::::::::::::::::: questions
+
+- How do I combine my analysis and write-up in one document?
+- What is R Markdown and why is it better than copy-pasting from SPSS output?
+- How do I create a report that updates when data changes?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Create an R Markdown document that combines text, code, and output
+- Generate tables and figures that update automatically
+- Export reports to Word, PDF, or HTML
+- Understand why script-based reporting is more reliable than SPSS output export
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## The problem with copy-paste
+
+TODO: Explain the SPSS workflow problem:
+1. Run analysis in SPSS
+2. Copy output table
+3. Paste into Word
+4. Data changes → redo everything manually
+
+## R Markdown basics
+
+TODO: Cover:
+- YAML header (title, author, output format)
+- Markdown text formatting
+- Code chunks: ```` ```{r} ````
+- Inline code for dynamic values
+- Knitting to Word/HTML/PDF
+
+## Building a mini-report
+
+TODO: Hands-on exercise creating a short report analyzing Dutch Caribbean data.
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1
+
+TODO: Create an R Markdown report that imports data, produces a summary table,
+creates a visualization, and includes interpretation text.
+
+:::::::::::::::::::::::: solution
+
+TODO: Solution code here.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- R Markdown combines your analysis and write-up in a single document
+- When data changes, re-knitting updates every table and figure automatically
+- You can output to Word, PDF, or HTML from the same source file
+- This eliminates the copy-paste errors that are common with SPSS output
+
+::::::::::::::::::::::::::::::::::::::::::::::::

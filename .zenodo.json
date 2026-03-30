@@ -1,0 +1,40 @@
+{
+  "title": "Introduction to R for SPSS Users: DCDC Network Training Materials",
+  "upload_type": "lesson",
+  "description": "A hands-on workshop designed for researchers, students, and institutional staff who currently use SPSS and want to transition to R. The course maps common SPSS workflows to R equivalents, covering data manipulation with tidyverse, visualization with ggplot2, statistical analysis, and reproducible reporting with R Markdown. Uses Dutch Caribbean datasets as teaching examples. Developed by the DCDC Network at the University of Aruba.",
+  "creators": [
+    {
+      "name": "de Kort, Rendell",
+      "affiliation": "University of Aruba / DCDC Network",
+      "orcid": "0000-0000-0000-0000"
+    }
+  ],
+  "keywords": [
+    "R programming",
+    "SPSS",
+    "statistical analysis",
+    "tidyverse",
+    "ggplot2",
+    "Dutch Caribbean",
+    "open educational resources",
+    "DCDC Network",
+    "train-the-trainer",
+    "reproducible research"
+  ],
+  "license": {
+    "id": "CC-BY-4.0"
+  },
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/University-of-Aruba/r-for-spss-users",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "grants": [
+    {
+      "id": "10.13039/501100003246::WCNJY25550"
+    }
+  ]
+}
