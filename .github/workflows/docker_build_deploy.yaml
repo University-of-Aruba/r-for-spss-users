@@ -118,21 +118,17 @@ jobs:
 
       - name: "Setup Lesson Dependencies"
         id: build-container-deps
-        uses: carpentries/actions/build-container-deps@main
-        with:
-          CACHE_VERSION: ${{ vars.CACHE_VERSION || github.event.inputs.CACHE_VERSION || '' }}
-          WORKBENCH_TAG: ${{ vars.WORKBENCH_TAG || 'latest' }}
-          LESSON_PATH: ${{ vars.LESSON_PATH || '/home/rstudio/lesson' }}
-          role-to-assume: ${{ secrets.AWS_GH_OIDC_ARN }}
-          aws-region: ${{ secrets.AWS_GH_OIDC_REGION }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd /home/rstudio/lesson
+          Rscript -e 'if (file.exists("renv/profiles/lesson-requirements/renv.lock")) renv::restore(profile = "lesson-requirements")'
+        shell: bash
 
       - name: "Run Container and Build Site"
         id: build-and-deploy
         uses: carpentries/actions/build-and-deploy@main
         with:
           reset: ${{ vars.BUILD_RESET || github.event.inputs.reset || 'false' }}
-          skip-manage-deps: ${{ github.event.inputs.force-skip-manage-deps == 'true' || steps.build-container-deps.outputs.renv-cache-available || steps.build-container-deps.outputs.backup-cache-used || 'false' }}
+          skip-manage-deps: 'false'
           lang-code: ${{ vars.LANG_CODE || '' }}
 
   update-container-version:

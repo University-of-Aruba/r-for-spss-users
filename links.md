@@ -7,4 +7,8 @@ any links that you are not going to use.
 [r-markdown]: https://rmarkdown.rstudio.com/
 [rstudio]: https://www.rstudio.com/
 [carpentries-workbench]: https://carpentries.github.io/sandpaper-docs/
+[dcdc-network]: https://www.nwo.nl/en/projects/wcnjy25550
+[r4stats]: https://r4stats.com/
+[tidyverse]: https://www.tidyverse.org/
+[ggplot2]: https://ggplot2.tidyverse.org/
 
