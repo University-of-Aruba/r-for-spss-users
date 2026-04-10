@@ -120,7 +120,7 @@ jobs:
         id: build-container-deps
         run: |
           cd /home/rstudio/lesson
-          Rscript -e 'if (file.exists("renv/profiles/lesson-requirements/renv.lock")) renv::restore(profile = "lesson-requirements")'
+          Rscript -e 'if (file.exists("renv/profiles/lesson-requirements/renv.lock")) renv::restore()'
         shell: bash
 
       - name: "Run Container and Build Site"
