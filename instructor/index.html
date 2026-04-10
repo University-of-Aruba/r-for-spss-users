@@ -456,11 +456,23 @@ any links that you are not going to use.
  --></tbody></table><p>
       The actual schedule may vary slightly depending on the topics and exercises chosen by the instructor.
       </p>
-      </section><section id="setup"><p>You need to install R and RStudio before the course. Both are free.
-Follow the instructions below for your operating system. If you run into
-problems, join the optional installation clinic one week before the
-course.</p>
-<section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
+      </section><section id="setup"><p>You need to install R and RStudio <strong>before the first session on
+April 22</strong>. Both are free. Follow the instructions below for your
+operating system.</p>
+<section><h2 class="section-heading" id="pre-workshop-installation-clinic">Pre-workshop installation clinic<a class="anchor" aria-label="anchor" href="#pre-workshop-installation-clinic"></a></h2>
+<hr class="half-width"><p>We will not spend course time on installation troubleshooting. To
+make sure everyone starts ready to go, there is an optional drop-in
+session before the course:</p>
+<!-- RENDELL: Confirm date, time, and room -->
+<p><strong>When:</strong> Week of April 14 (exact date TBD), 1 hour
+<strong>Where:</strong> University of Aruba (room TBD)
+<strong>What:</strong> Bring your laptop. We help you install R and
+RStudio, verify everything works, and install the required packages.
+Walk in, walk out.</p>
+<p>If you cannot attend the clinic, follow the instructions below and
+test your setup by opening RStudio and typing <code>1 + 1</code> in the
+console. If it returns <code>2</code>, you are ready.</p>
+</section><section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
 <hr class="half-width"><div id="install-r-and-rstudio" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
@@ -554,10 +566,19 @@ ggplot2 (visualization), readr (reading data), and more</li>
 into R</li>
 <li>
 <strong>rmarkdown</strong> creates reproducible reports</li>
-</ul></section><section><h2 class="section-heading" id="pre-course-survey">Pre-course Survey<a class="anchor" aria-label="anchor" href="#pre-course-survey"></a></h2>
-<hr class="half-width"><p>Before the course, you will receive a short questionnaire about which
-SPSS analyses you use most often. This helps us tailor exercises to what
-you actually need.</p>
+</ul></section><section><h2 class="section-heading" id="verify-your-setup">Verify your setup<a class="anchor" aria-label="anchor" href="#verify-your-setup"></a></h2>
+<hr class="half-width"><p>Open RStudio and paste this into the console:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"tidyverse"</span>, <span class="st">"haven"</span>, <span class="st">"rmarkdown"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">mpg</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">displ</span>, y <span class="op">=</span> <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p>If a scatter plot appears in the Plots pane, everything is working.
+Bring any errors you see to the installation clinic or email the
+instructor.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
