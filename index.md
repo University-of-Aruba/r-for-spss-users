@@ -7,9 +7,9 @@ productive in R. No programming experience required. By the end, you will be
 running analyses, creating publication-quality visualizations, and working in a
 fully reproducible workflow.
 
-This course is developed by the [DCDC Network](https://www.nwo.nl/en/projects/wcnjy25550)
-and hosted at the [University of Aruba](https://www.ua.aw/). All materials are
-open and freely reusable under a CC-BY 4.0 license.
+This course is developed by **Rendell de Kort** ([University of Aruba](https://www.ua.aw/) /
+[DCDC Network](https://dcdc.network)) and is open and freely reusable under a
+CC-BY 4.0 license.
 
 ## Who is this for?
 
