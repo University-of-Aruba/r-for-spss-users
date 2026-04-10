@@ -2,6 +2,8 @@
 site: sandpaper::sandpaper_site
 ---
 
+![DCDC Network](fig/dcdc-logo.png){alt='DCDC Network logo' width='300px'}
+
 A hands-on workshop that builds on what you already know from SPSS to get you
 productive in R. No programming experience required. By the end, you will be
 running analyses, creating publication-quality visualizations, and working in a

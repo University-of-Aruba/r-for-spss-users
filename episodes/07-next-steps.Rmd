@@ -436,6 +436,24 @@ reproducible, shareable, and transparent.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Before you leave
+
+Please take a few minutes to complete these short surveys. Your feedback helps
+us improve the course and strengthens the DCDC Network.
+
+**Course evaluation** --- tell us what worked, what didn't, and what you'd
+change. This directly shapes future sessions.
+
+<!-- RENDELL: Insert DCDC evaluation survey link below -->
+[Complete the course evaluation survey](https://PLACEHOLDER-EVALUATION-SURVEY-URL)
+
+**DCDC Network onboarding** --- help us understand your data practices and
+connect you to the broader network. This feeds into DCDC research on digital
+competence across the Dutch Caribbean.
+
+<!-- RENDELL: Insert DCDC onboarding survey link below -->
+[Complete the DCDC Network onboarding survey](https://PLACEHOLDER-ONBOARDING-SURVEY-URL)
+
 ::::::::::::::::::::::::::::::::::::: keypoints
 
 - R has a large, active community --- you are never stuck alone
