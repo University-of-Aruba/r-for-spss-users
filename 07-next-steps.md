@@ -470,15 +470,13 @@ us improve the course and strengthens the DCDC Network.
 **Course evaluation** --- tell us what worked, what didn't, and what you'd
 change. This directly shapes future sessions.
 
-<!-- RENDELL: Insert DCDC evaluation survey link below -->
-[Complete the course evaluation survey](https://PLACEHOLDER-EVALUATION-SURVEY-URL)
+[Complete the course evaluation survey](https://docs.google.com/forms/d/e/1hXPLwEL637Ypz5W9xwjDMYimbmE8nfkFHEpriMY-tOw/viewform)
 
 **DCDC Network onboarding** --- help us understand your data practices and
 connect you to the broader network. This feeds into DCDC research on digital
 competence across the Dutch Caribbean.
 
-<!-- RENDELL: Insert DCDC onboarding survey link below -->
-[Complete the DCDC Network onboarding survey](https://PLACEHOLDER-ONBOARDING-SURVEY-URL)
+[Complete the DCDC Network onboarding survey](https://docs.google.com/forms/d/e/1pcHjwkAhHPK8q6qqS0ns2rhr5AXX_wvBUbOQ0YACAQo/viewform)
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
