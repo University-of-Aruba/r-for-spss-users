@@ -23,38 +23,362 @@ exercises: 30
 
 ## RStudio orientation
 
-TODO: Map SPSS interface to RStudio:
-- SPSS Data View = RStudio Environment pane
-- SPSS Output Viewer = RStudio Console
-- SPSS Syntax Editor = RStudio Script Editor
-- SPSS Variable View = `str()` or `glimpse()`
+When you open RStudio for the first time, you see four panes. If you have used
+SPSS before, each one has a rough equivalent:
+
+| RStudio pane | Location | SPSS equivalent | What it does |
+|---|---|---|---|
+| **Source Editor** | Top-left | Syntax Editor | Where you write and save your code (scripts) |
+| **Console** | Bottom-left | Output Viewer | Where R runs commands and prints results |
+| **Environment** | Top-right | Data View header | Lists all objects (datasets, values) currently in memory |
+| **Files / Plots / Help** | Bottom-right | *(no equivalent)* | File browser, plot preview, and built-in documentation |
+
+The key difference from SPSS: in SPSS, you usually have *one* dataset open at
+a time and interact through menus. In RStudio, you write instructions in the
+Source Editor (top-left), send them to the Console (bottom-left), and the
+results appear either in the Console or the Plots pane.
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## The Source Editor is your new best friend
+
+In SPSS, many users never open the Syntax Editor — they click menus instead.
+In R, the Source Editor *is* how you work. Think of it as a recipe: you write
+the steps once, and you (or anyone else) can re-run them at any time.
+
+Save your scripts with the `.R` extension. You will thank yourself later.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Objects and assignment
+
+In SPSS, when you compute a new variable, it appears as a column in your
+dataset. In R, everything you create is stored as a named **object**.
+
+You create objects with the **assignment operator** `<-` (a less-than sign
+followed by a hyphen). Read it as "gets" or "is assigned".
+
+```{r}
+# Store a number
+population <- 106739
+
+# Store text (called a "character string" in R)
+island <- "Aruba"
+
+# Store the result of a calculation
+density <- population / 180  # Aruba is about 180 km²
+```
+
+To see the value of an object, type its name and run it:
+
+```{r}
+population
+island
+density
+```
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## Why `<-` and not `=`?
+
+You will see some people use `=` for assignment, and it works in most cases.
+However, the R community convention is `<-`. It makes your code easier to read
+because `=` is also used inside function arguments (as you will see shortly).
+
+In RStudio, the keyboard shortcut **Alt + -** (Alt and the minus key) types
+`<-` for you automatically.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Functions: R's version of menu clicks
+
+In SPSS, you click **Analyze > Descriptive Statistics > Descriptives** and a
+dialog box appears. In R, you call a **function** instead. A function has a
+name, and you pass it **arguments** inside parentheses.
+
+```{r}
+# round() is a function. 592.777 is the input, digits = 1 is an option.
+round(592.777, digits = 1)
+```
+
+```{r}
+# sqrt() calculates a square root
+sqrt(density)
+```
+
+The pattern is always: `function_name(argument1, argument2, ...)`. This is
+the R equivalent of filling in an SPSS dialog box — the function name is the
+menu item, and the arguments are the fields you would fill in.
+
+## Packages: extending R
+
+R comes with many built-in functions, but its real power comes from
+**packages** — add-on libraries written by other users. Think of them as SPSS
+modules, except they are free.
+
+There are two steps:
+
+1. **Install** the package (once per computer, like installing an app):
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+```
+
+2. **Load** the package (once per session, like opening an app):
+
+```{r}
+library(tidyverse)
+```
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## `install.packages()` vs `library()`
+
+A common source of confusion for beginners:
+
+- `install.packages("tidyverse")` — downloads and installs the package. You
+  only need to do this **once** (or when you want to update). Note the
+  **quotation marks**.
+- `library(tidyverse)` — loads a package that is already installed so you can
+  use it in your current session. You do this **every time** you start R. No
+  quotation marks needed (though they work too).
+
+Analogy: `install.packages()` is buying a book and putting it on your shelf.
+`library()` is taking the book off the shelf and opening it.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Importing data
 
-TODO: Cover:
-- `read_csv()` for CSV files
-- `haven::read_sav()` for SPSS .sav files
-- Viewing data with `View()`, `head()`, `str()`, `glimpse()`
+### CSV files with `read_csv()`
 
-## Descriptive statistics
+The most common data format in R is CSV (comma-separated values). The
+`readr` package (loaded as part of `tidyverse`) provides `read_csv()`:
 
-TODO: SPSS equivalents:
-- Analyze > Descriptive Statistics > Descriptives = `summary()`
-- Analyze > Descriptive Statistics > Frequencies = `table()`
-- Variable View = `str()` / `glimpse()`
+```{r}
+visitors <- read_csv("data/aruba_visitors.csv")
+```
+
+R prints a summary of the column types it detected. This is equivalent to
+opening a CSV in SPSS via **File > Open > Data** and checking the variable
+types.
+
+### SPSS `.sav` files with `haven`
+
+If you have existing SPSS datasets, the `haven` package reads them directly —
+including variable labels and value labels:
+
+```{r, eval=FALSE}
+# install.packages("haven")  # run once if needed
+library(haven)
+spss_data <- read_sav("path/to/your/file.sav")
+```
+
+This means you do not have to convert your SPSS files to CSV first. R reads
+them as-is.
+
+## Exploring your data
+
+Now that we have the `visitors` dataset loaded, let us explore it. Each of the
+functions below is the R equivalent of something you would do in SPSS.
+
+### `View()` — the Data View equivalent
+
+```{r, eval=FALSE}
+View(visitors)
+```
+
+This opens a spreadsheet-like viewer in RStudio, just like SPSS Data View. You
+can scroll, sort columns by clicking headers, and filter. (Note the capital V.)
+
+### `head()` — see the first few rows
+
+```{r}
+head(visitors)
+```
+
+This is faster than `View()` when you just want a quick look. By default it
+shows 6 rows. You can change that: `head(visitors, n = 10)`.
+
+### `str()` — the Variable View equivalent
+
+In SPSS, you would switch to **Variable View** to see variable names, types,
+and labels. In R, `str()` does the same thing:
+
+```{r}
+str(visitors)
+```
+
+This tells you: how many observations (rows), how many variables (columns),
+and the type of each variable (`num` for numbers, `chr` for text).
+
+### `glimpse()` — a tidyverse alternative to `str()`
+
+The `glimpse()` function from `dplyr` gives similar information in a tidier
+format:
+
+```{r}
+glimpse(visitors)
+```
+
+### `summary()` — Descriptives in one command
+
+In SPSS: **Analyze > Descriptive Statistics > Descriptives**. In R:
+
+```{r}
+summary(visitors)
+```
+
+For numeric columns, you get the minimum, maximum, mean, median, and
+quartiles. For character columns, you get the length and type.
+
+### `table()` — Frequency tables
+
+In SPSS: **Analyze > Descriptive Statistics > Frequencies**. In R:
+
+```{r}
+table(visitors$origin)
+```
+
+The `$` operator extracts a single column from a data frame. So
+`visitors$origin` means "the origin column from the visitors dataset" — like
+clicking on a single variable in SPSS.
+
+You can also make two-way frequency tables:
+
+```{r}
+table(visitors$year, visitors$origin)
+```
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+## Pacing notes
+
+- Spend time on the RStudio pane orientation. Have participants identify each
+  pane on their own screen before moving on.
+- The `<-` assignment operator trips people up. Give them a few minutes to
+  practice creating objects with different names and values.
+- When loading tidyverse, the startup messages can be alarming to beginners.
+  Reassure them that the "Attaching packages" and "Conflicts" messages are
+  normal and expected.
+- For `read_csv()`, make sure everyone has the data file in the right place.
+  This is the most common point of failure. Walk around and check.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
-## Challenge 1
+## Challenge 1: Explore the Aruba visitors dataset
 
-TODO: Import the course dataset and calculate descriptive statistics.
+Import the Aruba visitors dataset and answer the following questions using R
+functions. Write your code in the Source Editor and run each line.
+
+1. How many rows and how many columns does the dataset have?
+2. What data type is the `origin` column? What data type is `visitors_stayover`?
+3. What is the mean `avg_spending_usd` across all rows?
+4. How many rows are there for each origin country?
 
 :::::::::::::::::::::::: solution
 
-TODO: Solution code here.
+## Solution
+
+```{r}
+# Load the data (if not already loaded)
+library(tidyverse)
+visitors <- read_csv("data/aruba_visitors.csv")
+```
+
+**Question 1:** How many rows and columns?
+
+```{r}
+# Either of these works:
+dim(visitors)
+glimpse(visitors)
+```
+
+The dataset has 120 rows and 9 columns (5 years x 4 quarters x 6 origin
+countries = 120 rows).
+
+**Question 2:** Data types?
+
+```{r}
+str(visitors)
+```
+
+`origin` is character (`chr`), `visitors_stayover` is numeric (`num`).
+
+**Question 3:** Mean average spending?
+
+```{r}
+summary(visitors$avg_spending_usd)
+```
+
+The mean `avg_spending_usd` is shown in the summary output. You can also get
+just the mean with:
+
+```{r}
+mean(visitors$avg_spending_usd)
+```
+
+**Question 4:** Rows per origin country?
+
+```{r}
+table(visitors$origin)
+```
+
+Each origin country has 20 rows (4 quarters x 5 years).
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 2: Practice with objects and functions
+
+1. Create an object called `my_island` that stores the text `"Aruba"`.
+2. Create an object called `area_km2` that stores the value `180`.
+3. Use the `nchar()` function to count the number of characters in `my_island`.
+4. Use `round()` to round the mean of `avg_spending_usd` to the nearest whole
+   number. (Hint: you can put one function inside another.)
+
+:::::::::::::::::::::::: solution
+
+## Solution
+
+```{r}
+# 1 and 2: Create objects
+my_island <- "Aruba"
+area_km2 <- 180
+
+# 3: Count characters
+nchar(my_island)
+
+# 4: Round the mean spending
+round(mean(visitors$avg_spending_usd), digits = 0)
+```
+
+Nesting functions (putting one inside another) is common in R. R evaluates
+from the inside out: first it calculates `mean(visitors$avg_spending_usd)`,
+then it passes that result to `round()`.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Summary
+
+You have now completed your first hands-on R session. You can:
+
+- Find your way around RStudio
+- Create objects and use functions
+- Install and load packages
+- Import a CSV file
+- Inspect your data with `View()`, `head()`, `str()`, `glimpse()`, `summary()`,
+  and `table()`
+
+In SPSS terms, you have learned the equivalent of opening a dataset, switching
+between Data View and Variable View, and running Descriptives and Frequencies.
+The difference is that everything you did is saved in a script that you can
+re-run at any time.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 

@@ -23,35 +23,388 @@ exercises: 30
 
 ## The tidyverse approach
 
-TODO: Introduce dplyr as "SPSS menus, but written as verbs"
+In SPSS, you manipulate data through menus: **Data > Select Cases**, **Data >
+Sort Cases**, **Transform > Compute Variable**, and so on. In R, the
+`dplyr` package gives you a set of **verbs** — functions with plain-English
+names that do exactly what they say.
 
-## SPSS to R mapping
+The `dplyr` package is part of the **tidyverse**, which you already loaded in
+the previous episode. If you are starting a fresh R session, load it now:
 
-TODO: For each operation, show the SPSS menu path and the R equivalent:
-- Data > Select Cases = `filter()`
-- Data > Sort Cases = `arrange()`
-- Transform > Compute Variable = `mutate()`
-- Transform > Recode into Different Variables = `case_when()`
-- Edit > Find (selecting columns) = `select()`
-- Data > Split File = `group_by()`
-- Data > Aggregate = `summarise()`
+```{r}
+library(tidyverse)
 
-## The pipe operator
+# Also load our dataset
+visitors <- read_csv("data/aruba_visitors.csv")
+```
 
-TODO: Explain `|>` as "and then" — chaining operations like a recipe
+Here is the key idea: every SPSS menu operation you use for data manipulation
+has a dplyr verb equivalent.
+
+| SPSS menu path | dplyr verb | What it does |
+|---|---|---|
+| Data > Select Cases | `filter()` | Keep rows that match a condition |
+| *(selecting columns in Variable View)* | `select()` | Keep or drop columns |
+| Transform > Compute Variable | `mutate()` | Create or modify a column |
+| Transform > Recode into Different Variables | `case_when()` | Assign values based on conditions |
+| Data > Sort Cases | `arrange()` | Sort rows |
+| Data > Split File + Aggregate | `group_by()` + `summarise()` | Calculate summaries by group |
+
+Let us work through each one.
+
+## `filter()` — Select Cases
+
+In SPSS, you would go to **Data > Select Cases**, click "If condition is
+satisfied", and type a condition like `origin = "United States"`. In R:
+
+```{r}
+us_visitors <- filter(visitors, origin == "United States")
+us_visitors
+```
+
+Notice the **double equals sign** `==`. This is how R tests equality. A single
+`=` is for assigning values to function arguments (like `digits = 1`); a
+double `==` asks "is this equal to?".
+
+You can combine conditions:
+
+```{r}
+# US visitors in 2023 only
+us_2023 <- filter(visitors, origin == "United States", year == 2023)
+us_2023
+```
+
+```{r}
+# Rows where stayover visitors exceeded 50,000
+big_quarters <- filter(visitors, visitors_stayover > 50000)
+big_quarters
+```
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## Common comparison operators
+
+| Operator | Meaning | Example |
+|---|---|---|
+| `==` | equal to | `origin == "Canada"` |
+| `!=` | not equal to | `origin != "Other"` |
+| `>` | greater than | `visitors_stayover > 10000` |
+| `<` | less than | `avg_stay_nights < 5` |
+| `>=` | greater than or equal to | `year >= 2021` |
+| `<=` | less than or equal to | `satisfaction_score <= 7.5` |
+| `%in%` | matches one of several values | `origin %in% c("United States", "Canada")` |
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## `select()` — Keep or drop columns
+
+Sometimes your dataset has more columns than you need. In SPSS, you might
+delete variables or simply ignore them. In R, `select()` lets you keep only the
+columns you want:
+
+```{r}
+# Keep only year, quarter, origin, and stayover visitors
+slim <- select(visitors, year, quarter, origin, visitors_stayover)
+head(slim)
+```
+
+You can also drop columns by putting a minus sign in front:
+
+```{r}
+# Drop the satisfaction score column
+no_satisfaction <- select(visitors, -satisfaction_score)
+head(no_satisfaction)
+```
+
+## `mutate()` — Compute Variable
+
+In SPSS: **Transform > Compute Variable**. You would type a target variable
+name, then an expression. In R, `mutate()` creates a new column (or modifies
+an existing one):
+
+```{r}
+visitors <- mutate(visitors,
+  total_visitors = visitors_stayover + visitors_cruise
+)
+head(select(visitors, year, quarter, origin, visitors_stayover, visitors_cruise, total_visitors))
+```
+
+You can create multiple columns at once:
+
+```{r}
+visitors <- mutate(visitors,
+  spending_per_night = avg_spending_usd / avg_stay_nights,
+  stayover_pct = visitors_stayover / total_visitors * 100
+)
+```
+
+## `case_when()` — Recode into Different Variables
+
+In SPSS: **Transform > Recode into Different Variables**, where you map old
+values to new values. In R, you use `case_when()` inside `mutate()`:
+
+```{r}
+visitors <- mutate(visitors,
+  region = case_when(
+    origin == "United States" ~ "North America",
+    origin == "Canada"        ~ "North America",
+    origin == "Netherlands"   ~ "Europe",
+    origin == "Venezuela"     ~ "South America",
+    origin == "Colombia"      ~ "South America",
+    .default                  = "Other"
+  )
+)
+
+table(visitors$region)
+```
+
+The syntax is: `condition ~ value_to_assign`. The `.default` line catches
+everything that did not match a previous condition — like the "Else" box in
+SPSS Recode.
+
+## `arrange()` — Sort Cases
+
+In SPSS: **Data > Sort Cases**. In R:
+
+```{r}
+# Sort by stayover visitors, ascending (default)
+arrange(visitors, visitors_stayover)
+```
+
+```{r}
+# Sort descending — use desc()
+arrange(visitors, desc(visitors_stayover))
+```
+
+```{r}
+# Sort by multiple columns: year first, then by stayover visitors descending
+arrange(visitors, year, desc(visitors_stayover))
+```
+
+## `group_by()` + `summarise()` — Split File and Aggregate
+
+This is one of the most powerful combinations in dplyr, and it replaces two
+SPSS operations at once:
+
+- **Data > Split File** (which tells SPSS to run analyses separately for each
+  group)
+- **Data > Aggregate** (which calculates summary statistics by group)
+
+```{r}
+# Average stayover visitors per year
+yearly_summary <- visitors |>
+  group_by(year) |>
+  summarise(
+    mean_stayover = mean(visitors_stayover),
+    total_stayover = sum(visitors_stayover)
+  )
+yearly_summary
+```
+
+Wait — what is that `|>` symbol? That is the **pipe operator**, and it
+deserves its own section.
+
+## The pipe operator `|>`
+
+The pipe `|>` is one of the most important ideas in modern R. Read it as
+**"and then"**. It takes the result of the expression on the left and passes
+it as the first argument to the function on the right.
+
+Without the pipe, you would write:
+
+```{r, eval=FALSE}
+# Nested style (hard to read)
+summarise(group_by(filter(visitors, origin == "United States"), year), mean_spend = mean(avg_spending_usd))
+```
+
+That is like reading a sentence from the inside out. With the pipe, the same
+code becomes:
+
+```{r}
+visitors |>
+  filter(origin == "United States") |>
+  group_by(year) |>
+  summarise(mean_spend = mean(avg_spending_usd))
+```
+
+Read this as: "Take `visitors`, **and then** filter to US rows, **and then**
+group by year, **and then** summarise mean spending."
+
+The pipe makes your code read from top to bottom, like a recipe. Each line is
+one step.
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## `|>` vs `%>%`
+
+You may see `%>%` in older R code and tutorials. This is the original pipe
+operator from the `magrittr` package. The native pipe `|>` was added to base R
+in version 4.1 (2021) and works without loading any packages. They behave
+almost identically. We use `|>` in this course because it requires no extra
+dependencies.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+### Building up a pipeline step by step
+
+A good workflow is to build your pipeline one step at a time, checking the
+result after each line. Let us work through an example:
+
+```{r}
+# Step 1: Start with the data
+visitors |>
+  filter(year >= 2022)
+```
+
+```{r}
+# Step 2: Add a column selection
+visitors |>
+  filter(year >= 2022) |>
+  select(year, quarter, origin, visitors_stayover, avg_spending_usd)
+```
+
+```{r}
+# Step 3: Group and summarise
+visitors |>
+  filter(year >= 2022) |>
+  group_by(origin) |>
+  summarise(
+    mean_stayover = mean(visitors_stayover),
+    mean_spending = mean(avg_spending_usd)
+  ) |>
+  arrange(desc(mean_stayover))
+```
+
+This final pipeline reads: "Take visitors, keep only 2022 and later, group by
+origin, calculate mean stayover visitors and mean spending, then sort by mean
+stayover visitors in descending order."
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+## Teaching tips
+
+- Write the pipe `|>` on the whiteboard and say "and then" out loud every time
+  you use it. This mental model sticks.
+- Build pipelines live, one step at a time. Run after each added line so
+  participants can see how the output changes.
+- The most common beginner mistake is putting `|>` at the start of a line
+  instead of at the end of the previous line. Emphasize: the pipe goes at the
+  **end** of the line, so R knows the expression continues.
+- Compare nested function calls to piped code side by side. The readability
+  advantage sells itself.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
-## Challenge 1
+## Challenge 1: US visitors analysis
 
-TODO: Data manipulation exercise using local dataset (CBS Aruba CPI or similar).
+Using the `visitors` dataset and the pipe operator, write a pipeline that:
+
+1. Filters to only United States visitors
+2. Creates a new column called `total_visitors` that adds `visitors_stayover`
+   and `visitors_cruise`
+3. Groups by `year`
+4. Calculates the total (sum) of `total_visitors` for each year
+
+Save the result to an object called `us_yearly` and print it. Which year had
+the fewest total US visitors? Why might that be?
 
 :::::::::::::::::::::::: solution
 
-TODO: Solution code here.
+## Solution
+
+```{r}
+us_yearly <- visitors |>
+  filter(origin == "United States") |>
+  mutate(total_visitors = visitors_stayover + visitors_cruise) |>
+  group_by(year) |>
+  summarise(total = sum(total_visitors))
+
+us_yearly
+```
+
+2020 had by far the fewest US visitors, due to the COVID-19 pandemic and
+associated travel restrictions. You can see the recovery in subsequent years.
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 2: Top spending origins
+
+Write a pipeline that finds the average `avg_spending_usd` for each origin
+country across the entire dataset, then sorts the result from highest to
+lowest. Which origin country has the highest average spending?
+
+:::::::::::::::::::::::: solution
+
+## Solution
+
+```{r}
+visitors |>
+  group_by(origin) |>
+  summarise(mean_spending = mean(avg_spending_usd)) |>
+  arrange(desc(mean_spending))
+```
+
+The United States has the highest average spending per visitor, followed by
+Canada. This makes sense given the typical length of stay and the types of
+tourism activities associated with visitors from these markets.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 3: Regional summary
+
+Using the `region` column we created earlier with `case_when()`, write a
+pipeline that calculates the total `visitors_stayover` and mean
+`satisfaction_score` for each region and each year. Sort by year and then by
+total stayover visitors descending.
+
+Hint: you will need to `group_by()` two columns.
+
+:::::::::::::::::::::::: solution
+
+## Solution
+
+```{r}
+visitors |>
+  group_by(region, year) |>
+  summarise(
+    total_stayover = sum(visitors_stayover),
+    mean_satisfaction = mean(satisfaction_score),
+    .groups = "drop"
+  ) |>
+  arrange(year, desc(total_stayover))
+```
+
+The `.groups = "drop"` argument tells `summarise()` to remove the grouping
+after calculation. Without it, the result would still be grouped by `region`,
+which can cause unexpected behaviour in later steps.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Summary
+
+You now know the six core dplyr verbs and can map each one to its SPSS
+equivalent:
+
+| You used to... | Now you write... |
+|---|---|
+| Data > Select Cases | `filter()` |
+| Select columns in Variable View | `select()` |
+| Transform > Compute Variable | `mutate()` |
+| Transform > Recode | `mutate()` + `case_when()` |
+| Data > Sort Cases | `arrange()` |
+| Data > Split File + Aggregate | `group_by()` + `summarise()` |
+
+And you connect them all with `|>` — "and then" — to build readable,
+reproducible data pipelines.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 

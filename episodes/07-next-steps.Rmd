@@ -23,38 +23,422 @@ exercises: 15
 
 ## Getting help
 
-TODO: Cover:
-- `?function_name` and `help()`
-- Stack Overflow `[r]` tag
-- Posit Community (community.rstudio.com)
-- R-bloggers
-- Cheat sheets from Posit
+Everyone gets stuck. The difference between a beginner and an experienced R user
+is not that experienced users never see errors --- it is that they know where to
+look when they do. Here are the most useful help resources, in order of how
+quickly they give you an answer.
+
+### Built-in documentation
+
+Every R function has a help page. Access it in two ways:
+
+```{r help-demo, eval = FALSE}
+# These two are equivalent:
+?mean
+help("mean")
+```
+
+The help page shows what arguments the function takes, what it returns, and
+usually includes examples at the bottom. The examples are often the most useful
+part --- scroll down to them first.
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## Tip: run the examples
+
+At the bottom of most help pages there is an "Examples" section. You can run
+all of them at once with:
+
+```{r example-demo, eval = FALSE}
+example(mean)
+```
+
+This is a fast way to see what a function does without reading the full
+documentation.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+### Posit cheat sheets
+
+Posit (the company behind RStudio) publishes excellent two-page cheat sheets
+for the most popular packages. Print these out or keep them open on a second
+screen:
+
+- **Data import:** `readr`, `readxl`
+- **Data transformation:** `dplyr`
+- **Visualization:** `ggplot2`
+- **R Markdown**
+
+Find them all at: [https://posit.co/resources/cheatsheets/](https://posit.co/resources/cheatsheets/)
+
+### Stack Overflow
+
+Stack Overflow has a massive collection of R questions and answers. When
+searching, add `[r]` to your search to filter for R-specific content:
+
+```
+site:stackoverflow.com [r] how to rename columns dplyr
+```
+
+Before posting your own question, search first --- most beginner questions have
+already been answered. When you do post, include a **minimal reproducible
+example** (a small piece of code that someone else can run to see your problem).
+
+### Posit Community
+
+The Posit Community forum ([https://community.rstudio.com](https://community.rstudio.com))
+is a friendlier, more focused alternative to Stack Overflow. It is specifically
+for R and RStudio questions, and the community is welcoming to beginners.
+
+### R-bloggers
+
+[R-bloggers](https://www.r-bloggers.com/) aggregates hundreds of R blogs. It is
+a great place to discover tutorials, new packages, and practical examples. You
+can subscribe to the email newsletter to get a daily digest.
 
 ## Dutch Caribbean data in R
 
-TODO: Demonstrate:
-- `cbsodataR` for CBS Netherlands StatLine data (BES islands)
-- `WDI` package for World Bank data (all islands)
-- Direct downloads from CBS Aruba and CBS Curacao
+One of the practical advantages of R over SPSS is that you can pull data
+directly from online sources into your R session --- no manual downloads, no
+saving `.sav` files. Here are three sources especially relevant to the Dutch
+Caribbean.
 
-## Building your script library
+### CBS Netherlands with cbsodataR
 
-TODO: Encourage participants to:
-- Save every analysis as a script
-- Comment what each section does
-- Build a personal collection of "recipes" for common analyses
+The `cbsodataR` package connects directly to CBS (Statistics Netherlands)
+StatLine, which includes data for the BES islands (Bonaire, Sint Eustatius,
+Saba) and sometimes Aruba, Curacao, and Sint Maarten.
+
+```{r cbs-install, eval = FALSE}
+# Install the package (only needed once):
+install.packages("cbsodataR")
+```
+
+```{r cbs-demo, eval = FALSE}
+library(cbsodataR)
+
+# Browse available tables (there are thousands):
+tables <- cbs_get_datasets()
+
+# Search for Caribbean Netherlands tables:
+caribbean_tables <- tables |>
+  dplyr::filter(grepl("Caribisch|Caribbean|Bonaire", Title, ignore.case = TRUE))
+
+# View what we found:
+head(caribbean_tables[, c("Identifier", "Title")], 10)
+```
+
+Once you find a table of interest, you can download it directly:
+
+```{r cbs-download, eval = FALSE}
+# Example: population data for Caribbean Netherlands
+# (Check cbs_get_datasets() for current table identifiers)
+pop_data <- cbs_get_data("83698ENG")
+
+head(pop_data)
+```
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## Finding the right table
+
+CBS has thousands of tables, and the identifiers (like "83698ENG") change over
+time. The safest approach is to:
+
+1. Search on [opendata.cbs.nl](https://opendata.cbs.nl) in your browser
+2. Find the table you want
+3. Copy the identifier from the URL
+4. Use that identifier in `cbs_get_data()`
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+### World Bank data with WDI
+
+The `WDI` package pulls data from the World Bank's World Development Indicators.
+This is excellent for comparing Aruba, Curacao, and Sint Maarten to other small
+island states.
+
+```{r wdi-install, eval = FALSE}
+# Install the package (only needed once):
+install.packages("WDI")
+```
+
+Here is a working example that pulls GDP per capita data for Aruba:
+
+```{r wdi-demo, message = FALSE, warning = FALSE}
+library(WDI)
+
+# Pull GDP per capita (current US$) for Aruba
+# Country code for Aruba is "ABW"
+aruba_gdp <- WDI(
+  country = "ABW",
+  indicator = "NY.GDP.PCAP.CD",
+  start = 2000,
+  end = 2023
+)
+
+# Clean up column names
+names(aruba_gdp)[names(aruba_gdp) == "NY.GDP.PCAP.CD"] <- "gdp_per_capita"
+
+# Show the most recent years
+tail(aruba_gdp[, c("year", "gdp_per_capita")], 10)
+```
+
+You can also compare multiple countries at once:
+
+```{r wdi-compare, eval = FALSE}
+library(WDI)
+library(ggplot2)
+
+# Compare Aruba (ABW), Curacao (CUW), and Sint Maarten (SXM)
+island_gdp <- WDI(
+  country = c("ABW", "CUW", "SXM"),
+  indicator = "NY.GDP.PCAP.CD",
+  start = 2000,
+  end = 2023
+)
+
+names(island_gdp)[names(island_gdp) == "NY.GDP.PCAP.CD"] <- "gdp_per_capita"
+
+ggplot(island_gdp, aes(x = year, y = gdp_per_capita, colour = country)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "GDP per Capita: Dutch Caribbean Comparison",
+    x = "Year",
+    y = "GDP per Capita (Current USD)",
+    colour = "Country"
+  ) +
+  theme_minimal()
+```
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## How to find World Bank indicator codes
+
+The easiest way to find indicator codes is to use `WDIsearch()`:
+
+```{r wdi-search, eval = FALSE}
+# Search for indicators related to tourism:
+WDIsearch("tourism")
+
+# Search for indicators related to GDP:
+WDIsearch("GDP per capita")
+```
+
+You can also browse indicators at
+[https://data.worldbank.org/indicator](https://data.worldbank.org/indicator).
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+### Direct downloads from CBS Aruba
+
+CBS Aruba ([https://cbs.aw](https://cbs.aw)) publishes data in Excel and PDF
+format. While there is no dedicated R package, you can download and read Excel
+files directly:
+
+```{r cbs-aruba, eval = FALSE}
+library(readxl)
+
+# Download an Excel file from CBS Aruba to a temporary location:
+url <- "https://cbs.aw/wp/index.php/download-file/?example.xlsx"
+temp_file <- tempfile(fileext = ".xlsx")
+download.file(url, temp_file, mode = "wb")
+
+# Read it into R:
+aruba_data <- read_excel(temp_file)
+```
+
+The same approach works for CBS Curacao ([https://www.cbs.cw](https://www.cbs.cw)).
+
+## Building a personal script library
+
+Over time, you will write scripts that solve specific problems: cleaning a
+particular dataset, running a standard analysis, producing a recurring report.
+Do not let these scripts disappear. Build a personal library.
+
+### Practical tips
+
+1. **Save every analysis as a `.R` or `.Rmd` file** --- never rely on your
+   console history alone.
+
+2. **Use clear file names** that describe what the script does:
+   ```
+   01_clean_visitor_data.R
+   02_quarterly_summary_report.Rmd
+   03_spending_by_origin_analysis.R
+   ```
+
+3. **Comment generously.** You will forget why you wrote something in three
+   months. Write comments that explain the *why*, not just the *what*:
+
+```{r comment-demo, eval = FALSE}
+# Remove 2020 Q2 because lockdown made the data non-comparable
+visitors_clean <- visitors |>
+  filter(!(year == 2020 & quarter == "Q2"))
+```
+
+4. **Create a project folder structure:**
+   ```
+   my-project/
+   ├── data/          # Raw data files (never edit these)
+   ├── scripts/       # R scripts for data cleaning and analysis
+   ├── output/        # Generated reports and figures
+   └── README.txt     # What this project is about
+   ```
+
+5. **Use RStudio Projects** (File > New Project) to keep everything together.
+   RStudio Projects set your working directory automatically and keep your files
+   organized.
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## Your scripts are your institutional memory
+
+In many small-island government offices, knowledge walks out the door when staff
+transfer or retire. If your analyses live in commented scripts, the next person
+can pick up exactly where you left off --- even if they only know basic R.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Continued learning
 
-TODO: Recommend:
-- r4stats.com (Bob Muenchen) — SPSS-R comparison reference
-- The Carpentries community
-- Free online courses (Coursera, DataCamp)
-- The DCDC Network as a peer support community
+You have covered a lot of ground in this course. Here is where to go next to
+keep building your skills.
+
+### Free books and courses
+
+- **R for Data Science** (2nd edition) by Hadley Wickham, Mine Cetinkaya-Rundel,
+  and Garrett Grolemund. Free online at [https://r4ds.hadley.nz](https://r4ds.hadley.nz).
+  This is the single best next step --- it covers everything in this course in
+  more depth, plus much more.
+
+- **The Carpentries** offers free, community-taught workshops on R, Python,
+  Git, and more. Lessons are at
+  [https://carpentries.org/community-lessons/](https://carpentries.org/community-lessons/).
+
+- **Posit Cloud** ([https://posit.cloud](https://posit.cloud)) gives you
+  RStudio in your browser with free interactive primers. Good for practicing
+  without installing anything.
+
+### Community
+
+- **DCDC Network** --- the Dutch Caribbean Data Community is your regional
+  peer network. If you are taking this course, you are already part of it. Use
+  the network to share scripts, ask questions, and collaborate on data projects
+  across the islands.
+
+- **Posit Community** ([https://community.rstudio.com](https://community.rstudio.com)) ---
+  ask questions, share your work, help others. The best way to learn is to
+  teach.
+
+- **TidyTuesday** --- a weekly community data visualization challenge. Every
+  Tuesday, a new dataset is posted and people share their analyses. Great
+  practice and inspiration:
+  [https://github.com/rfordatascience/tidytuesday](https://github.com/rfordatascience/tidytuesday)
+
+## Between-session practice assignment
+
+Between Session 3 (April 22) and Session 4 (April 24), try the following
+to reinforce what you have learned:
+
+1. **Pick a dataset you work with regularly** (it can be an Excel file, a CSV
+   export from SPSS, or anything else).
+
+2. **Write an R script** that:
+   - Imports the data
+   - Cleans or filters it in at least one way
+   - Creates a summary table
+   - Produces one visualization
+
+3. **Bonus:** Turn your script into an **R Markdown report** and knit it to
+   Word.
+
+4. **Bring your script to Session 4.** We will use the last session for
+   troubleshooting your own projects and answering questions.
+
+Do not worry about making it perfect. The goal is to practice the workflow ---
+import, transform, visualize, report --- with data that is meaningful to you.
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1: Pull World Bank data and visualize it
+
+Use the `WDI` package to pull a World Bank indicator for Aruba and create a
+basic plot. Follow these steps:
+
+1. Load the `WDI` and `ggplot2` packages
+2. Use `WDIsearch()` to find an indicator that interests you (for example,
+   international tourism arrivals, unemployment, or population)
+3. Use `WDI()` to download the data for Aruba (country code `"ABW"`)
+4. Create a line plot showing how the indicator changes over time
+5. Add a meaningful title and axis labels
+
+:::::::::::::::::::::::: solution
+
+## Solution
+
+Here is an example using international tourism arrivals:
+
+```{r wdi-challenge, eval = FALSE}
+library(WDI)
+library(ggplot2)
+
+# Search for tourism-related indicators:
+WDIsearch("international tourism, number of arrivals")
+
+# Pull international tourism arrivals for Aruba
+# Indicator: ST.INT.ARVL = International tourism, number of arrivals
+aruba_tourism <- WDI(
+  country = "ABW",
+  indicator = "ST.INT.ARVL",
+  start = 2000,
+  end = 2023
+)
+
+# Rename the indicator column for clarity
+names(aruba_tourism)[names(aruba_tourism) == "ST.INT.ARVL"] <- "arrivals"
+
+# Remove rows where arrivals is missing
+aruba_tourism <- aruba_tourism[!is.na(aruba_tourism$arrivals), ]
+
+# Create the plot
+ggplot(aruba_tourism, aes(x = year, y = arrivals)) +
+  geom_line(linewidth = 1, colour = "#2c7bb6") +
+  geom_point(size = 2, colour = "#2c7bb6") +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "International Tourism Arrivals to Aruba",
+    subtitle = "Source: World Bank World Development Indicators",
+    x = "Year",
+    y = "Number of Arrivals"
+  ) +
+  theme_minimal()
+```
+
+Your indicator and chart will look different depending on which indicator you
+chose --- that is fine. The key skills are: searching for an indicator,
+downloading the data, and visualizing it.
+
+:::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## You are ready
+
+You now know how to import data, transform it, visualize it, test hypotheses,
+and produce automated reports --- all in R. That is not everything, but it is
+a solid foundation. The most important thing now is to **use it**. The next
+time you need to analyze data, try doing it in R instead of SPSS. You will be
+slower at first, but each time it gets easier. And everything you do is
+reproducible, shareable, and transparent.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-- R has a large, active community — you are never stuck alone
+- R has a large, active community --- you are never stuck alone
 - `cbsodataR` and `WDI` let you pull Dutch Caribbean data directly into R
 - Save your analyses as scripts and build a personal reference library
 - The DCDC Network is your regional peer community for continued learning
