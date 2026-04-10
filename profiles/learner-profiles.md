@@ -2,45 +2,54 @@
 title: Learner Profiles
 ---
 
-## Maria — Master's student at the University of Aruba
+These profiles represent the types of learners in this workshop, based on
+actual registration data from the April 2026 pilot cohort.
 
-Maria is writing her thesis on tourism satisfaction in Aruba. She learned SPSS in
-her Research Methods course and uses it for survey analysis: descriptive
-statistics, cross-tabulations, and t-tests. She works on her thesis at home but
-her SPSS license is tied to the university lab. She wants a tool she can use
-anywhere without cost.
+## The thesis student
 
-**Maria already knows:** basic statistics, SPSS menus for descriptives and
-t-tests, how to import survey data.
+A master's student at the University of Aruba working on research that involves
+survey data or secondary datasets. Has used SPSS in a Research Methods course
+but the license is tied to the university lab. Wants a tool that works on a
+personal laptop at no cost.
 
-**Maria needs to learn:** how to do the same operations in R, how to create
-better-looking charts for her thesis, how to work without a point-and-click
-interface.
+**Already knows:** basic statistics, navigating SPSS menus for descriptives and
+cross-tabulations, importing data from Excel or CSV.
 
-## Miguel — Lecturer in Social Sciences
+**Needs to learn:** how to replicate SPSS workflows in R, how to create
+publication-quality charts, how to work with code instead of menus.
 
-Miguel teaches Research Methods and supervises student theses. He uses SPSS for
-demonstrations in class. He is interested in R but concerned about the learning
-curve for his students. He wants to evaluate whether R is viable for teaching
-and whether the course materials could support a gradual transition.
+## The government analyst
 
-**Miguel already knows:** a broad range of SPSS analyses, how to teach
-statistics, the institutional SPSS workflow.
+Works at a statistical office or government agency (e.g., CBS Aruba, IPA)
+processing survey data and producing recurring reports. The team uses SPSS but
+faces annual budget pressure from license renewals. Has been asked to evaluate
+free alternatives or simply wants to expand their toolkit.
 
-**Miguel needs to learn:** whether R is teachable to beginners, how R Markdown
-could replace copy-pasting SPSS output, what the transition path looks like for
-a course.
+**Already knows:** SPSS at an intermediate to advanced level, structured data
+processing, reporting requirements.
 
-## Ana — Government statistician on Curacao
+**Needs to learn:** that R can replicate existing SPSS workflows, how to import
+`.sav` files, how to produce formatted reports without copy-pasting output.
 
-Ana works at a government agency processing survey data and producing reports.
-Her team uses SPSS but faces annual budget pressure from license renewals. She
-has been asked to evaluate free alternatives. She needs to be confident that R
-can do everything her team currently does in SPSS before recommending a switch.
+## The professional looking to upskill
 
-**Ana already knows:** SPSS at an advanced level, survey data processing,
-reporting requirements.
+Works in the private sector (consulting, accounting, research) and uses data
+regularly but has limited or no experience with statistical software. Interested
+in what R and SPSS can do for their work. May be attending only one session.
 
-**Ana needs to learn:** that R can replicate her SPSS workflows, how to import
-existing `.sav` files, how to produce formatted reports without SPSS output
-export.
+**Already knows:** Excel, basic data concepts, domain-specific analytical needs.
+
+**Needs to learn:** what statistical software can do beyond spreadsheets, the
+basics of importing and exploring data, creating visualizations.
+
+## The lecturer
+
+Teaches at the university and supervises student theses. Uses SPSS for
+demonstrations in class. Interested in whether R is viable for teaching and
+whether the course materials could support a gradual curriculum transition.
+
+**Already knows:** a broad range of SPSS procedures, how to teach statistics,
+the institutional SPSS workflow.
+
+**Needs to learn:** whether R is teachable to beginners, how R Markdown
+could replace copy-pasting SPSS output, what the transition path looks like.
