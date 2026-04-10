@@ -11,7 +11,7 @@ We will not spend course time on installation troubleshooting. To make sure
 everyone starts ready to go, there is an optional drop-in session before the
 course:
 
-**When:** Friday, April 18, 2026 (time TBD), approximately 1 hour
+**When:** Thursday, April 17, 2026, 9:00 -- 12:00
 **Where:** University of Aruba Research Center
 **What:** Bring your laptop. We help you install R and RStudio, verify
 everything works, and install the required packages. Walk in, walk out.
