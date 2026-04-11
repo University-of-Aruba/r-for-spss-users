@@ -21,6 +21,8 @@ exercises: 30
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+![A researcher in a chef's hat works in a Caribbean open-air kitchen, with jars of ingredients labeled filter(), select(), and mutate() on the counter and a steaming pot of tidy data on the stove.](fig/scene_3.jpg){alt="Cartoon of a researcher as a Caribbean chef cooking tidy data with dplyr function ingredients"}
+
 ## The tidyverse approach
 
 In SPSS, you manipulate data through menus: **Data > Select Cases**, **Data >

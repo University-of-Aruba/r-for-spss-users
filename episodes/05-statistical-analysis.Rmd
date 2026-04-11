@@ -21,6 +21,8 @@ exercises: 40
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+![A researcher in a detective hat examines footprints in the sand that form a regression line, while tiny crabs carry p-values on their shells.](fig/scene_5.jpg){alt="Cartoon of a researcher as a beach detective tracing a regression line in the sand with p-value crabs"}
+
 ## From SPSS dialogs to R functions
 
 In SPSS, every statistical test lives behind a menu: **Analyze > Compare Means**,

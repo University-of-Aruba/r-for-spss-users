@@ -21,6 +21,8 @@ exercises: 30
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+![A researcher opens his laptop at a Caribbean beach bar, a coconut drink beside him and the R console prompt glowing on screen. A curious iguana watches from the counter.](fig/scene_2.jpg){alt="Cartoon of a researcher at a beach bar starting his first R session, with an iguana peering at the laptop screen"}
+
 ## RStudio orientation
 
 When you open RStudio for the first time, you see four panes. If you have used
