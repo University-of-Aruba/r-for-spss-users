@@ -20,6 +20,8 @@ exercises: 0
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+![A researcher stands at a crossroads on a sun-drenched Caribbean road. The cracked path to SPSS fades into scrubland, while a smooth paved road to R leads toward the coast and a wind-bent divi-divi tree.](fig/scene_1.jpg){alt="Cartoon of a researcher choosing between a faded SPSS path and a vibrant R path at a Caribbean crossroads"}
+
 ## Introduction
 
 This episode is a motivational opening. You will **not** write any code yourself

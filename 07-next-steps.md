@@ -21,6 +21,8 @@ exercises: 15
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+![A researcher on a sailboat studies a treasure map showing destinations like Packages Cove, Tidyverse Peak, and Shiny Shores, while R Island's lighthouse glows behind him.](fig/scene_7.jpg){alt="Cartoon of a researcher sailing from R Island with a map of future learning destinations"}
+
 ## Getting help
 
 Everyone gets stuck. The difference between a beginner and an experienced R user

@@ -21,6 +21,8 @@ exercises: 20
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+![A researcher paints a tropical sunset with flamingos on a canvas labeled ggplot2, the Caribbean landscape around him flowing onto the plot axes.](fig/scene_4.jpg){alt="Cartoon of a researcher painting a ggplot2 chart that captures the Caribbean sunset and flamingos"}
+
 ## The grammar of graphics
 
 In SPSS, you create charts through the **Chart Builder** dialog: you drag variables
