@@ -20,7 +20,7 @@ exercises: 0
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-![A researcher stands at a crossroads on a sun-drenched Caribbean road. The cracked path to SPSS fades into scrubland, while a smooth paved road to R leads toward the coast and a wind-bent divi-divi tree.](fig/scene_1.jpg){alt="Cartoon of a researcher choosing between a faded SPSS path and a vibrant R path at a Caribbean crossroads"}
+![One road costs you a license fee. The other one costs you a learning curve.](fig/scene_1.jpg){alt="Cartoon of a researcher at a Caribbean crossroads choosing between a cracked SPSS path and a paved R path leading to the coast"}
 
 ## Introduction
 
