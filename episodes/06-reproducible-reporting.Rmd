@@ -21,7 +21,7 @@ exercises: 20
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-![A researcher presses a big red button on a tropical report-making machine. Raw data and fruit go in one side, and a polished report comes out the other. A sign reads "One click, every time."](fig/scene_6.jpg){alt="Cartoon of a researcher pressing a button on a Caribbean report machine that turns raw data into a finished report"}
+![Your supervisor changed the sample. Again. Good thing you only need one button.](fig/scene_6.jpg){alt="Cartoon of a researcher pressing a big red button on a tropical machine that converts raw data into a finished report"}
 
 ## The problem with copy-paste
 

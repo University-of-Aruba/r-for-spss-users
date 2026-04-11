@@ -21,7 +21,7 @@ exercises: 30
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-![A researcher opens his laptop at a Caribbean beach bar, a coconut drink beside him and the R console prompt glowing on screen. A curious iguana watches from the counter.](fig/scene_2.jpg){alt="Cartoon of a researcher at a beach bar starting his first R session, with an iguana peering at the laptop screen"}
+![The iguana is optional. The coconut water is not.](fig/scene_2.jpg){alt="Cartoon of a researcher at a Caribbean beach bar opening his laptop to the R console, with an iguana watching from the counter"}
 
 ## RStudio orientation
 

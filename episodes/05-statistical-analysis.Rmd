@@ -21,7 +21,7 @@ exercises: 40
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-![A researcher in a detective hat examines footprints in the sand that form a regression line, while tiny crabs carry p-values on their shells.](fig/scene_5.jpg){alt="Cartoon of a researcher as a beach detective tracing a regression line in the sand with p-value crabs"}
+![Same tests, fewer menus, more crabs.](fig/scene_5.jpg){alt="Cartoon of a researcher as a beach detective following a regression line in the sand while crabs carry p-values on their shells"}
 
 ## From SPSS dialogs to R functions
 

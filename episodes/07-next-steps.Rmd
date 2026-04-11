@@ -21,7 +21,7 @@ exercises: 15
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-![A researcher on a sailboat studies a treasure map showing destinations like Packages Cove, Tidyverse Peak, and Shiny Shores, while R Island's lighthouse glows behind him.](fig/scene_7.jpg){alt="Cartoon of a researcher sailing from R Island with a map of future learning destinations"}
+![You learned the basics. The map has a lot more islands.](fig/scene_7.jpg){alt="Cartoon of a researcher on a sailboat studying a treasure map of R learning destinations like Packages Cove and Tidyverse Peak"}
 
 ## Getting help
 

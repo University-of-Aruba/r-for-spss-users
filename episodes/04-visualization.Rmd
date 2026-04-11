@@ -21,7 +21,7 @@ exercises: 20
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-![A researcher paints a tropical sunset with flamingos on a canvas labeled ggplot2, the Caribbean landscape around him flowing onto the plot axes.](fig/scene_4.jpg){alt="Cartoon of a researcher painting a ggplot2 chart that captures the Caribbean sunset and flamingos"}
+![SPSS gives you a chart. ggplot2 gives you a language.](fig/scene_4.jpg){alt="Cartoon of a researcher painting a tropical sunset onto a ggplot2 canvas with flamingos and plot axes"}
 
 ## The grammar of graphics
 
