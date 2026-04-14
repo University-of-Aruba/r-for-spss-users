@@ -526,15 +526,15 @@ tidy(tukey_results) |>
  3 origin Venezuela-Canada             0   -599     -652.     -546.     2.43e-14
  4 origin Netherlands-Colomb…          0    324.     272.      377.     2.43e-14
  5 origin United States-Colo…          0    573.     521.      626.     2.43e-14
- 6 origin United States-Neth…          0    249.     196.      302.     2.43e-14
+ 6 origin United States-Neth…          0    249      196.      302.     2.43e-14
  7 origin Venezuela-Netherla…          0   -438.    -491.     -386.     2.43e-14
  8 origin United States-Other          0    377.     325.      430.     2.43e-14
  9 origin Venezuela-Other              0   -310     -363.     -257.     2.43e-14
 10 origin Venezuela-United S…          0   -687.    -740.     -635.     2.43e-14
 11 origin Other-Colombia               0    196      143.      249.     6.49e-14
-12 origin Netherlands-Canada           0   -161.    -213.     -108.     2.75e-13
+12 origin Netherlands-Canada           0   -160.    -213.     -108.     2.75e-13
 13 origin Other-Netherlands            0   -128.    -181.      -75.9    1.83e- 9
-14 origin Venezuela-Colombia           0   -114.    -167.      -61.4    9.17e- 8
+14 origin Venezuela-Colombia           0   -114     -167.      -61.4    9.17e- 8
 15 origin United States-Cana…          0     88.5     35.9     141.     5.04e- 5
 ```
 
