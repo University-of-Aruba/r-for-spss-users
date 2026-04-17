@@ -5,6 +5,25 @@ title: Setup
 You need to install R and RStudio **before the first session on April 22**.
 Both are free. Follow the instructions below for your operating system.
 
+::::::::::::::::::::::::::::::::::::::: callout
+
+### Using a work-issued laptop? Check with IT first
+
+Many universities and employers lock their laptops so that users cannot install
+software themselves. If your laptop was issued by an institution, check with
+your IT department before following the steps below, otherwise the installer
+will simply fail.
+
+**University of Aruba laptops** require a ticket through TopDesk. When you
+submit the ticket, explicitly ask IT to install **both R and RStudio**. Asking
+for only one of them is a common cause of a half-working setup that wastes
+course time.
+
+Give IT at least a week to process the request so your laptop is ready before
+the first session.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::
+
 ## Pre-workshop installation clinic
 
 We will not spend course time on installation troubleshooting. To make sure
