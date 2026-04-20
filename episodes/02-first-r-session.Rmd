@@ -48,7 +48,7 @@ In SPSS, many users never open the Syntax Editor — they click menus instead.
 In R, the Source Editor *is* how you work. Think of it as a recipe: you write
 the steps once, and you (or anyone else) can re-run them at any time.
 
-Save your scripts with the `.R` extension. You will thank yourself later.
+Save your scripts with the `.R` extension. Three reasons you will thank yourself later. RStudio recognises `.R` files and turns on syntax highlighting, error checking, and the "Run" button. Version control systems like Git track changes line by line in `.R` files but treat other formats as opaque blobs. And when a colleague opens the file in six months, the extension tells them immediately that this is R code, not a Word document or a loose text file. The extension is small. The habit pays for itself the first time you come back to your own work.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -178,6 +178,94 @@ spss_data <- read_sav("path/to/your/file.sav")
 
 This means you do not have to convert your SPSS files to CSV first. R reads
 them as-is.
+
+### Excel files with `readxl`
+
+Many datasets arrive as Excel files (`.xlsx` or `.xls`), especially from
+government agencies and international organizations. In SPSS, you would import
+these through **File > Open > Data** and select the Excel file type from the
+dropdown. In R, the `readxl` package handles this.
+
+```{r, eval=FALSE}
+# Iteration: 1
+# Install once if needed
+install.packages("readxl")
+```
+
+```{r, eval=FALSE}
+# Iteration: 1
+library(readxl)
+
+# Basic import -- reads the first sheet by default
+visitors_xl <- read_excel("data/aruba_visitors.xlsx")
+```
+
+If your Excel file has multiple sheets, use the `sheet` argument to specify
+which one you want -- either by name or by position:
+
+```{r, eval=FALSE}
+# Iteration: 1
+# By sheet name
+stayover <- read_excel("data/aruba_visitors.xlsx", sheet = "stayover")
+
+# By position (second sheet)
+cruise <- read_excel("data/aruba_visitors.xlsx", sheet = 2)
+```
+
+You can also read a specific cell range with the `range` argument, which is
+useful when the data does not start at cell A1:
+
+```{r, eval=FALSE}
+# Iteration: 1
+# Read only cells B2 through F50
+subset <- read_excel("data/aruba_visitors.xlsx", range = "B2:F50")
+```
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## `read_excel()` vs `read_csv()` -- when to use which
+
+If you have a choice, CSV is simpler: it is plain text, lightweight, and
+avoids formatting surprises. Use `read_excel()` when you receive data in
+Excel format and do not want to manually export it to CSV first -- or when the
+file contains multiple sheets you need to access programmatically.
+
+Unlike `read_csv()`, `read_excel()` is not part of the tidyverse. You need to
+install and load `readxl` separately.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge: Import from Excel
+
+Suppose you received an Excel file called `aruba_visitors.xlsx` with two
+sheets: "stayover" and "cruise".
+
+1. Write the code to load the `readxl` package.
+2. Write the code to read the "cruise" sheet into an object called
+   `cruise_data`.
+3. How would you check how many rows and columns `cruise_data` has?
+
+:::::::::::::::::::::::: solution
+
+## Solution
+
+```{r, eval=FALSE}
+# Iteration: 1
+# 1: Load the package
+library(readxl)
+
+# 2: Read the cruise sheet
+cruise_data <- read_excel("aruba_visitors.xlsx", sheet = "cruise")
+
+# 3: Check dimensions
+dim(cruise_data)
+# Or: glimpse(cruise_data)
+```
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Exploring your data
 

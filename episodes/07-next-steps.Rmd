@@ -73,6 +73,10 @@ screen:
 
 Find them all at: [https://posit.co/resources/cheatsheets/](https://posit.co/resources/cheatsheets/)
 
+### R Graph Gallery
+
+**R Graph Gallery** ([https://r-graph-gallery.com](https://r-graph-gallery.com)) is a searchable catalogue of ggplot2 examples with the full code for each one. When you know roughly what kind of chart you want but not the syntax to build it, this is where to start.
+
 ### Stack Overflow
 
 Stack Overflow has a massive collection of R questions and answers. When
