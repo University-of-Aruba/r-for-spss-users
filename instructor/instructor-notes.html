@@ -469,7 +469,10 @@ assist with individual issues without stopping the class.</p>
 <tr>
 <td>05 - Statistical Analysis</td>
 <td>120 min</td>
-<td>This is the core for survey researchers. Take your time.</td>
+<td>Core for survey researchers. The normality-testing section
+(histogram, Q-Q plot, Shapiro-Wilk, robustness note) maps directly onto
+the SPSS Explore output most participants will recognise. Take your
+time.</td>
 </tr>
 <tr>
 <td>Break</td>
@@ -488,8 +491,12 @@ assist with individual issues without stopping the class.</p>
 </tr>
 <tr>
 <td>07 - Where to Go from Here</td>
-<td>45 min</td>
-<td>End with practical next steps and community resources</td>
+<td>55 min</td>
+<td>End with practical next steps. The new UA datasets subsection
+(CAS_election_data and island-research-reference-data) is a chance to
+live-demo <code>read.csv()</code> straight from a raw GitHub URL — most
+SPSS users have never seen data load over HTTPS without a manual
+download.</td>
 </tr>
 </tbody>
 </table>
@@ -518,10 +525,31 @@ errors. Show how RStudio auto-completes these.</li>
 <p>The course uses Dutch Caribbean datasets to keep examples relevant: -
 CBS Aruba tourism and CPI data (Excel downloads from cbs.aw) - World
 Bank indicators via the <code>WDI</code> package - CBS Netherlands BES
-island data via <code>cbsodataR</code></p>
+island data via <code>cbsodataR</code> -
+<strong>CAS_election_data</strong> — Aruba, Curacao, Sint Maarten
+election results 1985-2025 (tidy CSV at
+github.com/University-of-Aruba/CAS_election_data). Used in Episode 7. -
+<strong>island-research-reference-data</strong> — country reference list
+with SIDS, SNIJ, and World Bank classifications (CSV at
+github.com/University-of-Aruba/island-research-reference-data). Used in
+Episode 7.</p>
 <p>Prepare cleaned versions of these datasets in the
 <code>episodes/data/</code> folder before the course. Test all data
 downloads — URLs and APIs can change.</p>
+<div class="section level3">
+<h3 id="note-on-the-elections-example">Note on the elections example<a class="anchor" aria-label="anchor" href="#note-on-the-elections-example"></a>
+</h3>
+<p>The Episode 7 election-data example deliberately groups MEP and AVP
+together versus all other parties, rather than singling out one party.
+Aruba’s two-party dynamic means filtering on <code>party == "MEP"</code>
+(or <code>"AVP"</code>) on its own can read as partisan bias in a
+publicly distributed course. If extending the example live, default to
+the same grouped framing or to all-parties views (e.g. all parties for
+the most recent election, or vote share over time). If a participant
+asks why we don’t filter to one party, this is the reason worth naming
+briefly: it is a small editorial choice that protects the course and the
+network’s neutrality.</p>
+</div>
 </section><section><h2 class="section-heading" id="train-the-trainer">Train-the-Trainer<a class="anchor" aria-label="anchor" href="#train-the-trainer"></a>
 </h2>
 <hr class="half-width">
