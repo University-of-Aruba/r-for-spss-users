@@ -341,7 +341,7 @@ Aggregate</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data Manipulation</h1>
-        <p>Last updated on 2026-04-17 |
+        <p>Last updated on 2026-04-20 |
 
         <a href="https://github.com/University-of-Aruba/r-for-spss-users/edit/main/episodes/03-data-manipulation.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -429,6 +429,40 @@ dbl (7): year, visitors_stayover, visitors_cruise, avg_stay_nights, avg_spen...
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div id="what-is-a-dependency" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="what-is-a-dependency" class="callout-inner">
+<h3 class="callout-title">What is a dependency?</h3>
+<div class="callout-content">
+<p>A package in R is a bundle of code that someone else wrote so you do
+not have to. <code>tidyverse</code>, for example, is actually a
+collection of packages that work together for data manipulation and
+visualisation. When you use <code><a href="https://tidyverse.tidyverse.org" class="external-link">library(tidyverse)</a></code>, R loads
+those packages into your session so their functions become
+available.</p>
+<p>A dependency is a package that another package needs in order to
+work. <code>tidyverse</code> depends on <code>dplyr</code>,
+<code>ggplot2</code>, <code>readr</code>, and several others. When you
+run <code>install.packages("tidyverse")</code>, R automatically installs
+everything it depends on too. You do not have to manage the chain
+manually.</p>
+<p>Two things this means in practice. First, the first time you install
+a package it can take a minute or two because R is pulling down the
+dependency chain. That is normal. Second, when you share your script
+with a colleague and they get an error like
+<code>there is no package called 'dplyr'</code>, the fix is almost
+always <code>install.packages("tidyverse")</code>, not
+<code>install.packages("dplyr")</code>, because the dependency lives
+inside the larger package.</p>
+<p>We come back to this in Episode 6 (reproducible reporting), where
+recording which packages your script needs is part of making sure it
+still runs six months from now.</p>
+</div>
+</div>
 </div>
 <p>Here is the key idea: every SPSS menu operation you use for data
 manipulation has a dplyr verb equivalent.</p>
@@ -1278,8 +1312,8 @@ any links that you are not going to use.
   "url": "https://University-of-Aruba.github.io/r-for-spss-users/03-data-manipulation.html",
   "identifier": "https://University-of-Aruba.github.io/r-for-spss-users/03-data-manipulation.html",
   "dateCreated": "2026-03-29",
-  "dateModified": "2026-04-17",
-  "datePublished": "2026-04-17"
+  "dateModified": "2026-04-20",
+  "datePublished": "2026-04-20"
 }
 
   </script><script>

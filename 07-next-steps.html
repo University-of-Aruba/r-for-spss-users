@@ -337,7 +337,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Where to Go from Here</h1>
-        <p>Last updated on 2026-04-17 |
+        <p>Last updated on 2026-04-20 |
 
         <a href="https://github.com/University-of-Aruba/r-for-spss-users/edit/main/episodes/07-next-steps.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -437,6 +437,13 @@ on a second screen:</p>
 </li>
 <li><strong>R Markdown</strong></li>
 </ul><p>Find them all at: <a href="https://posit.co/resources/cheatsheets/" class="external-link">https://posit.co/resources/cheatsheets/</a></p>
+</div>
+<div class="section level3">
+<h3 id="r-graph-gallery">R Graph Gallery<a class="anchor" aria-label="anchor" href="#r-graph-gallery"></a></h3>
+<p><strong>R Graph Gallery</strong> (<a href="https://r-graph-gallery.com" class="external-link">https://r-graph-gallery.com</a>) is a
+searchable catalogue of ggplot2 examples with the full code for each
+one. When you know roughly what kind of chart you want but not the
+syntax to build it, this is where to start.</p>
 </div>
 <div class="section level3">
 <h3 id="stack-overflow">Stack Overflow<a class="anchor" aria-label="anchor" href="#stack-overflow"></a></h3>
@@ -652,6 +659,58 @@ can download and read Excel files directly:</p>
 </div>
 <p>The same approach works for CBS Curacao (<a href="https://www.cbs.cw" class="external-link">https://www.cbs.cw</a>).</p>
 </div>
+<div class="section level3">
+<h3 id="open-datasets-from-the-university-of-aruba">Open datasets from the University of Aruba<a class="anchor" aria-label="anchor" href="#open-datasets-from-the-university-of-aruba"></a></h3>
+<p>The University of Aruba maintains a small set of public reference
+datasets relevant to research on the Dutch Caribbean and small island
+states. Both are CSV files hosted on GitHub, so you can pull them into R
+directly without any package install.</p>
+<p><strong>Dutch Caribbean election results</strong> at <a href="https://github.com/University-of-Aruba/CAS_election_data" class="external-link">github.com/University-of-Aruba/CAS_election_data</a>.
+A tidy-format dataset of votes by party for elections across Aruba
+(1985-2024), Curacao (2010-2025), and Sint Maarten (2010-2024). One row
+per party per election, with columns for <code>year</code>,
+<code>country</code>, <code>party</code>, and <code>votes</code>.</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Read the CSV directly from GitHub</span></span>
+<span><span class="va">elections</span> <span class="op">&lt;-</span> <span class="fu">read.csv</span><span class="op">(</span></span>
+<span>  <span class="st">"https://raw.githubusercontent.com/University-of-Aruba/CAS_election_data/main/dutch_caribbean_elections.csv"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Combined vote of the two main Aruban parties versus all others over time</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span>
+<span><span class="va">elections</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="st">"Aruba"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>group <span class="op">=</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">party</span> <span class="op">%in%</span> <span class="fu">c</span><span class="op">(</span><span class="st">"MEP"</span>, <span class="st">"AVP"</span><span class="op">)</span>, <span class="st">"MEP &amp; AVP"</span>, <span class="st">"Other"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">year</span>, <span class="va">group</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">summarise</span><span class="op">(</span>votes <span class="op">=</span> <span class="fu">sum</span><span class="op">(</span><span class="va">votes</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">year</span>, <span class="va">group</span><span class="op">)</span></span></code></pre>
+</div>
+<p><strong>Small island reference list</strong> at <a href="https://github.com/University-of-Aruba/island-research-reference-data" class="external-link">github.com/University-of-Aruba/island-research-reference-data</a>.
+A country and territory list with classifications for SIDS, SNIJ, and
+World Bank region and income group. Designed for XLSForm survey tools
+(KoboToolbox, ODK), but equally useful as a lookup table to filter or
+join against any other dataset by country code.</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Filter to only Small Island Developing States</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">countries</span> <span class="op">&lt;-</span> <span class="fu">read.csv</span><span class="op">(</span></span>
+<span>  <span class="st">"https://raw.githubusercontent.com/University-of-Aruba/island-research-reference-data/main/countries/countries_reference_xlsform.csv"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sids</span> <span class="op">&lt;-</span> <span class="va">countries</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">is_sids</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">iso_code</span>, <span class="va">label</span>, <span class="va">wb_region</span>, <span class="va">wb_income_group</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">head</span><span class="op">(</span><span class="va">sids</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="building-a-personal-script-library">Building a personal script library<a class="anchor" aria-label="anchor" href="#building-a-personal-script-library"></a></h2>
 <hr class="half-width"><p>Over time, you will write scripts that solve specific problems:
 cleaning a particular dataset, running a standard analysis, producing a
@@ -672,7 +731,7 @@ script does:</p>
 <li><p><strong>Comment generously.</strong> You will forget why you
 wrote something in three months. Write comments that explain the
 <em>why</em>, not just the <em>what</em>:</p></li>
-</ol><div class="codewrapper sourceCode" id="cb14">
+</ol><div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -783,10 +842,10 @@ population)</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Here is an example using international tourism arrivals:</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -944,8 +1003,8 @@ any links that you are not going to use.
   "url": "https://University-of-Aruba.github.io/r-for-spss-users/07-next-steps.html",
   "identifier": "https://University-of-Aruba.github.io/r-for-spss-users/07-next-steps.html",
   "dateCreated": "2026-03-29",
-  "dateModified": "2026-04-17",
-  "datePublished": "2026-04-17"
+  "dateModified": "2026-04-20",
+  "datePublished": "2026-04-20"
 }
 
   </script><script>

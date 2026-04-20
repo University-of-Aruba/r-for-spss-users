@@ -334,7 +334,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Statistical Analysis in R</h1>
-        <p>Last updated on 2026-04-17 |
+        <p>Last updated on 2026-04-20 |
 
         <a href="https://github.com/University-of-Aruba/r-for-spss-users/edit/main/episodes/05-statistical-analysis.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -417,6 +417,176 @@ maps the SPSS dialogs you already know to their R equivalents:</p>
 <span><span class="va">visitors</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/aruba_visitors.csv"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level3">
+<h3 id="checking-normality">Checking normality<a class="anchor" aria-label="anchor" href="#checking-normality"></a></h3>
+<p>Before running parametric tests like the t-test or ANOVA, you need to
+assess whether your data are approximately normally distributed. In
+SPSS, you would go to <strong>Analyze &gt; Descriptive Statistics &gt;
+Explore</strong>, move your variable to the “Dependent List”, click
+“Plots”, and check the “Normality plots with tests” box. R gives you the
+same tools – and more control over how they look.</p>
+<div class="section level4">
+<h4 id="visual-inspection-histogram-and-q-q-plot">Visual inspection: histogram and Q-Q plot<a class="anchor" aria-label="anchor" href="#visual-inspection-histogram-and-q-q-plot"></a></h4>
+<p>You already know <code>ggplot2</code> from Episode 04, so let’s use
+it. A histogram shows the shape of the distribution, and a Q-Q
+(quantile-quantile) plot compares your data to a theoretical normal
+distribution. If the points fall roughly along the diagonal line, the
+data are approximately normal.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="co"># Histogram of average spending</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">visitors</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">avg_spending_usd</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">20</span>, fill <span class="op">=</span> <span class="st">"#2a9d8f"</span>, color <span class="op">=</span> <span class="st">"white"</span>, alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Distribution of average spending"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"Average Spending (USD)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Count"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/05-statistical-analysis-rendered-normality-histogram-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="co"># Q-Q plot of average spending</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">visitors</span>, <span class="fu">aes</span><span class="op">(</span>sample <span class="op">=</span> <span class="va">avg_spending_usd</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq_line</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#e76f51"</span>, linewidth <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Q-Q plot of average spending"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"Theoretical quantiles"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Sample quantiles"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/05-statistical-analysis-rendered-normality-qq-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Points that hug the diagonal line suggest normality. Systematic
+deviations – S-curves, banana shapes, or points flying off at the tails
+– indicate non-normality.</p>
+</div>
+<div class="section level4">
+<h4 id="shapiro-wilk-test">Shapiro-Wilk test<a class="anchor" aria-label="anchor" href="#shapiro-wilk-test"></a></h4>
+<p>The Shapiro-Wilk test is the formal statistical test for normality.
+The null hypothesis is that the data are normally distributed, so a
+significant p-value (&lt; 0.05) means you reject normality.</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="fu">shapiro.test</span><span class="op">(</span><span class="va">visitors</span><span class="op">$</span><span class="va">avg_spending_usd</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+	Shapiro-Wilk normality test
+
+data:  visitors$avg_spending_usd
+W = 0.93876, p-value = 3.534e-05</code></pre>
+</div>
+<p>In SPSS, this same test appears in the “Tests of Normality” table
+when you check the normality plots option in Explore.</p>
+</div>
+<div class="section level4">
+<h4 id="when-does-normality-actually-matter">When does normality actually matter?<a class="anchor" aria-label="anchor" href="#when-does-normality-actually-matter"></a></h4>
+<p>Parametric tests like the t-test and ANOVA assume normality, but they
+are surprisingly robust to violations of this assumption – especially
+with larger samples. As a rough guide:</p>
+<ul><li>With <strong>n &gt; 30 per group</strong>, the Central Limit Theorem
+means the sampling distribution of the mean is approximately normal
+regardless of the data distribution. The t-test and ANOVA will perform
+well.</li>
+<li>With <strong>small samples</strong> (n &lt; 15 per group), normality
+matters more. Consider non-parametric alternatives (Wilcoxon test,
+Kruskal-Wallis) if the data are clearly non-normal.</li>
+<li>
+<strong>Always look at the plots first.</strong> The Shapiro-Wilk
+test is sensitive to trivial deviations in large samples, so a
+significant p-value does not necessarily mean parametric tests are
+inappropriate.</li>
+</ul><p>The combination of visual inspection and the formal test gives you a
+complete picture – far more useful than relying on either one alone.</p>
+<div id="challenge-check-normality-for-satisfaction-scores" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-check-normality-for-satisfaction-scores" class="callout-inner">
+<h3 class="callout-title">Challenge: Check normality for satisfaction
+scores</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal"><li>Create a histogram of <code>satisfaction_score</code> using
+<code>ggplot2</code>.</li>
+<li>Create a Q-Q plot of <code>satisfaction_score</code>.</li>
+<li>Run the Shapiro-Wilk test on <code>satisfaction_score</code>.</li>
+<li>Based on all three, would you feel comfortable running a parametric
+test on this variable? Why or why not?</li>
+</ol></div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="co"># 1: Histogram</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">visitors</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">satisfaction_score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">15</span>, fill <span class="op">=</span> <span class="st">"#2a9d8f"</span>, color <span class="op">=</span> <span class="st">"white"</span>, alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Distribution of satisfaction scores"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"Satisfaction Score"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Count"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/05-statistical-analysis-rendered-challenge-normality-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 2: Q-Q plot</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">visitors</span>, <span class="fu">aes</span><span class="op">(</span>sample <span class="op">=</span> <span class="va">satisfaction_score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_qq_line</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#e76f51"</span>, linewidth <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Q-Q plot of satisfaction scores"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"Theoretical quantiles"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Sample quantiles"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/05-statistical-analysis-rendered-challenge-normality-2.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 3: Shapiro-Wilk test</span></span>
+<span><span class="fu">shapiro.test</span><span class="op">(</span><span class="va">visitors</span><span class="op">$</span><span class="va">satisfaction_score</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+	Shapiro-Wilk normality test
+
+data:  visitors$satisfaction_score
+W = 0.97421, p-value = 0.02086</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 4: Interpretation depends on the output. With n = 120, the t-test is</span></span>
+<span><span class="co"># robust to moderate non-normality. Check whether the histogram looks</span></span>
+<span><span class="co"># roughly symmetric and the Q-Q points stay close to the line.</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level3">
 <h3 id="t-tests">T-tests<a class="anchor" aria-label="anchor" href="#t-tests"></a></h3>
 <div class="section level4">
 <h4 id="independent-samples-t-test">Independent-samples t-test<a class="anchor" aria-label="anchor" href="#independent-samples-t-test"></a></h4>
@@ -426,7 +596,7 @@ Independent-Samples T Test</strong>, move your test variable to the
 Variable” box, and define the two groups.</p>
 <p>In R, it is one line. Let’s test whether the average spending differs
 between US and Netherlands visitors:</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -483,7 +653,7 @@ variances). This is actually the better default — many statisticians
 recommend always using the Welch t-test.</p>
 <p>If you need the equal-variances version (the “Equal variances
 assumed” row in SPSS), add <code>var.equal = TRUE</code>:</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -498,7 +668,7 @@ assumed” row in SPSS), add <code>var.equal = TRUE</code>:</p>
 <p>A paired t-test compares two measurements on the same cases. Let’s
 compare Q1 vs. Q3 hotel occupancy rates (the same hotels measured in
 different quarters):</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -545,7 +715,7 @@ ANOVA</strong>. Move the dependent variable to the “Dependent List” and
 the factor to “Factor”.</p>
 <p>Let’s test whether satisfaction scores differ across origin
 countries:</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -595,7 +765,7 @@ column names.</p>
 <p>If the ANOVA is significant, you want to know <em>which</em> groups
 differ. In SPSS, you check the “Post Hoc” button in the ANOVA dialog and
 select Tukey. In R:</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -631,7 +801,7 @@ Venezuela-United States   -0.855 -1.0901532 -0.61984681 0.0000000</code></pre>
 difference in means, and 95% confidence intervals — the same information
 as the SPSS “Multiple Comparisons” table.</p>
 <p>You can also visualize the post-hoc results:</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -646,7 +816,7 @@ variables to the “Variables” box and select Pearson, Spearman, or
 both.</p>
 <p>Let’s test the correlation between average spending and
 satisfaction:</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -695,7 +865,7 @@ you use syntax.</p>
 </div>
 <p>For a correlation matrix of multiple variables (like the SPSS
 correlation table), use <code>cor()</code>:</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -723,13 +893,240 @@ satisfaction_score                0.575              1.000</code></pre>
 </div>
 </div>
 <div class="section level3">
+<h3 id="chi-square-test-of-independence">Chi-square test of independence<a class="anchor" aria-label="anchor" href="#chi-square-test-of-independence"></a></h3>
+<p>All of the tests above work with numeric variables. When both
+variables are categorical, you need a different tool: the chi-square
+test of independence. In SPSS: <strong>Analyze &gt; Descriptive
+Statistics &gt; Crosstabs</strong>, move one variable to “Row(s)” and
+another to “Column(s)”, then click “Statistics” and check the
+“Chi-square” box.</p>
+<div class="section level4">
+<h4 id="building-a-contingency-table">Building a contingency table<a class="anchor" aria-label="anchor" href="#building-a-contingency-table"></a></h4>
+<p>First, create a contingency table using <code>table()</code>. Let’s
+test whether the distribution of visitor <code>origin</code> countries
+differs across <code>quarter</code>:</p>
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="co"># Create the contingency table</span></span>
+<span><span class="va">origin_quarter</span> <span class="op">&lt;-</span> <span class="fu">table</span><span class="op">(</span><span class="va">visitors</span><span class="op">$</span><span class="va">origin</span>, <span class="va">visitors</span><span class="op">$</span><span class="va">quarter</span><span class="op">)</span></span>
+<span><span class="va">origin_quarter</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+                Q1 Q2 Q3 Q4
+  Canada         5  5  5  5
+  Colombia       5  5  5  5
+  Netherlands    5  5  5  5
+  Other          5  5  5  5
+  United States  5  5  5  5
+  Venezuela      5  5  5  5</code></pre>
+</div>
+<p>This is the same table you would see in the “Crosstabulation” output
+in SPSS. Each cell shows the observed count for that combination of
+origin and quarter.</p>
+</div>
+<div class="section level4">
+<h4 id="running-the-chi-square-test">Running the chi-square test<a class="anchor" aria-label="anchor" href="#running-the-chi-square-test"></a></h4>
+<div class="codewrapper sourceCode" id="cb27">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="va">chi_result</span> <span class="op">&lt;-</span> <span class="fu">chisq.test</span><span class="op">(</span><span class="va">origin_quarter</span><span class="op">)</span></span>
+<span><span class="va">chi_result</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+	Pearson's Chi-squared test
+
+data:  origin_quarter
+X-squared = 0, df = 15, p-value = 1</code></pre>
+</div>
+<p>The output gives you three pieces of information, matching the SPSS
+“Chi-Square Tests” table:</p>
+<table class="table"><thead><tr><th>SPSS output column</th>
+<th>R output</th>
+</tr></thead><tbody><tr><td>Pearson Chi-Square value</td>
+<td><code>X-squared</code></td>
+</tr><tr><td>df</td>
+<td><code>df</code></td>
+</tr><tr><td>Asymp. Sig. (2-sided)</td>
+<td><code>p-value</code></td>
+</tr></tbody></table><p>A significant p-value means the distribution of one variable depends
+on the other – the row and column variables are not independent.</p>
+</div>
+<div class="section level4">
+<h4 id="expected-vs-observed-frequencies">Expected vs observed frequencies<a class="anchor" aria-label="anchor" href="#expected-vs-observed-frequencies"></a></h4>
+<p>The expected frequencies tell you what the cell counts <em>would</em>
+look like if the two variables were completely independent. Comparing
+expected to observed is how you identify which cells are driving the
+result.</p>
+<div class="codewrapper sourceCode" id="cb29">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="co"># Expected frequencies (what you'd see under independence)</span></span>
+<span><span class="va">chi_result</span><span class="op">$</span><span class="va">expected</span> <span class="op">|&gt;</span> <span class="fu">round</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+                Q1 Q2 Q3 Q4
+  Canada         5  5  5  5
+  Colombia       5  5  5  5
+  Netherlands    5  5  5  5
+  Other          5  5  5  5
+  United States  5  5  5  5
+  Venezuela      5  5  5  5</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb31">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="co"># Standardized residuals -- large absolute values (&gt; 2) flag notable cells</span></span>
+<span><span class="va">chi_result</span><span class="op">$</span><span class="va">residuals</span> <span class="op">|&gt;</span> <span class="fu">round</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+                Q1 Q2 Q3 Q4
+  Canada         0  0  0  0
+  Colombia       0  0  0  0
+  Netherlands    0  0  0  0
+  Other          0  0  0  0
+  United States  0  0  0  0
+  Venezuela      0  0  0  0</code></pre>
+</div>
+<p>In SPSS, you would get these by checking “Expected” and
+“Standardized” under the “Cells” button in the Crosstabs dialog.
+Residuals greater than 2 or less than -2 point to cells where observed
+counts deviate substantially from what independence predicts.</p>
+<div id="challenge-chi-square-analysis" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-chi-square-analysis" class="callout-inner">
+<h3 class="callout-title">Challenge: Chi-square analysis</h3>
+<div class="callout-content">
+<p>Create a new categorical variable called <code>spending_level</code>
+that classifies rows as “High” (above the median of
+<code>avg_spending_usd</code>) or “Low” (at or below the median). Then
+test whether <code>spending_level</code> is independent of
+<code>origin</code>.</p>
+<ol style="list-style-type: decimal"><li>Create <code>spending_level</code> using <code>mutate()</code> and
+<code>if_else()</code>.</li>
+<li>Build a contingency table of <code>origin</code> by
+<code>spending_level</code>.</li>
+<li>Run <code>chisq.test()</code> and interpret the result.</li>
+<li>Examine the standardized residuals to see which origin countries
+spend more (or less) than expected.</li>
+</ol></div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb33">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="co"># 1: Create spending_level</span></span>
+<span><span class="va">visitors_spending</span> <span class="op">&lt;-</span> <span class="va">visitors</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>spending_level <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span></span>
+<span>    <span class="va">avg_spending_usd</span> <span class="op">&gt;</span> <span class="fu">median</span><span class="op">(</span><span class="va">avg_spending_usd</span><span class="op">)</span>, <span class="st">"High"</span>, <span class="st">"Low"</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 2: Contingency table</span></span>
+<span><span class="va">spending_table</span> <span class="op">&lt;-</span> <span class="fu">table</span><span class="op">(</span><span class="va">visitors_spending</span><span class="op">$</span><span class="va">origin</span>,</span>
+<span>                        <span class="va">visitors_spending</span><span class="op">$</span><span class="va">spending_level</span><span class="op">)</span></span>
+<span><span class="va">spending_table</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+                High Low
+  Canada          20   0
+  Colombia         0  20
+  Netherlands     18   2
+  Other            1  19
+  United States   20   0
+  Venezuela        0  20</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb35">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 3: Chi-square test</span></span>
+<span><span class="va">chi_spending</span> <span class="op">&lt;-</span> <span class="fu">chisq.test</span><span class="op">(</span><span class="va">spending_table</span><span class="op">)</span></span>
+<span><span class="va">chi_spending</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+	Pearson's Chi-squared test
+
+data:  spending_table
+X-squared = 109, df = 5, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb37">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 4: Standardized residuals</span></span>
+<span><span class="va">chi_spending</span><span class="op">$</span><span class="va">residuals</span> <span class="op">|&gt;</span> <span class="fu">round</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+                 High   Low
+  Canada         3.24 -3.19
+  Colombia      -3.14  3.08
+  Netherlands    2.60 -2.56
+  Other         -2.82  2.77
+  United States  3.24 -3.19
+  Venezuela     -3.14  3.08</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb39">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Positive residuals in the "High" column mean that origin country has</span></span>
+<span><span class="co"># more high-spending rows than expected under independence.</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level3">
 <h3 id="linear-regression">Linear regression<a class="anchor" aria-label="anchor" href="#linear-regression"></a></h3>
 <p>In SPSS: <strong>Analyze &gt; Regression &gt; Linear</strong>. Move
 the dependent variable to “Dependent” and independent variables to
 “Independent(s)”.</p>
 <p>Let’s predict average spending from stay nights and origin
 country:</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb40">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -810,7 +1207,7 @@ the bottom</td>
 to export or combine with other results. The <code>broom</code> package
 converts statistical output into tidy data frames — one row per term,
 columns for estimate, standard error, test statistic, and p-value.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -826,7 +1223,7 @@ columns for estimate, standard error, test statistic, and p-value.</p>
 1     -249      978.     1228.     -16.2 1.21e-18      38.0    -280.     -218.
 # ℹ 2 more variables: method &lt;chr&gt;, alternative &lt;chr&gt;</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -847,7 +1244,7 @@ columns for estimate, standard error, test statistic, and p-value.</p>
 6 originUnited States    114.       6.60     17.3  1.56e-33
 7 originVenezuela       -274.      13.5     -20.4  1.35e-39</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -873,7 +1270,7 @@ into a table or a plot.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>This is a good time to reinforce the reproducibility advantage. In
 SPSS, if a reviewer asks you to re-run an analysis with a different
@@ -892,7 +1289,7 @@ by p-value, etc.).</p>
 would do in SPSS, but entirely in code. Our research question:
 <strong>Does average spending differ by origin country, and what
 predicts higher spending?</strong></p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb48">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -920,7 +1317,7 @@ predicts higher spending?</strong></p>
 5 Colombia         20          654         68.6              7.4
 6 Venezuela        20          540         46.9              7.14</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -933,7 +1330,7 @@ predicts higher spending?</strong></p>
 <span>       y <span class="op">=</span> <span class="st">"Average Spending (USD)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/05-statistical-analysis-rendered-workflow-step2-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb27">
+<figure><img src="../fig/05-statistical-analysis-rendered-workflow-step2-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb51">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -950,7 +1347,7 @@ Residuals   114  374890    3289
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -982,7 +1379,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 14 origin Venezuela-Colombia           0   -114.    -167.      -61.4    9.17e- 8
 15 origin United States-Cana…          0     88.5     35.9     141.     5.04e- 5</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb55">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1007,7 +1404,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 7 originVenezuela      -284.       13.4     -21.1    0
 8 year                    4.03      1.34      3      0.003</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb33">
+<div class="codewrapper sourceCode" id="cb57">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1050,14 +1447,14 @@ table</li>
 </ol></div>
 </div>
 </div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb59">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1083,7 +1480,7 @@ table</li>
 1 High      60              7.71           0.382
 2 Low       60              7.55           0.405</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb61">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1099,7 +1496,7 @@ table</li>
 <span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/05-statistical-analysis-rendered-challenge1-solution-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb38">
+<figure><img src="../fig/05-statistical-analysis-rendered-challenge1-solution-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb62">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1122,7 +1519,7 @@ sample estimates:
 mean in group High  mean in group Low
           7.713333           7.546667 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb40">
+<div class="codewrapper sourceCode" id="cb64">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1166,14 +1563,14 @@ increase?</li>
 </ol></div>
 </div>
 </div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
+  <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb42">
+<div class="codewrapper sourceCode" id="cb66">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1195,7 +1592,7 @@ sample estimates:
       cor
 0.5971648 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb44">
+<div class="codewrapper sourceCode" id="cb68">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1216,7 +1613,7 @@ sample estimates:
 </h3>
 <pre class="output" tabindex="0"><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
-<figure><img src="../fig/05-statistical-analysis-rendered-challenge2-solution-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb46">
+<figure><img src="../fig/05-statistical-analysis-rendered-challenge2-solution-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb70">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1235,7 +1632,7 @@ sample estimates:
 1 (Intercept)        430.      60.8       7.07 1.16e-10
 2 avg_stay_nights     75.3      9.31      8.09 6.06e-13</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb48">
+<div class="codewrapper sourceCode" id="cb72">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1250,7 +1647,7 @@ sample estimates:
 1     0.357         0.351  204.      65.4 6.06e-13     1  -807. 1621. 1629.
 # ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb50">
+<div class="codewrapper sourceCode" id="cb74">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1343,8 +1740,8 @@ any links that you are not going to use.
   "url": "https://University-of-Aruba.github.io/r-for-spss-users/instructor/05-statistical-analysis.html",
   "identifier": "https://University-of-Aruba.github.io/r-for-spss-users/instructor/05-statistical-analysis.html",
   "dateCreated": "2026-03-29",
-  "dateModified": "2026-04-17",
-  "datePublished": "2026-04-17"
+  "dateModified": "2026-04-20",
+  "datePublished": "2026-04-20"
 }
 
   </script><script>
