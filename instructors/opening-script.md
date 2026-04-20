@@ -2,19 +2,21 @@
 title: "Opening sequence: Wednesday morning"
 duration: "10 to 12 minutes of story, then hands on the keyboard"
 fits_within: "Episode 01 — The case for switching"
-delivery: "Live. Six cartoons as slides. The wow demo moves to minute 45 or so, after participants have typed their first R code."
-version: 2
+delivery: "Live and voice-driven. The Episode 1 page already shows one atmospheric scene image at the top. Beyond that, no slides. The wow demo moves to minute 45 or so, after participants have typed their first R code."
+version: 3
 ---
 
-# Opening sequence (v2)
+# Opening sequence (v3)
 
-The earlier version put a three-line GitHub pull in the opening. That was a mistake. Carpentries pedagogy wants learners' hands on the keyboard fast, and the wow moment is bigger when it arrives in a room that is already in R, not outside it. Story first, a deliberate handoff into Episode 1, hands typing within fifteen minutes, and the public-repo demo lands at the end of Episode 1 as the payoff.
+The earlier versions assumed a six-cartoon slide deck. That is not how the lesson pages are built. Each of the seven episodes opens with a single atmospheric scene image at the top of its page (`episodes/fig/scene_1.jpg` through `scene_7.jpg`), and those images are decorative, not characters in a story. The opening sequence carries itself on voice, pacing, and silence. The Episode 1 page (`scene_1.jpg`, "One road costs you a license fee. The other one costs you a learning curve.") sets atmosphere; everything else lands through delivery.
 
-The device is six cartoons carrying a personal story. Keep them dense in the opening. Do not scatter them through the technical middle. Bring one cartoon back at the close of Day 1 and one at the close of Day 2 as callbacks, and reserve the sixth as the final slide of the workshop.
+Story first, a deliberate handoff into Episode 1, hands typing within fifteen minutes, and the public-repo demo lands at the end of Episode 1 as the payoff.
 
 ## Ground rules for delivery
 
-Before you say your name, before you say the course title, before you say hello, the first cartoon is on the screen and you deliver the cold open. The question comes before the introduction.
+Open the Episode 1 page in the browser before you start. The scene image is at the top; it sets atmosphere without you having to do anything. Beyond that, you are the medium: no slides, no projector switching during the opening.
+
+Before you say your name, before you say the course title, before you say hello, you deliver the cold open. The question comes before the introduction.
 
 Hold silences. The refinery moment works only if you do not rescue yourself. Count three seconds in your head after "I had no idea."
 
@@ -30,11 +32,11 @@ Cold open. Origin. The refinery moment. The thesis. The turn. The handoff into E
 
 ## Cold open (0:00 to 0:45)
 
-**Cartoon 1 on screen.** You are at the front. The room is not yet quiet. You wait.
+You are at the front. The Episode 1 page is on the screen with the scene image visible. The room is not yet quiet. You wait.
 
 First words, before you introduce yourself:
 
-> Twelve years ago, I presented the quarterly GDP results to the management of the central bank. And they asked me a question I could not answer.
+> Sixteen years ago, I presented the quarterly GDP results to the management of the central bank. And they asked me a question I could not answer.
 
 Beat.
 
@@ -46,25 +48,21 @@ Beat.
 
 Now you introduce yourself. Name, role, why you are here. Thirty seconds.
 
+> My name is Rendell de Kort, i'm the DCDC Network adminsitrator and i have been analyzing data as an economist in different capacities.
+
 ## Origin (0:45 to 3:30)
 
-**Cartoon 2.** Younger you with a laptop.
-
-> Quick rewind. I was in my twenties. I had just started at the Central Bank of Aruba as a macroeconomic analyst. I had Excel, SPSS, Stata and EViews on my laptop. I was convinced I was the sharpest analyst in the building.
+> Quick rewind. I was in my twenties. I had just started at the Central Bank of Aruba as a research economist. I had Excel, SPSS, Stata and EViews on my laptop. I was convinced I was the sharpest analyst in the building.
 
 Brief pause. Do not undercut the confidence.
 
 > I had the software, I had the training, and I was producing output.
 
-**Cartoon 3.** Consultants arriving.
-
-> Then consultants arrived from the Netherlands. They had been contracted to build us a forecasting model. They worked on it for weeks. When they left, they handed me a script and said: update the data here, run this code, this is your output. As long as you follow the steps, you will have a good working model.
+> Then consultants arrived from the Netherlands. They had been contracted to build us a nowcasting model. They worked on it for 2 weeks. When they left, they handed me a script and said: update the data here, run this code, this is your output. As long as you follow the steps, you will have a good working model.
 
 > It was written in base R. At the time, R was this mysterious coding thing. I had never seen it. But I had my instructions. So every quarter, I did what they said.
 
 ## The refinery moment (3:30 to 5:00)
-
-**Cartoon 4.** You in a meeting, tense.
 
 > For about two years, I ran their code every quarter. Update the data here, press run, send the output upstairs. Until one day I was presenting to management. And they asked me that question.
 
@@ -80,7 +78,7 @@ Longer pause. Look at them. Do not rescue.
 
 ## The thesis (5:00 to 5:30)
 
-Still on Cartoon 4. Walk forward half a step.
+Walk forward half a step.
 
 > What I had was not a model.
 
@@ -96,15 +94,11 @@ Beat.
 
 ## The turn (5:30 to 7:00)
 
-**Cartoon 5.** Laptop with R code.
-
 > So I started learning R. Slowly. Badly. It took years to get comfortable. And along the way I learned something I did not expect. The issue was never SPSS against R. The issue was between ritual and understanding. You can use any tool as a ritual. You can use any tool to understand.
 
 > But one of these tools makes the ritual easy and understanding hard. The other makes understanding possible, at a cost. That cost is what you are paying with the next two days.
 
 ## The contract for the next two days (7:00 to 9:30)
-
-Move to a slide with the two-day schedule. Cartoon 6 optional as a small corner element.
 
 > Two days. Nine to four-thirty, with breaks. You will leave with working code, a report you generated yourself, and a starting point for your own projects. The only thing we ask outside the room is a short survey at the end, which feeds into the network we are building across the islands.
 
@@ -130,7 +124,7 @@ From here, you are in Carpentries live-coding mode. Types, they type, sticky not
 
 After participants have typed their first assignments, run their first `mean()`, maybe drawn their first quick plot against the aruba_visitors dataset, you take three minutes to show them where this is going.
 
-Bring Cartoon 6 back on the side screen or just narrate it. Switch to a blank script.
+Switch to a blank script.
 
 > Before we break, let me show you where this road leads. I am going to write three lines of code. These three lines will go to a public repository at the University of Aruba, download a dataset I maintain on small island developing states, and draw a chart.
 
@@ -177,20 +171,13 @@ The wow of a public repo pull is bigger at minute forty-five than at minute eigh
 
 ---
 
-## Cartoon placement summary
+## On the scene images
 
-| Cartoon | Moment | Duration on screen |
-|---|---|---|
-| 1 | Cold open, before self-introduction | ~90 seconds |
-| 2 | Young you at CBA | ~90 seconds |
-| 3 | Consultants arriving | ~75 seconds |
-| 4 | Refinery moment and thesis | ~2 minutes |
-| 5 | The turn | ~90 seconds |
-| 6 | End of Episode 1 wow demo, then reserve for Day 2 close | ~3 minutes at the demo; final slide Friday |
+Each episode's lesson page already opens with one atmospheric scene image (`fig/scene_1.jpg` through `scene_7.jpg`) and a short quip caption. They are decoration that sets tone for the page. They are not characters or a recurring narrative across the workshop. Do not point at them, do not flip back to them, do not use them as story beats. They do their work passively.
 
-Day 1 close: bring Cartoon 4 back. Ask the room, not yourself, the question you could not answer. Different weight after a day of code. A few people will say "the refinery." A few will say "it depends." Both answers are wins.
+Day 1 close: re-ask the refinery question to the room, not to yourself. "What is driving the growth number this quarter? Refinery, tourism, construction?" Different weight after a day of code. A few people will say "the refinery." A few will say "it depends." Both answers are wins. No visual aid needed; the question lands harder unaccompanied.
 
-Day 2 close: Cartoon 6 returns as the final slide. The callback closes the loop.
+Day 2 close: return to "a ritual cannot answer a follow-up question." Pose it back to them as something they can now answer with their own scripts. Close on the silence.
 
 ---
 
@@ -214,6 +201,6 @@ Do not name the refinery company or the management member who asked the question
 
 Do not skip the silence after "I had no idea," and do not skip the silence on either side of "A ritual cannot answer a follow-up question." The silences are not dead air. They are the work.
 
-Do not caption every cartoon with a joke. Two or three should be visual only, carried by a single sentence or by silence.
+Do not flip between slides during the opening. The Episode 1 page sets the visual frame. Beyond that, you are the medium.
 
 Do not put the GitHub pull demo before they have typed their own first line of R.
