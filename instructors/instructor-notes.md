@@ -37,11 +37,11 @@ Key principles:
 | Episode | Time | Notes |
 |---|---|---|
 | Review and troubleshooting | 30 min | Address questions from between-session practice |
-| 05 - Statistical Analysis | 120 min | This is the core for survey researchers. Take your time. |
+| 05 - Statistical Analysis | 120 min | Core for survey researchers. The normality-testing section (histogram, Q-Q plot, Shapiro-Wilk, robustness note) maps directly onto the SPSS Explore output most participants will recognise. Take your time. |
 | Break | 15 min | |
 | 06 - Reproducible Reporting | 60 min | R Markdown is often the biggest "wow" for SPSS users |
 | Break | 15 min | |
-| 07 - Where to Go from Here | 45 min | End with practical next steps and community resources |
+| 07 - Where to Go from Here | 55 min | End with practical next steps. The new UA datasets subsection (CAS_election_data and island-research-reference-data) is a chance to live-demo `read.csv()` straight from a raw GitHub URL — most SPSS users have never seen data load over HTTPS without a manual download. |
 
 ## Common Issues
 
@@ -60,9 +60,23 @@ The course uses Dutch Caribbean datasets to keep examples relevant:
 - CBS Aruba tourism and CPI data (Excel downloads from cbs.aw)
 - World Bank indicators via the `WDI` package
 - CBS Netherlands BES island data via `cbsodataR`
+- **CAS_election_data** — Aruba, Curacao, Sint Maarten election results 1985-2025 (tidy CSV at github.com/University-of-Aruba/CAS_election_data). Used in Episode 7.
+- **island-research-reference-data** — country reference list with SIDS, SNIJ, and World Bank classifications (CSV at github.com/University-of-Aruba/island-research-reference-data). Used in Episode 7.
 
 Prepare cleaned versions of these datasets in the `episodes/data/` folder before
 the course. Test all data downloads — URLs and APIs can change.
+
+### Note on the elections example
+
+The Episode 7 election-data example deliberately groups MEP and AVP together
+versus all other parties, rather than singling out one party. Aruba's two-party
+dynamic means filtering on `party == "MEP"` (or `"AVP"`) on its own can read
+as partisan bias in a publicly distributed course. If extending the example
+live, default to the same grouped framing or to all-parties views (e.g. all
+parties for the most recent election, or vote share over time). If a
+participant asks why we don't filter to one party, this is the reason worth
+naming briefly: it is a small editorial choice that protects the course and
+the network's neutrality.
 
 ## Train-the-Trainer
 
