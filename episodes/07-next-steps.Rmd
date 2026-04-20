@@ -276,11 +276,14 @@ elections <- read.csv(
   "https://raw.githubusercontent.com/University-of-Aruba/CAS_election_data/main/dutch_caribbean_elections.csv"
 )
 
-# Compare the two main Aruban parties across elections
+# Combined vote of the two main Aruban parties versus all others over time
 library(dplyr)
 elections |>
-  filter(country == "Aruba", party %in% c("MEP", "AVP")) |>
-  arrange(year, party)
+  filter(country == "Aruba") |>
+  mutate(group = ifelse(party %in% c("MEP", "AVP"), "MEP & AVP", "Other")) |>
+  group_by(year, group) |>
+  summarise(votes = sum(votes), .groups = "drop") |>
+  arrange(year, group)
 ```
 
 **Small island reference list** at
