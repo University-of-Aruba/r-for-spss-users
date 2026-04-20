@@ -43,6 +43,22 @@ Key principles:
 | Break | 15 min | |
 | 07 - Where to Go from Here | 55 min | End with practical next steps. The new UA datasets subsection (CAS_election_data and island-research-reference-data) is a chance to live-demo `read.csv()` straight from a raw GitHub URL — most SPSS users have never seen data load over HTTPS without a manual download. |
 
+## Per-episode scene transitions
+
+Each episode opens with one atmospheric scene image at the top of the page (`fig/scene_1.jpg` through `scene_7.jpg`) and a one-line quip caption. The captions do most of the work; instructors who prefer to start straight from the first heading should feel free to. For instructors who want a single-beat acknowledgment when arriving at each new episode, the lines below match the captions in tone and feed naturally into the episode's opening content. They are optional.
+
+| Ep | Caption on page | Optional transition line |
+|---|---|---|
+| 1 | One road costs you a license fee. The other one costs you a learning curve. | (Episode 1 opens with the workshop's full opening sequence; no separate transition needed.) |
+| 2 | The iguana is optional. The coconut water is not. | "We're at the bar, R is open, the iguana is doing iguana things. Time to type something." |
+| 3 | You can't cook without ingredients. You can't wrangle without verbs. | "Three jars on the counter today: filter, select, mutate. Everything else in dplyr is a variation on those three." |
+| 4 | SPSS gives you a chart. ggplot2 gives you a language. | "ggplot is grammar, not buttons. By the end of this episode you'll be writing sentences." |
+| 5 | Same tests, fewer menus, more crabs. | "The tests you know from SPSS — t-test, ANOVA, chi-square, regression — are all here. The crabs are the new part. Trust the crabs." |
+| 6 | Your supervisor changed the sample. Again. Good thing you only need one button. | "This is the moment R Markdown earns the price of admission. One button, new data in, finished document out." |
+| 7 | You learned the basics. The map has a lot more islands. | "The basics are behind you. The next forty-five minutes are about where to go from here, with islands marked for you to chart." |
+
+Pick one beat, deliver it, move into the page's first heading. Do not stack a second sentence on top.
+
 ## Common Issues
 
 - **Installation problems**: The pre-course installation clinic should catch
