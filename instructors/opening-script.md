@@ -1,16 +1,16 @@
 ---
 title: "Opening sequence: Wednesday morning"
-duration: "10 to 12 minutes of story, then hands on the keyboard"
+duration: "7 to 8 minutes of story, then into the page"
 fits_within: "Episode 01 — The case for switching"
-delivery: "Live and voice-driven. The Episode 1 page already shows one atmospheric scene image at the top. Beyond that, no slides. The wow demo moves to minute 45 or so, after participants have typed their first R code."
-version: 3
+delivery: "Live and voice-driven. The Episode 1 page already shows one atmospheric scene image at the top and contains the live WDI demo as an embedded instructor block. The opening script is a wrapper around that page, not a parallel performance."
+version: 4
 ---
 
-# Opening sequence (v3)
+# Opening sequence (v4)
 
-The earlier versions assumed a six-cartoon slide deck. That is not how the lesson pages are built. Each of the seven episodes opens with a single atmospheric scene image at the top of its page (`episodes/fig/scene_1.jpg` through `scene_7.jpg`), and those images are decorative, not characters in a story. The opening sequence carries itself on voice, pacing, and silence. The Episode 1 page (`scene_1.jpg`, "One road costs you a license fee. The other one costs you a learning curve.") sets atmosphere; everything else lands through delivery.
+This script is a wrapper around the existing Episode 1 page. Earlier versions invented a parallel six-cartoon slide deck and a separate GitHub-pull "wow demo" that competed with the WDI demo already scripted on the page. v4 strips both. The personal narrative still opens the workshop. The page then carries the cost argument, the R-vs-SPSS section, and the live WDI demo on its own terms.
 
-Story first, a deliberate handoff into Episode 1, hands typing within fifteen minutes, and the public-repo demo lands at the end of Episode 1 as the payoff.
+Each of the seven episodes opens with one atmospheric scene image at the top (`episodes/fig/scene_1.jpg` through `scene_7.jpg`). Those are decorative, not characters in a story. The opening sequence carries itself on voice, pacing, and silence.
 
 ## Ground rules for delivery
 
@@ -26,7 +26,7 @@ Use specific time anchors. "Twelve years ago" is stronger than "some years ago" 
 
 ## The arc
 
-Cold open. Origin. The refinery moment. The thesis. The turn. The handoff into Episode 1. The wow demo arrives at the end of Episode 1, not the start.
+Cold open. Origin. The refinery moment. The thesis. The turn. Three ground rules. Then hand into the Episode 1 page and let the page lead the rest of the hour.
 
 ---
 
@@ -110,64 +110,27 @@ Beat.
 
 > Three. We type code together. I type it on the screen, you type it on your laptop. Not copy-paste. You will not remember anything you copy-paste. You will remember what your fingers did.
 
-## Handoff into Episode 1 (9:30 to 10:00)
+## Handoff into the Episode 1 page (7:00 to 7:30)
 
-> Let's open RStudio.
+You have given them the personal arc and the three ground rules. Stop scripting. Hand into the page.
 
-Switch to the live RStudio window. Walk them through the four panes. Begin Episode 1 proper.
+> Let's get started. Episode 1 is on the screen. The big questions for the next forty-five minutes are right there at the top: why switch, what does R give you that SPSS does not, and what does the cost actually look like. We will work through those together.
 
-From here, you are in Carpentries live-coding mode. Types, they type, sticky notes guide the pace.
+Scroll to the cost-argument table. Walk them through it briefly. Then through "What R gives you that SPSS does not." Brief is fine. Their eyes are on the page; you are providing colour, not narration.
 
----
+When you reach the **Live demonstration** heading, switch to RStudio and follow the embedded instructor block on the page (`:::: instructor` ... `::::`). It contains the full script: WDI tourism arrivals for AW, CW, SX, the ggplot2 chart, the SPSS contrast walkthrough. Do not improvise a different demo here. The page is the script.
 
-## The wow demo moves here: end of Episode 1 (roughly minute 45)
+After the demo, deliver the page's summary in your own words and break for fifteen.
 
-After participants have typed their first assignments, run their first `mean()`, maybe drawn their first quick plot against the aruba_visitors dataset, you take three minutes to show them where this is going.
-
-Switch to a blank script.
-
-> Before we break, let me show you where this road leads. I am going to write three lines of code. These three lines will go to a public repository at the University of Aruba, download a dataset I maintain on small island developing states, and draw a chart.
-
-Type the lines in front of them. Slowly. Narrate each line as you type.
-
-```r
-library(tidyverse)
-
-countries <- read_csv(
-  "https://raw.githubusercontent.com/University-of-Aruba/island-research-reference-data/main/countries/countries_reference_xlsform.csv"
-)
-
-countries |>
-  filter(is_sids == 1) |>
-  count(wb_region) |>
-  ggplot(aes(x = reorder(wb_region, n), y = n)) +
-  geom_col(fill = "#44759e") +
-  coord_flip() +
-  labs(title = "Small island developing states by World Bank region",
-       x = NULL, y = "Number of SIDS")
-```
-
-Run it. Let the chart appear.
-
-> Notice what just happened. I did not download a file. I did not store a copy. The data lives in one place, a public repository, maintained, versioned, auditable. Anyone in this room, anyone in the world, can run those three lines and get the same chart I just got. That is what reproducibility looks like, and you just saw enough R in the last forty-five minutes to start reading what I typed.
-
-> The repository is real. It is part of the DCDC Network infrastructure we are building at the University of Aruba. After Friday, you can pull from it, contribute to it, use it in your own work.
-
-> By Friday afternoon you will be writing those three lines yourselves. And the hundred lines that come after. Let's take fifteen.
-
-Break.
+From here, you are in Carpentries live-coding mode for the rest of the day. They type, you type, sticky notes guide the pace.
 
 ---
 
-## Why the demo moved
+## Why this script does not contain a separate wow demo
 
-Version one had the demo in the opening. Reasons to move it:
+Earlier versions scripted a second demo at minute forty-five (a `read_csv` from a UA GitHub repo). That demo competed with the WDI tourism demo already on the page. Two demos for one moment splits attention and makes one of them feel redundant. The page already has the wow built in: a live API pull, a publication-quality chart in ten lines, and a side-by-side with the SPSS clicking workflow. Lean on that.
 
-The opening three lines of R that a learner sees should be lines they are about to type themselves. A remote data pull into a `coord_flip` is interesting to watch but it is not the shape of what they will do in the next five minutes. It creates distance, not proximity.
-
-Carpentries pedagogy treats the first live-coding block as the first real beat of the workshop. Loading up the room with a showcase before they have typed anything pushes the live-coding block into the shadow of the demo. Better to let them own their first `c(1, 2, 3)` uninterrupted.
-
-The wow of a public repo pull is bigger at minute forty-five than at minute eight, because by minute forty-five they can read it. They can see `library()`, `read_csv()`, the pipe, `ggplot()`. At minute eight those are all noise. At minute forty-five they are vocabulary. The demo also earns its place as a preview of Episode 6, reproducible reporting, which closes the arc.
+The UA GitHub datasets (election data, island reference data) are introduced in Episode 7, not Episode 1. Resist the urge to preview them here.
 
 ---
 
@@ -183,7 +146,11 @@ Day 2 close: return to "a ritual cannot answer a follow-up question." Pose it ba
 
 ## What to have ready before you walk in
 
-RStudio already open with tidyverse loaded, a blank script visible. Browser tab with the Island Research Reference Data README already loaded on a second monitor in case anyone asks where the data lives. A local fallback CSV on the desktop with an alternate version of the three demo lines pointing at the local file, in case the Wi-Fi is unreliable.
+The Episode 1 page open in the browser, scrolled to the top.
+
+RStudio already open with `WDI`, `ggplot2`, and `scales` installed and loaded, a blank script visible. The packages list is in the page's instructor block; install before the workshop, do not improvise on the day.
+
+A backup `tourism` CSV on the desktop with the WDI data pre-pulled, in case the Wi-Fi is unreliable. The page's instructor block tells you what to load it as.
 
 The FAQ card printed and placed next to your laptop, face down. You will use it at least twice.
 
@@ -203,4 +170,4 @@ Do not skip the silence after "I had no idea," and do not skip the silence on ei
 
 Do not flip between slides during the opening. The Episode 1 page sets the visual frame. Beyond that, you are the medium.
 
-Do not put the GitHub pull demo before they have typed their own first line of R.
+Do not improvise a second demo on top of the page's WDI demo. One wow per moment. The page's demo is the wow.
