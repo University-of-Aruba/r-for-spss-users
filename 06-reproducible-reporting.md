@@ -23,6 +23,8 @@ exercises: 20
 
 ![Your supervisor changed the sample. Again. Good thing you only need one button.](fig/scene_6.jpg){alt="Cartoon of a researcher pressing a big red button on a tropical machine that converts raw data into a finished report"}
 
+
+
 ## The problem with copy-paste
 
 If you have used SPSS for reporting, this workflow will feel very familiar:
@@ -270,14 +272,7 @@ document:
 
 ``` r
 visitors <- read_csv("data/aruba_visitors.csv")
-```
 
-``` error
-Error in `read_csv()`:
-! could not find function "read_csv"
-```
-
-``` r
 annual_summary <- visitors |>
   group_by(year) |>
   summarise(
@@ -286,24 +281,22 @@ annual_summary <- visitors |>
     avg_spending = round(mean(avg_spending_usd), 0),
     avg_satisfaction = round(mean(satisfaction_score), 1)
   )
-```
 
-``` error
-Error in `summarise()`:
-! could not find function "summarise"
-```
-
-``` r
 knitr::kable(annual_summary, col.names = c(
   "Year", "Stay-over Visitors", "Cruise Visitors",
   "Avg Spending (USD)", "Avg Satisfaction"
 ))
 ```
 
-``` error
-Error:
-! object 'annual_summary' not found
-```
+
+
+| Year| Stay-over Visitors| Cruise Visitors| Avg Spending (USD)| Avg Satisfaction|
+|----:|------------------:|---------------:|------------------:|----------------:|
+| 2019|             440650|          195950|                919|              7.7|
+| 2020|             208480|           61200|                821|              7.3|
+| 2021|             357200|          121080|                888|              7.5|
+| 2022|             443700|          203720|                924|              7.8|
+| 2023|             463700|          213020|                938|              7.8|
 
 ### Step 4: A visualization
 
@@ -312,25 +305,11 @@ Add another chunk with a ggplot2 chart:
 
 ``` r
 visitors <- read_csv("data/aruba_visitors.csv")
-```
 
-``` error
-Error in `read_csv()`:
-! could not find function "read_csv"
-```
-
-``` r
 annual_stayover <- visitors |>
   group_by(year) |>
   summarise(total_stayover = sum(visitors_stayover))
-```
 
-``` error
-Error in `summarise()`:
-! could not find function "summarise"
-```
-
-``` r
 ggplot(annual_stayover, aes(x = year, y = total_stayover)) +
   geom_col(fill = "#2c7bb6") +
   scale_y_continuous(labels = scales::comma) +
@@ -342,35 +321,13 @@ ggplot(annual_stayover, aes(x = year, y = total_stayover)) +
   theme_minimal()
 ```
 
-``` error
-Error in `ggplot()`:
-! could not find function "ggplot"
-```
+<img src="fig/06-reproducible-reporting-rendered-vis-demo-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Step 5: Interpretation with inline R
 
 Now write a paragraph that uses inline R to insert numbers directly:
 
 
-``` error
-Error in `read_csv()`:
-! could not find function "read_csv"
-```
-
-``` error
-Error in `summarise()`:
-! could not find function "summarise"
-```
-
-``` error
-Error:
-! object 'annual_stayover' not found
-```
-
-``` error
-Error:
-! object 'annual_stayover' not found
-```
 
 In your `.Rmd` file, you would write something like this:
 

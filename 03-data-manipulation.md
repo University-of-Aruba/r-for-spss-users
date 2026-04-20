@@ -67,6 +67,20 @@ dbl (7): year, visitors_stayover, visitors_cruise, avg_stay_nights, avg_spen...
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
+::::::::::::::::::::::::::::::::::::: callout
+
+## What is a dependency?
+
+A package in R is a bundle of code that someone else wrote so you do not have to. `tidyverse`, for example, is actually a collection of packages that work together for data manipulation and visualisation. When you use `library(tidyverse)`, R loads those packages into your session so their functions become available.
+
+A dependency is a package that another package needs in order to work. `tidyverse` depends on `dplyr`, `ggplot2`, `readr`, and several others. When you run `install.packages("tidyverse")`, R automatically installs everything it depends on too. You do not have to manage the chain manually.
+
+Two things this means in practice. First, the first time you install a package it can take a minute or two because R is pulling down the dependency chain. That is normal. Second, when you share your script with a colleague and they get an error like `there is no package called 'dplyr'`, the fix is almost always `install.packages("tidyverse")`, not `install.packages("dplyr")`, because the dependency lives inside the larger package.
+
+We come back to this in Episode 6 (reproducible reporting), where recording which packages your script needs is part of making sure it still runs six months from now.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 Here is the key idea: every SPSS menu operation you use for data manipulation
 has a dplyr verb equivalent.
 

@@ -48,6 +48,159 @@ library(broom)
 visitors <- read_csv("data/aruba_visitors.csv")
 ```
 
+### Checking normality
+
+Before running parametric tests like the t-test or ANOVA, you need to assess
+whether your data are approximately normally distributed. In SPSS, you would go
+to **Analyze > Descriptive Statistics > Explore**, move your variable to the
+"Dependent List", click "Plots", and check the "Normality plots with tests"
+box. R gives you the same tools -- and more control over how they look.
+
+#### Visual inspection: histogram and Q-Q plot
+
+You already know `ggplot2` from Episode 04, so let's use it. A histogram shows
+the shape of the distribution, and a Q-Q (quantile-quantile) plot compares your
+data to a theoretical normal distribution. If the points fall roughly along the
+diagonal line, the data are approximately normal.
+
+
+``` r
+# Iteration: 1
+# Histogram of average spending
+ggplot(visitors, aes(x = avg_spending_usd)) +
+  geom_histogram(bins = 20, fill = "#2a9d8f", color = "white", alpha = 0.8) +
+  labs(title = "Distribution of average spending",
+       x = "Average Spending (USD)",
+       y = "Count") +
+  theme_minimal()
+```
+
+<img src="fig/05-statistical-analysis-rendered-normality-histogram-1.png" alt="" style="display: block; margin: auto;" />
+
+
+``` r
+# Iteration: 1
+# Q-Q plot of average spending
+ggplot(visitors, aes(sample = avg_spending_usd)) +
+  stat_qq() +
+  stat_qq_line(color = "#e76f51", linewidth = 0.8) +
+  labs(title = "Q-Q plot of average spending",
+       x = "Theoretical quantiles",
+       y = "Sample quantiles") +
+  theme_minimal()
+```
+
+<img src="fig/05-statistical-analysis-rendered-normality-qq-1.png" alt="" style="display: block; margin: auto;" />
+
+Points that hug the diagonal line suggest normality. Systematic deviations --
+S-curves, banana shapes, or points flying off at the tails -- indicate
+non-normality.
+
+#### Shapiro-Wilk test
+
+The Shapiro-Wilk test is the formal statistical test for normality. The null
+hypothesis is that the data are normally distributed, so a significant p-value
+(< 0.05) means you reject normality.
+
+
+``` r
+# Iteration: 1
+shapiro.test(visitors$avg_spending_usd)
+```
+
+``` output
+
+	Shapiro-Wilk normality test
+
+data:  visitors$avg_spending_usd
+W = 0.93876, p-value = 3.534e-05
+```
+
+In SPSS, this same test appears in the "Tests of Normality" table when you
+check the normality plots option in Explore.
+
+#### When does normality actually matter?
+
+Parametric tests like the t-test and ANOVA assume normality, but they are
+surprisingly robust to violations of this assumption -- especially with larger
+samples. As a rough guide:
+
+- With **n > 30 per group**, the Central Limit Theorem means the sampling
+  distribution of the mean is approximately normal regardless of the data
+  distribution. The t-test and ANOVA will perform well.
+- With **small samples** (n < 15 per group), normality matters more. Consider
+  non-parametric alternatives (Wilcoxon test, Kruskal-Wallis) if the data are
+  clearly non-normal.
+- **Always look at the plots first.** The Shapiro-Wilk test is sensitive to
+  trivial deviations in large samples, so a significant p-value does not
+  necessarily mean parametric tests are inappropriate.
+
+The combination of visual inspection and the formal test gives you a complete
+picture -- far more useful than relying on either one alone.
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge: Check normality for satisfaction scores
+
+1. Create a histogram of `satisfaction_score` using `ggplot2`.
+2. Create a Q-Q plot of `satisfaction_score`.
+3. Run the Shapiro-Wilk test on `satisfaction_score`.
+4. Based on all three, would you feel comfortable running a parametric test on
+   this variable? Why or why not?
+
+:::::::::::::::::::::::: solution
+
+## Solution
+
+
+``` r
+# Iteration: 1
+# 1: Histogram
+ggplot(visitors, aes(x = satisfaction_score)) +
+  geom_histogram(bins = 15, fill = "#2a9d8f", color = "white", alpha = 0.8) +
+  labs(title = "Distribution of satisfaction scores",
+       x = "Satisfaction Score",
+       y = "Count") +
+  theme_minimal()
+```
+
+<img src="fig/05-statistical-analysis-rendered-challenge-normality-1.png" alt="" style="display: block; margin: auto;" />
+
+``` r
+# 2: Q-Q plot
+ggplot(visitors, aes(sample = satisfaction_score)) +
+  stat_qq() +
+  stat_qq_line(color = "#e76f51", linewidth = 0.8) +
+  labs(title = "Q-Q plot of satisfaction scores",
+       x = "Theoretical quantiles",
+       y = "Sample quantiles") +
+  theme_minimal()
+```
+
+<img src="fig/05-statistical-analysis-rendered-challenge-normality-2.png" alt="" style="display: block; margin: auto;" />
+
+``` r
+# 3: Shapiro-Wilk test
+shapiro.test(visitors$satisfaction_score)
+```
+
+``` output
+
+	Shapiro-Wilk normality test
+
+data:  visitors$satisfaction_score
+W = 0.97421, p-value = 0.02086
+```
+
+``` r
+# 4: Interpretation depends on the output. With n = 120, the t-test is
+# robust to moderate non-normality. Check whether the histogram looks
+# roughly symmetric and the Q-Q points stay close to the line.
+```
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 ### T-tests
 
 #### Independent-samples t-test
@@ -310,6 +463,199 @@ avg_spending_usd                  0.206              0.865
 hotel_occupancy_pct               1.000              0.575
 satisfaction_score                0.575              1.000
 ```
+
+### Chi-square test of independence
+
+All of the tests above work with numeric variables. When both variables are
+categorical, you need a different tool: the chi-square test of independence. In
+SPSS: **Analyze > Descriptive Statistics > Crosstabs**, move one variable to
+"Row(s)" and another to "Column(s)", then click "Statistics" and check the
+"Chi-square" box.
+
+#### Building a contingency table
+
+First, create a contingency table using `table()`. Let's test whether the
+distribution of visitor `origin` countries differs across `quarter`:
+
+
+``` r
+# Iteration: 1
+# Create the contingency table
+origin_quarter <- table(visitors$origin, visitors$quarter)
+origin_quarter
+```
+
+``` output
+               
+                Q1 Q2 Q3 Q4
+  Canada         5  5  5  5
+  Colombia       5  5  5  5
+  Netherlands    5  5  5  5
+  Other          5  5  5  5
+  United States  5  5  5  5
+  Venezuela      5  5  5  5
+```
+
+This is the same table you would see in the "Crosstabulation" output in SPSS.
+Each cell shows the observed count for that combination of origin and quarter.
+
+#### Running the chi-square test
+
+
+``` r
+# Iteration: 1
+chi_result <- chisq.test(origin_quarter)
+chi_result
+```
+
+``` output
+
+	Pearson's Chi-squared test
+
+data:  origin_quarter
+X-squared = 0, df = 15, p-value = 1
+```
+
+The output gives you three pieces of information, matching the SPSS
+"Chi-Square Tests" table:
+
+| SPSS output column         | R output              |
+|----------------------------|-----------------------|
+| Pearson Chi-Square value   | `X-squared`           |
+| df                         | `df`                  |
+| Asymp. Sig. (2-sided)     | `p-value`             |
+
+A significant p-value means the distribution of one variable depends on the
+other -- the row and column variables are not independent.
+
+#### Expected vs observed frequencies
+
+The expected frequencies tell you what the cell counts *would* look like if the
+two variables were completely independent. Comparing expected to observed is how
+you identify which cells are driving the result.
+
+
+``` r
+# Iteration: 1
+# Expected frequencies (what you'd see under independence)
+chi_result$expected |> round(1)
+```
+
+``` output
+               
+                Q1 Q2 Q3 Q4
+  Canada         5  5  5  5
+  Colombia       5  5  5  5
+  Netherlands    5  5  5  5
+  Other          5  5  5  5
+  United States  5  5  5  5
+  Venezuela      5  5  5  5
+```
+
+
+``` r
+# Iteration: 1
+# Standardized residuals -- large absolute values (> 2) flag notable cells
+chi_result$residuals |> round(2)
+```
+
+``` output
+               
+                Q1 Q2 Q3 Q4
+  Canada         0  0  0  0
+  Colombia       0  0  0  0
+  Netherlands    0  0  0  0
+  Other          0  0  0  0
+  United States  0  0  0  0
+  Venezuela      0  0  0  0
+```
+
+In SPSS, you would get these by checking "Expected" and "Standardized" under
+the "Cells" button in the Crosstabs dialog. Residuals greater than 2 or less
+than -2 point to cells where observed counts deviate substantially from what
+independence predicts.
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge: Chi-square analysis
+
+Create a new categorical variable called `spending_level` that classifies rows
+as "High" (above the median of `avg_spending_usd`) or "Low" (at or below the
+median). Then test whether `spending_level` is independent of `origin`.
+
+1. Create `spending_level` using `mutate()` and `if_else()`.
+2. Build a contingency table of `origin` by `spending_level`.
+3. Run `chisq.test()` and interpret the result.
+4. Examine the standardized residuals to see which origin countries spend more
+   (or less) than expected.
+
+:::::::::::::::::::::::: solution
+
+## Solution
+
+
+``` r
+# Iteration: 1
+# 1: Create spending_level
+visitors_spending <- visitors |>
+  mutate(spending_level = if_else(
+    avg_spending_usd > median(avg_spending_usd), "High", "Low"
+  ))
+
+# 2: Contingency table
+spending_table <- table(visitors_spending$origin,
+                        visitors_spending$spending_level)
+spending_table
+```
+
+``` output
+               
+                High Low
+  Canada          20   0
+  Colombia         0  20
+  Netherlands     18   2
+  Other            1  19
+  United States   20   0
+  Venezuela        0  20
+```
+
+``` r
+# 3: Chi-square test
+chi_spending <- chisq.test(spending_table)
+chi_spending
+```
+
+``` output
+
+	Pearson's Chi-squared test
+
+data:  spending_table
+X-squared = 109, df = 5, p-value < 2.2e-16
+```
+
+``` r
+# 4: Standardized residuals
+chi_spending$residuals |> round(2)
+```
+
+``` output
+               
+                 High   Low
+  Canada         3.24 -3.19
+  Colombia      -3.14  3.08
+  Netherlands    2.60 -2.56
+  Other         -2.82  2.77
+  United States  3.24 -3.19
+  Venezuela     -3.14  3.08
+```
+
+``` r
+# Positive residuals in the "High" column mean that origin country has
+# more high-spending rows than expected under independence.
+```
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Linear regression
 

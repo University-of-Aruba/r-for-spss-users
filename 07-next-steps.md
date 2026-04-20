@@ -75,6 +75,10 @@ screen:
 
 Find them all at: [https://posit.co/resources/cheatsheets/](https://posit.co/resources/cheatsheets/)
 
+### R Graph Gallery
+
+**R Graph Gallery** ([https://r-graph-gallery.com](https://r-graph-gallery.com)) is a searchable catalogue of ggplot2 examples with the full code for each one. When you know roughly what kind of chart you want but not the syntax to build it, this is where to start.
+
 ### Stack Overflow
 
 Stack Overflow has a massive collection of R questions and answers. When
@@ -275,6 +279,60 @@ aruba_data <- read_excel(temp_file)
 ```
 
 The same approach works for CBS Curacao ([https://www.cbs.cw](https://www.cbs.cw)).
+
+### Open datasets from the University of Aruba
+
+The University of Aruba maintains a small set of public reference
+datasets relevant to research on the Dutch Caribbean and small island
+states. Both are CSV files hosted on GitHub, so you can pull them into
+R directly without any package install.
+
+**Dutch Caribbean election results** at
+[github.com/University-of-Aruba/CAS_election_data](https://github.com/University-of-Aruba/CAS_election_data).
+A tidy-format dataset of votes by party for elections across Aruba
+(1985-2024), Curacao (2010-2025), and Sint Maarten (2010-2024). One row
+per party per election, with columns for `year`, `country`, `party`,
+and `votes`.
+
+
+``` r
+# Read the CSV directly from GitHub
+elections <- read.csv(
+  "https://raw.githubusercontent.com/University-of-Aruba/CAS_election_data/main/dutch_caribbean_elections.csv"
+)
+
+# Combined vote of the two main Aruban parties versus all others over time
+library(dplyr)
+elections |>
+  filter(country == "Aruba") |>
+  mutate(group = ifelse(party %in% c("MEP", "AVP"), "MEP & AVP", "Other")) |>
+  group_by(year, group) |>
+  summarise(votes = sum(votes), .groups = "drop") |>
+  arrange(year, group)
+```
+
+**Small island reference list** at
+[github.com/University-of-Aruba/island-research-reference-data](https://github.com/University-of-Aruba/island-research-reference-data).
+A country and territory list with classifications for SIDS, SNIJ, and
+World Bank region and income group. Designed for XLSForm survey tools
+(KoboToolbox, ODK), but equally useful as a lookup table to filter or
+join against any other dataset by country code.
+
+
+``` r
+# Filter to only Small Island Developing States
+library(dplyr)
+
+countries <- read.csv(
+  "https://raw.githubusercontent.com/University-of-Aruba/island-research-reference-data/main/countries/countries_reference_xlsform.csv"
+)
+
+sids <- countries |>
+  filter(is_sids == 1) |>
+  select(iso_code, label, wb_region, wb_income_group)
+
+head(sids)
+```
 
 ## Building a personal script library
 
