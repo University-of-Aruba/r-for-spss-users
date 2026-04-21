@@ -2,8 +2,8 @@
 title: "Opening sequence template"
 duration: "7 to 8 minutes of personal narrative, then into the page"
 fits_within: "Episode 01 — The case for switching"
-delivery: "Live and voice-driven. The Episode 1 page already shows one atmospheric scene image at the top and contains the live WDI demo as an embedded instructor block. The opening is a wrapper around that page, not a parallel performance."
-version: 5
+delivery: "Live and voice-driven. The Episode 1 page already shows one atmospheric scene image at the top and contains the live SIDS reference-list demo as an embedded instructor block. The opening is a wrapper around that page, not a parallel performance."
+version: 6
 ---
 
 # Opening sequence template
@@ -14,7 +14,7 @@ This file is a structural template, not a script. The opening of this workshop w
 
 Carpentries pedagogy values getting hands on the keyboard fast. A long opening burns that budget. The case for spending seven minutes on narrative anyway is that it gives the workshop a why. SPSS users about to be asked to learn an unfamiliar tool need a reason that goes beyond "it is free and open source." A brief, well-paced personal arc that names a moment of analytical failure and the move that resolved it earns the room's attention before any code appears.
 
-If you do not have a comparable personal arc, you can still teach this course well. Open with the page's introduction, deliver the cost-argument table and the R-vs-SPSS section straight, hand into the WDI demo. You will lose some of the attention premium but none of the content. Do not invent a story you have not lived.
+If you do not have a comparable personal arc, you can still teach this course well. Open with the page's introduction, deliver the cost-argument table and the R-vs-SPSS section straight, hand into the SIDS demo. You will lose some of the attention premium but none of the content. Do not invent a story you have not lived.
 
 ## The arc
 
@@ -62,9 +62,11 @@ End the personal arc with three workshop rules. The exact wording is yours; the 
 
 > Let's get started. Episode 1 is on the screen. The big questions for the next forty-five minutes are right there at the top: why switch, what does R give you that SPSS does not, and what does the cost actually look like. We will work through those together.
 
-Scroll to the cost-argument table. Walk through it briefly. Then through "What R gives you that SPSS does not." Brief is fine. Their eyes are on the page; you are providing colour, not narration.
+Scroll first to **What you will be able to produce**. This is the Friday-afternoon payoff: the Xander Bogaerts baseball statistics report that Episode 6 ends on. Hold up the finished PDF (printed or on a second screen) for five seconds. Do not open it, do not explain it. Name it: "By Friday afternoon you will produce something like this from one R Markdown file and one click." Move on. [TODO: the template at `episodes/files/xander-bogaerts-report-template.Rmd` is still pending. Until it lands, show a printed mock or describe the finish line in one sentence without holding anything up.]
 
-When you reach the **Live demonstration** heading, switch to RStudio and follow the embedded instructor block on the page (`:::: instructor` ... `::::`). It contains the full script: WDI tourism arrivals for AW, CW, SX, the ggplot2 chart, the SPSS contrast walkthrough. **Do not improvise a different demo here.** The page is the script.
+Then scroll to the cost-argument table. Walk through it briefly. Then through "What R gives you that SPSS does not." Brief is fine. Their eyes are on the page; you are providing colour, not narration.
+
+When you reach the **Live demonstration** heading, switch to RStudio and follow the embedded instructor block on the page (`:::: instructor` ... `::::`). It contains the full script: a `read_csv()` pull of the UA island-research SIDS reference list straight from GitHub, a filter-count-ggplot pipeline charting SIDS by World Bank region, and the SPSS contrast walkthrough. **Do not improvise a different demo here.** The page is the script.
 
 After the demo, deliver the page's summary in your own words and break for fifteen.
 
@@ -76,11 +78,11 @@ Day 1 close: re-ask the question from your cold open, this time to the room. Dif
 
 Day 2 close: return to your thesis line. Pose it back to them as something they can now respond to with their own scripts. Close on the silence.
 
-## Why this script does not contain a separate wow demo
+## Why the demo is the SIDS pull, not WDI
 
-Earlier versions scripted a second demo at minute forty-five (a `read_csv` from a UA GitHub repo). That demo competed with the WDI tourism demo already on the Episode 1 page. Two demos for one moment splits attention and makes one of them feel redundant. The page already has the wow built in: a live API pull, a publication-quality chart in ten lines, and a side-by-side with the SPSS clicking workflow. Lean on that.
+Earlier versions of the Episode 1 demo used `WDI::WDI()` to pull tourism arrivals for Aruba, Curacao, and Sint Maarten. That series is missing 2019 through 2023 on the World Bank side, which quietly undercuts the "fresh data" argument the demo is supposed to make. The current demo is a three-line `read_csv()` from the UA-maintained `island-research-reference-data` GitHub repo, charted by World Bank region. The wow is less "look what R can pull from an API" and more "look what R can pull straight from the data layer the network maintains." Name that in your own words during the walkthrough.
 
-The UA GitHub datasets (election data, island reference data) are introduced in Episode 7, not Episode 1. Resist the urge to preview them here.
+The CAS_election_data repo at github.com/University-of-Aruba/ is still Episode 7 material. Resist the urge to preview it here.
 
 ## On the scene images
 
@@ -90,9 +92,9 @@ Each episode's lesson page already opens with one atmospheric scene image (`fig/
 
 The Episode 1 page open in the browser, scrolled to the top.
 
-RStudio already open with `WDI`, `ggplot2`, and `scales` installed and loaded, a blank script visible. The packages list is in the page's instructor block; install before the workshop, do not improvise on the day.
+RStudio already open with `tidyverse` installed and loaded, a blank script visible. The package list is in the page's instructor block; install before the workshop, do not improvise on the day.
 
-A backup `tourism` CSV on the desktop with the WDI data pre-pulled, in case the Wi-Fi is unreliable. The page's instructor block tells you what to load it as.
+The backup CSV is committed to the repo at `episodes/data/countries_backup.csv`. If Wi-Fi drops during the demo, swap the `read_csv()` URL for the local path as shown in the page's instructor block.
 
 The FAQ card printed and placed next to your laptop, face down.
 
@@ -108,6 +110,6 @@ Do not skip the silence after the failure-moment punchline, and do not skip the 
 
 Do not flip between slides during the opening. The Episode 1 page sets the visual frame. Beyond that, you are the medium.
 
-Do not improvise a second demo on top of the page's WDI demo. One wow per moment. The page's demo is the wow.
+Do not improvise a second demo on top of the page's SIDS demo. One wow per moment. The page's demo is the wow.
 
 Do not perform someone else's personal narrative. If you are adapting this course and the previous instructor's opening is on file, use it as a structural reference, not a script. Bring your own.
