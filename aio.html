@@ -419,14 +419,28 @@ write any code yourself yet — sit back and watch the instructor
 demonstrate what R can do. By the end, you should have a clear picture
 of <em>why</em> learning R is worth the investment of your time.</p>
 <div class="section level3">
+<h3 id="what-you-will-be-able-to-produce">What you will be able to produce<a class="anchor" aria-label="anchor" href="#what-you-will-be-able-to-produce"></a>
+</h3>
+<p>By Friday afternoon you will be able to take a single R Markdown file
+and produce a polished, multi-page PDF report from it with one command.
+The worked example we will return to is a baseball statistics report on
+Xander Bogaerts, Aruba’s MLB star — the kind of document that would
+ordinarily take an afternoon of copy-paste between Excel, SPSS output,
+and Word, but that here is one file and one click. You will see the
+finished report in this opening so you know what you are aiming at. In
+Episode 6 you will build a smaller version of the same thing
+yourself.</p>
+</div>
+<div class="section level3">
 <h3 id="what-you-will-see">What you will see<a class="anchor" aria-label="anchor" href="#what-you-will-see"></a>
 </h3>
 <p>The instructor will demonstrate four things that are impossible or
 impractical in SPSS:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Pulling live data from the World Bank</strong> for Aruba,
-Curacao, and Sint Maarten — directly from R, no browser required.</li>
+<strong>Pulling a live research dataset</strong> — the DCDC
+Network’s small-island reference list, maintained on GitHub at the
+University of Aruba — straight into R, no browser required.</li>
 <li>
 <strong>Creating a publication-quality chart</strong> in under 10
 lines of code.</li>
@@ -1042,7 +1056,7 @@ separately.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1297,7 +1311,7 @@ line.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1466,7 +1480,7 @@ can put one function inside another.)</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5147,7 +5161,7 @@ highest average spending)</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Here is one way to approach it. Your file would look like this:</p>
 <pre><code>---
@@ -5205,6 +5219,22 @@ This group also has an average satisfaction score of
 </div>
 </div>
 </div>
+</section><section><h2 class="section-heading" id="capstone-a-full-report-from-one-command">Capstone: a full report from one command<a class="anchor" aria-label="anchor" href="#capstone-a-full-report-from-one-command"></a>
+</h2>
+<hr class="half-width">
+<!-- TODO: add episodes/files/xander-bogaerts-report-template.Rmd — the
+     full multi-page R Markdown capstone referenced in Episode 1's opening.
+     Scaffold only for now; template to be written closer to delivery. --><p>The capstone of this course is a single R Markdown file that produces
+a polished, multi-page PDF report at the press of the Knit button. The
+worked example is the Xander Bogaerts baseball statistics report you saw
+in Episode 1’s opening — the same file, opened now with the skills from
+this episode in hand.</p>
+<p>The full template lives at
+<code>episodes/files/xander-bogaerts-report-template.Rmd</code>. The
+instructor will walk through its structure: a YAML header, a hidden
+setup chunk, a small number of analysis chunks, and prose with inline R
+for the narrative numbers. Everything above in this episode is inside
+that template — the capstone is assembly, not new material.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>

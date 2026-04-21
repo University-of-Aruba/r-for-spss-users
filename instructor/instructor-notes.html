@@ -641,99 +641,123 @@ any links that you are not going to use.
 <a href="01-why-r.html#headingInstructor1">Live demo script</a><a class="anchor" aria-label="anchor" href="#01-why-r-headingInstructor1"></a>
 </h3>
 <p>This is the complete script to run live. <strong>Practice this before
-the workshop.</strong> Make sure you have the <code>WDI</code>,
-<code>ggplot2</code>, and <code>scales</code> packages installed.</p>
+the workshop.</strong> Make sure <code>tidyverse</code> is installed —
+everything we need for the demo comes with it.</p>
 <div class="section level3">
-<h3 id="step-1-pull-live-world-bank-data">Step 1: Pull live World Bank data<a class="anchor" aria-label="anchor" href="#step-1-pull-live-world-bank-data"></a>
+<h3 id="step-1-frame-the-source-before-you-type">Step 1: Frame the source before you type<a class="anchor" aria-label="anchor" href="#step-1-frame-the-source-before-you-type"></a>
+</h3>
+<p>Before the first keystroke, name what the room is about to see. The
+CSV about to load is in a GitHub repository maintained at the University
+of Aruba — <code>island-research-reference-data</code> — part of the
+DCDC Network’s shared infrastructure for island research. It is not a
+third-party service you hope stays up. It is research data the network
+owns and curates. That framing matters: the “wow” is not just that R can
+read a URL. It is that the data layer underneath belongs to us.</p>
+</div>
+<div class="section level3">
+<h3 id="step-2-pull-the-sids-reference-list">Step 2: Pull the SIDS reference list<a class="anchor" aria-label="anchor" href="#step-2-pull-the-sids-reference-list"></a>
 </h3>
 <p>Open a new R script in RStudio and type (or paste) the following. Run
-it line by line so participants can see each step.</p>
+it line by line so participants can watch each step.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install packages if needed (do this BEFORE the workshop)</span></span>
-<span><span class="co"># install.packages(c("WDI", "ggplot2", "scales"))</span></span>
+<code class="sourceCode R"><span><span class="co"># Load packages (install tidyverse once, before the workshop)</span></span>
+<span><span class="co"># install.packages("tidyverse")</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Load packages</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">WDI</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">scales</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Pull international tourism arrivals for three Dutch Caribbean islands</span></span>
-<span><span class="va">tourism</span> <span class="op">&lt;-</span> <span class="fu">WDI</span><span class="op">(</span></span>
-<span>  country   <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"AW"</span>, <span class="st">"CW"</span>, <span class="st">"SX"</span><span class="op">)</span>,</span>
-<span>  indicator  <span class="op">=</span> <span class="st">"ST.INT.ARVL"</span>,</span>
-<span>  start      <span class="op">=</span> <span class="fl">2010</span>,</span>
-<span>  end        <span class="op">=</span> <span class="fl">2023</span></span>
+<span><span class="co"># Pull the UA island-research reference list straight from GitHub</span></span>
+<span><span class="va">countries</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span></span>
+<span>  <span class="st">"https://raw.githubusercontent.com/University-of-Aruba/island-research-reference-data/main/countries/countries_reference_xlsform.csv"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Quick look at what we got</span></span>
-<span><span class="fu">head</span><span class="op">(</span><span class="va">tourism</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">head</span><span class="op">(</span><span class="va">countries</span><span class="op">)</span></span></code></pre>
 </div>
-<p>Pause here. Point out: “We just downloaded World Bank data for three
-countries in two lines of code. No browser, no manual download, no
-copy-paste.”</p>
+<p>Pause. Point out: “No browser. No download dialog. No save-as. The
+file is now a live object in my session, with over a dozen columns per
+country.”</p>
 </div>
 <div class="section level3">
-<h3 id="step-2-create-a-publication-quality-chart">Step 2: Create a publication-quality chart<a class="anchor" aria-label="anchor" href="#step-2-create-a-publication-quality-chart"></a>
+<h3 id="step-3-filter-to-sids-and-chart-by-region">Step 3: Filter to SIDS and chart by region<a class="anchor" aria-label="anchor" href="#step-3-filter-to-sids-and-chart-by-region"></a>
 </h3>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">tourism</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">ST.INT.ARVL</span>, colour <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_y_continuous</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">label_comma</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="va">countries</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">is_sids</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">wb_region</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu">reorder</span><span class="op">(</span><span class="va">wb_region</span>, <span class="va">n</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#44759e"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
-<span>    title    <span class="op">=</span> <span class="st">"International Tourism Arrivals"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Aruba, Curacao, and Sint Maarten (2010-2023)"</span>,</span>
-<span>    x        <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>    y        <span class="op">=</span> <span class="st">"Arrivals"</span>,</span>
-<span>    colour   <span class="op">=</span> <span class="st">"Country"</span>,</span>
-<span>    caption  <span class="op">=</span> <span class="st">"Source: World Bank (WDI)"</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Small island developing states by World Bank region"</span>,</span>
+<span>    x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Number of SIDS"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_minimal</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">14</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Pause again. Key talking points:</p>
 <ul>
-<li>“This chart is ready for a journal or a policy report.”</li>
-<li>“If the World Bank updates the data next month, I re-run this script
-and get an updated chart. No re-clicking through menus.”</li>
-<li>“Every choice — colours, labels, layout — is documented in the
-code.”</li>
+<li>“This chart is ready for a report as-is. Title, axis labels, colour,
+proportions — all set in code.”</li>
+<li>“If the UA team adds a country to the reference list tomorrow, I
+re-run this script and the chart updates. No re-click, no
+re-export.”</li>
+<li>“Every editorial choice — what counts as a SIDS, which region goes
+where — is traceable, because the definitions sit in the source CSV you
+just pulled.”</li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="step-3-show-the-contrast-with-spss">Step 3: Show the contrast with SPSS<a class="anchor" aria-label="anchor" href="#step-3-show-the-contrast-with-spss"></a>
+<h3 id="step-4-show-the-contrast-with-spss">Step 4: Show the contrast with SPSS<a class="anchor" aria-label="anchor" href="#step-4-show-the-contrast-with-spss"></a>
 </h3>
-<p>Ask the audience: “How would you do this in SPSS?”</p>
-<p>Walk through the SPSS steps:</p>
+<p>Ask the audience: “How would you have done this in SPSS?”</p>
+<p>Walk through it slowly. Make it sting a little — this is the moment
+the cost of the current workflow lands.</p>
 <ol style="list-style-type: decimal">
-<li>Open browser, navigate to World Bank data portal</li>
-<li>Search for the indicator, select countries, download CSV</li>
-<li>Open SPSS, File &gt; Open &gt; Data, navigate to the CSV</li>
-<li>Graphs &gt; Chart Builder &gt; Line chart, drag variables</li>
-<li>Double-click chart to edit titles, colours, fonts</li>
-<li>Copy to clipboard, paste into Word</li>
+<li>Go looking for a canonical SIDS list. UN-OHRLLS? UN DESA? A
+supplementary table from a recent paper? Pick one and hope it is
+current.</li>
+<li>If you cannot find a clean download, email a colleague who might
+have one saved somewhere. Wait for a reply. Half a day, on a good
+day.</li>
+<li>Open the CSV you eventually receive. Discover that “Cabo Verde” and
+“Cape Verde” are different strings, that some country codes are ISO-2
+and others ISO-3, that one row has a stray trailing comma. Clean by
+hand.</li>
+<li>Import the cleaned file into SPSS. Recode the region variable
+because whatever classification the file uses does not match World Bank
+regions.</li>
+<li>
+<strong>Analyze &gt; Descriptive Statistics &gt;
+Frequencies</strong> on region. Copy the output table.</li>
+<li>
+<strong>Graphs &gt; Chart Builder</strong>, drag variables, format
+the chart, copy, paste into Word.</li>
 </ol>
-<p>Then say: “That is about 15 minutes of clicking. In R it was 10 lines
-of code that you can re-run in 3 seconds.”</p>
+<p>Then say: “That is half a morning, on a good day, assuming the
+colleague replies and the file is clean. In R it was six lines and ten
+seconds — from a dataset the DCDC Network maintains, so the next person
+who needs it gets the same clean answer.”</p>
 </div>
 <div class="section level3">
 <h3 id="backup-plan">Backup plan<a class="anchor" aria-label="anchor" href="#backup-plan"></a>
 </h3>
-<p>If the internet is unavailable (common in workshop venues), have a
-saved version of the <code>tourism</code> data frame as a CSV. Load it
-with:</p>
+<p>If the Wi-Fi is unreliable, the same CSV is saved locally at
+<code>episodes/data/countries_backup.csv</code>. Swap the
+<code>read_csv()</code> call for the local path:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tourism</span> <span class="op">&lt;-</span> <span class="fu">read.csv</span><span class="op">(</span><span class="st">"backup_tourism_data.csv"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">countries</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/countries_backup.csv"</span><span class="op">)</span></span></code></pre>
 </div>
-<p>Then proceed with the ggplot2 code as normal.</p>
+<p>Then proceed with the
+<code>filter() |&gt; count() |&gt; ggplot()</code> pipeline as
+normal.</p>
 </div>
 <hr>
 <br></section><section id="02-first-r-session"><h2 class="section-heading"><a href="02-first-r-session.html">Your First R Session</a></h2>
