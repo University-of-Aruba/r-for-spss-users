@@ -121,3 +121,38 @@ ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
 
 If a scatter plot appears in the Plots pane, everything is working. Bring any
 errors you see to the installation clinic or email the instructor.
+
+## Download the workshop data
+
+From Episode 2 onwards you will load the same small dataset in two different
+formats — first as a CSV file, then as an Excel workbook with multiple sheets.
+Download **both** files now and keep them together.
+
+- [aruba_visitors.csv](https://github.com/University-of-Aruba/r-for-spss-users/blob/main/episodes/data/aruba_visitors.csv) — plain-text version (one flat table of 120 rows)
+- [aruba_visitors.xlsx](https://github.com/University-of-Aruba/r-for-spss-users/raw/main/episodes/data/aruba_visitors.xlsx) — Excel version, two sheets: `stayover` and `cruise`
+
+Open each link in your browser, then click the **Download raw file** button
+near the top right of the preview and save the file. Do not open the CSV in
+Excel and re-save — that can silently change the encoding.
+
+### Where to put the files
+
+Create a folder for the workshop, for example `Documents/r-workshop/`, and
+inside it create a subfolder called `data`. Drop both files into `data`.
+Your structure should look like this:
+
+```
+r-workshop/
+└── data/
+    ├── aruba_visitors.csv
+    └── aruba_visitors.xlsx
+```
+
+When you open RStudio during the course, use **File → Open Project** to open
+`r-workshop` (or set your working directory to the folder). The code in the
+lessons assumes this layout, so `read_csv("data/aruba_visitors.csv")` and
+`read_excel("data/aruba_visitors.xlsx")` both find their files without any
+extra path work.
+
+If you cannot download the files in advance, we will walk through this step
+together at the start of Episode 2. Bring the two links.

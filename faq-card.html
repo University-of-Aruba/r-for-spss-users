@@ -100,7 +100,7 @@
   <div>
     <div class="tag" style="color:#dee3c8;">R for SPSS users · DCDC Network</div>
     <h1>Questions you will get asked</h1>
-    <div class="sub">Five answers, pre-written. Pick up the card, deliver the answer, move on.</div>
+    <div class="sub">Six answers, pre-written. Pick up the card, deliver the answer, move on.</div>
   </div>
   <div class="note">
     Having this printed and face-down next to your laptop is a tell that you expected the question. That earns credibility. Do not improvise on AI or data privacy — the short answers on this card are sharper than anything you will produce under time pressure.
@@ -110,6 +110,7 @@
       <li>Why R if AI writes the code anyway</li>
       <li>Why R instead of staying with SPSS</li>
       <li>What to do with your existing .sav files</li>
+      <li>Classification coding (ISIC, ISCO) on sensitive labour data</li>
     </ol>
   </div>
 </div>
@@ -171,6 +172,18 @@
   <p class="body">One line: <code style="font-family: Consolas, Menlo, monospace; background: #f4f2ec; padding: 1px 4px; border-radius: 2px;">data &lt;- haven::read_sav("myfile.sav")</code>. Your variable labels, value labels, and missing value codes come along. Nothing is lost in translation, and you can keep SPSS open next to RStudio for as long as you need the comfort of the familiar interface.</p>
   <p class="body">The longer-term move is toward CSV as the storage format, because it is open, universal, and version-control friendly. But that is a choice for later, not a prerequisite for today.</p>
   <p class="footnote">Show the haven one-liner in Episode 2 or Episode 3 when the question actually comes up.</p>
+</div>
+
+<div class="card">
+  <div class="label-row">
+    <span class="tag number">06</span>
+    <span class="tag">classification · expect from civil servants</span>
+  </div>
+  <h1>We code ISIC and ISCO in SPSS syntax. How do we do that in R?</h1>
+  <p class="short">An R script is the direct equivalent of an SPSS syntax file — only auditable in git. And for ISIC/ISCO specifically, the R pattern is not a long chain of recodes: it is a join to a lookup table, which is simpler and less error-prone.</p>
+  <p class="body">In SPSS, classification coding usually means a long <code style="font-family: Consolas, Menlo, monospace; background: #f4f2ec; padding: 1px 4px; border-radius: 2px;">RECODE</code> or <code style="font-family: Consolas, Menlo, monospace; background: #f4f2ec; padding: 1px 4px; border-radius: 2px;">DO IF</code> block in a .sps file, maintained by hand. The equivalent R script does the same work more explicitly: you hold your labour dataset in one tibble and the ISIC or ISCO code list in another, and you join them with <code style="font-family: Consolas, Menlo, monospace; background: #f4f2ec; padding: 1px 4px; border-radius: 2px;">dplyr::left_join()</code>. One line. Every code gets its description attached, and any code that doesn't match shows up as NA — which is exactly the error you want to catch early.</p>
+  <p class="body">The canonical ISIC or ISCO list itself is just a CSV file. Keep one copy on your network drive, SharePoint, or wherever your team already shares documents. Every analyst reads from the same file, so the codes stay consistent across the department. When UN Statistics moves from ISIC Rev. 4 to Rev. 5, one person updates the file and every script picks up the new codes on the next run — no copy-pasting revised recodes into five people's .sps files. Teams that want full version history and an audit trail later graduate to hosting the file on a platform like GitHub, but that is a next step, not a prerequisite.</p>
+  <p class="footnote">Privacy: the actual labour microdata stays on your laptop. R does not send rows anywhere. Read your existing .sav files with <code style="font-family: Consolas, Menlo, monospace; background: #f4f2ec; padding: 1px 4px; border-radius: 2px;">haven::read_sav()</code> — the variable labels and missing-value codes come along intact.</p>
 </div>
 
 </body>
