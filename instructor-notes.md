@@ -24,13 +24,14 @@ Key principles:
 
 | Episode | Time | Notes |
 |---|---|---|
-| 01 - The Case for Switching | 45 min | Instructor demo only, no participant coding. Demo is the UA SIDS reference-list pull from `island-research-reference-data` (see Episode 1 instructor block). Also shows the Xander Bogaerts capstone PDF as the Friday-afternoon target — template pending, use a printed mock or describe it if the file is not ready. |
+| 01 - The Case for Switching | 45 min | Instructor demo only, no participant coding. Demo is the UA SIDS reference-list pull from `island-research-reference-data` (see Episode 1 instructor block). Also shows the Xander Bogaerts capstone HTML as the Friday-afternoon target — rendered version at `episodes/files/xander-bogaerts-report.html` and source at `episodes/files/xander-bogaerts-report-template.Rmd`. |
 | Break | 15 min | |
-| 02 - Your First R Session | 90 min | First hands-on. Go slow. Many will struggle with typos. |
+| 02 - Your First R Session | 90 min | First hands-on. Go slow. Many will struggle with typos. The "Before you import — set up your workshop folder" subsection is a deliberate whole-room synchronized moment: project the download links on the screen, wait for green stickies in the Files pane before typing `read_csv()`. |
 | Break | 15 min | |
 | 03 - Data Manipulation | 90 min | The pipe operator is the key "aha" moment |
 | Break | 15 min | |
 | 04 - Visualization | 60 min | End on a high — everyone leaves with a beautiful chart |
+| Wrap-up + homework brief | 15 min | Project the [homework page](../learners/homework.md) on the screen. Walk through the four-step assignment out loud. Tell participants the page URL is bookmarked under "For Learners → Homework brief" on the course site so they can open it on any device overnight. Emphasise: 30–60 minutes is enough, do not attempt R Markdown yet (that is Day 2). Bring the script to Day 2 open lab. |
 
 ### Session 2 (5-6 hours with breaks)
 

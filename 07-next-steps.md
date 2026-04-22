@@ -423,26 +423,10 @@ keep building your skills.
 
 ## Between-session practice assignment
 
-Between Session 3 (April 22) and Session 4 (April 24), try the following
-to reinforce what you have learned:
-
-1. **Pick a dataset you work with regularly** (it can be an Excel file, a CSV
-   export from SPSS, or anything else).
-
-2. **Write an R script** that:
-   - Imports the data
-   - Cleans or filters it in at least one way
-   - Creates a summary table
-   - Produces one visualization
-
-3. **Bonus:** Turn your script into an **R Markdown report** and knit it to
-   Word.
-
-4. **Bring your script to Session 4.** We will use the last session for
-   troubleshooting your own projects and answering questions.
-
-Do not worry about making it perfect. The goal is to practice the workflow ---
-import, transform, visualize, report --- with data that is meaningful to you.
+The between-session practice assignment is a separate page so it can be
+handed to you at the end of Day 1 and opened from any device overnight.
+See the [Homework brief](../instructor/homework.html) under the "For
+Learners" menu of this site.
 
 ::::::::::::::::::::::::::::::::::::: challenge
 

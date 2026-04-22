@@ -33,7 +33,7 @@ material.
 | 13:00 – 14:30 | [Episode 3 — Data manipulation](03-data-manipulation.html)         |
 | 14:30 – 14:45 | *Afternoon break*                                                  |
 | 14:45 – 15:45 | [Episode 4 — Your first visualization](04-visualization.html)      |
-| 15:45 – 16:00 | Wrap-up and homework brief                                         |
+| 15:45 – 16:00 | Wrap-up and [homework brief](instructor/homework.html)             |
 
 ### Day 2 · Thursday 24 April
 
