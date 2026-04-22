@@ -152,6 +152,65 @@ Analogy: `install.packages()` is buying a book and putting it on your shelf.
 
 ## Importing data
 
+### Before you import — set up your workshop folder
+
+R can read a file from the internet, and we saw that in Episode 1. In daily
+work you will more often read from a file that already lives on your
+computer — on a shared drive, in a project folder, next to your script. We
+will do that here.
+
+Three short steps, and then every `read_csv()` line in the rest of the course
+will just work.
+
+**1. Download the two course datasets.** Later in this episode we compare
+loading the same data from a CSV file and from an Excel file. Download both
+now. Open each link in your browser and click the **Download raw file**
+button near the top right of the preview:
+
+- [aruba_visitors.csv](https://github.com/University-of-Aruba/r-for-spss-users/blob/main/episodes/data/aruba_visitors.csv) — the plain-text version (one flat table)
+- [aruba_visitors.xlsx](https://github.com/University-of-Aruba/r-for-spss-users/raw/main/episodes/data/aruba_visitors.xlsx) — the Excel version, with two sheets: `stayover` and `cruise`
+
+Do not open the CSV in Excel and re-save — that can silently change the
+encoding. Just save both files as they are.
+
+**2. Create an RStudio project.** In RStudio, go to
+**File → New Project → New Directory → New Project**. Name the directory
+`r-workshop` and save it somewhere you can find again (your Documents folder
+or Desktop is fine). RStudio will open a fresh session with this folder as
+its working directory.
+
+**3. Put the CSV where R expects to find it.** Inside your `r-workshop`
+project folder, create a subfolder called `data` (lower-case, no spaces).
+Move the downloaded `aruba_visitors.csv` into it. Your structure should look
+like this:
+
+```
+r-workshop/
+├── r-workshop.Rproj
+└── data/
+    ├── aruba_visitors.csv
+    └── aruba_visitors.xlsx
+```
+
+In RStudio's Files pane (bottom-right), click into the `data` folder. If
+you see `aruba_visitors.csv`, you are ready. Green sticky note.
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## Why a project folder?
+
+A project folder answers the single most common beginner error in R: "R
+cannot find my file." The file path `"data/aruba_visitors.csv"` is read
+relative to R's current working directory. When you open a project, RStudio
+automatically sets the working directory to the project folder, so the path
+works. Without a project, R's working directory could be anywhere — usually
+somewhere unhelpful like your Documents folder — and the file is not found.
+
+Projects also keep scripts, data, and outputs organised in one place you
+can hand to a colleague or archive at the end of an engagement.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 ### CSV files with `read_csv()`
 
 The most common data format in R is CSV (comma-separated values). The
@@ -351,8 +410,15 @@ table(visitors$year, visitors$origin)
 - When loading tidyverse, the startup messages can be alarming to beginners.
   Reassure them that the "Attaching packages" and "Conflicts" messages are
   normal and expected.
-- For `read_csv()`, make sure everyone has the data file in the right place.
-  This is the most common point of failure. Walk around and check.
+- Do the **"Before you import — set up your workshop folder"** subsection
+  as a whole-room moment, not as reading. Project the CSV download page,
+  walk everyone through the browser download, the New Project dialog, and
+  creating the `data` subfolder. Wait for green sticky notes in the Files
+  pane before typing `read_csv()`. This is the most common point of failure
+  in the course and it is worth five deliberate minutes up front to avoid
+  twenty scattered minutes of troubleshooting later.
+- If a participant cannot download (blocked network, locked laptop), have a
+  USB stick or shared-drive copy of `aruba_visitors.csv` ready as fallback.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
