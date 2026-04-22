@@ -603,12 +603,74 @@ shelf and opening it.</p>
 </div>
 </section><section><h2 class="section-heading" id="importing-data">Importing data<a class="anchor" aria-label="anchor" href="#importing-data"></a></h2>
 <hr class="half-width"><div class="section level3">
+<h3 id="before-you-import-set-up-your-workshop-folder">Before you import — set up your workshop folder<a class="anchor" aria-label="anchor" href="#before-you-import-set-up-your-workshop-folder"></a></h3>
+<p>R can read a file from the internet, and we saw that in Episode 1. In
+daily work you will more often read from a file that already lives on
+your computer — on a shared drive, in a project folder, next to your
+script. We will do that here.</p>
+<p>Three short steps, and then every <code>read_csv()</code> line in the
+rest of the course will just work.</p>
+<p><strong>1. Download the two course datasets.</strong> Later in this
+episode we compare loading the same data from a CSV file and from an
+Excel file. Download both now. Open each link in your browser and click
+the <strong>Download raw file</strong> button near the top right of the
+preview:</p>
+<ul><li>
+<a href="https://github.com/University-of-Aruba/r-for-spss-users/blob/main/episodes/data/aruba_visitors.csv" class="external-link">aruba_visitors.csv</a>
+— the plain-text version (one flat table)</li>
+<li>
+<a href="https://github.com/University-of-Aruba/r-for-spss-users/raw/main/episodes/data/aruba_visitors.xlsx" class="external-link">aruba_visitors.xlsx</a>
+— the Excel version, with two sheets: <code>stayover</code> and
+<code>cruise</code>
+</li>
+</ul><p>Do not open the CSV in Excel and re-save — that can silently change
+the encoding. Just save both files as they are.</p>
+<p><strong>2. Create an RStudio project.</strong> In RStudio, go to
+<strong>File → New Project → New Directory → New Project</strong>. Name
+the directory <code>r-workshop</code> and save it somewhere you can find
+again (your Documents folder or Desktop is fine). RStudio will open a
+fresh session with this folder as its working directory.</p>
+<p><strong>3. Put the CSV where R expects to find it.</strong> Inside
+your <code>r-workshop</code> project folder, create a subfolder called
+<code>data</code> (lower-case, no spaces). Move the downloaded
+<code>aruba_visitors.csv</code> into it. Your structure should look like
+this:</p>
+<pre><code>r-workshop/
+├── r-workshop.Rproj
+└── data/
+    ├── aruba_visitors.csv
+    └── aruba_visitors.xlsx</code></pre>
+<p>In RStudio’s Files pane (bottom-right), click into the
+<code>data</code> folder. If you see <code>aruba_visitors.csv</code>,
+you are ready. Green sticky note.</p>
+<div id="why-a-project-folder" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="why-a-project-folder" class="callout-inner">
+<h3 class="callout-title">Why a project folder?</h3>
+<div class="callout-content">
+<p>A project folder answers the single most common beginner error in R:
+“R cannot find my file.” The file path
+<code>"data/aruba_visitors.csv"</code> is read relative to R’s current
+working directory. When you open a project, RStudio automatically sets
+the working directory to the project folder, so the path works. Without
+a project, R’s working directory could be anywhere — usually somewhere
+unhelpful like your Documents folder — and the file is not found.</p>
+<p>Projects also keep scripts, data, and outputs organised in one place
+you can hand to a colleague or archive at the end of an engagement.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section level3">
 <h3 id="csv-files-with-read_csv">CSV files with <code>read_csv()</code>
 <a class="anchor" aria-label="anchor" href="#csv-files-with-read_csv"></a></h3>
 <p>The most common data format in R is CSV (comma-separated values). The
 <code>readr</code> package (loaded as part of <code>tidyverse</code>)
 provides <code>read_csv()</code>:</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -635,7 +697,7 @@ Data</strong> and checking the variable types.</p>
 <a class="anchor" aria-label="anchor" href="#spss--sav-files-with-haven"></a></h3>
 <p>If you have existing SPSS datasets, the <code>haven</code> package
 reads them directly — including variable labels and value labels:</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -655,7 +717,7 @@ international organizations. In SPSS, you would import these through
 <strong>File &gt; Open &gt; Data</strong> and select the Excel file type
 from the dropdown. In R, the <code>readxl</code> package handles
 this.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -663,7 +725,7 @@ this.</p>
 <span><span class="co"># Install once if needed</span></span>
 <span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"readxl"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -676,7 +738,7 @@ this.</p>
 <p>If your Excel file has multiple sheets, use the <code>sheet</code>
 argument to specify which one you want – either by name or by
 position:</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -689,7 +751,7 @@ position:</p>
 </div>
 <p>You can also read a specific cell range with the <code>range</code>
 argument, which is useful when the data does not start at cell A1:</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -744,7 +806,7 @@ separately.</p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -771,7 +833,7 @@ you would do in SPSS.</p>
 <div class="section level3">
 <h3 id="view-the-data-view-equivalent">
 <code>View()</code> — the Data View equivalent<a class="anchor" aria-label="anchor" href="#view-the-data-view-equivalent"></a></h3>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -784,7 +846,7 @@ View. You can scroll, sort columns by clicking headers, and filter.
 <div class="section level3">
 <h3 id="head-see-the-first-few-rows">
 <code>head()</code> — see the first few rows<a class="anchor" aria-label="anchor" href="#head-see-the-first-few-rows"></a></h3>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -815,7 +877,7 @@ look. By default it shows 6 rows. You can change that:
 <p>In SPSS, you would switch to <strong>Variable View</strong> to see
 variable names, types, and labels. In R, <code>str()</code> does the
 same thing:</p>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -859,7 +921,7 @@ same thing:</p>
 <a class="anchor" aria-label="anchor" href="#glimpse-a-tidyverse-alternative-to-str"></a></h3>
 <p>The <code>glimpse()</code> function from <code>dplyr</code> gives
 similar information in a tidier format:</p>
-<div class="codewrapper sourceCode" id="cb28">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -886,7 +948,7 @@ $ satisfaction_score  &lt;dbl&gt; 8.1, 7.9, 7.5, 7.7, 8.0, 7.6, 8.0, 7.8, 7.4, 7
 <code>summary()</code> — Descriptives in one command<a class="anchor" aria-label="anchor" href="#summary-descriptives-in-one-command"></a></h3>
 <p>In SPSS: <strong>Analyze &gt; Descriptive Statistics &gt;
 Descriptives</strong>. In R:</p>
-<div class="codewrapper sourceCode" id="cb30">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -925,7 +987,7 @@ quartiles. For character columns, you get the length and type.</p>
 <code>table()</code> — Frequency tables<a class="anchor" aria-label="anchor" href="#table-frequency-tables"></a></h3>
 <p>In SPSS: <strong>Analyze &gt; Descriptive Statistics &gt;
 Frequencies</strong>. In R:</p>
-<div class="codewrapper sourceCode" id="cb32">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -944,7 +1006,7 @@ Frequencies</strong>. In R:</p>
 frame. So <code>visitors$origin</code> means “the origin column from the
 visitors dataset” — like clicking on a single variable in SPSS.</p>
 <p>You can also make two-way frequency tables:</p>
-<div class="codewrapper sourceCode" id="cb34">
+<div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -989,7 +1051,7 @@ line.</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb36">
+<div class="codewrapper sourceCode" id="cb37">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1010,7 +1072,7 @@ dbl (7): year, visitors_stayover, visitors_cruise, avg_stay_nights, avg_spen...
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 <p><strong>Question 1:</strong> How many rows and columns?</p>
-<div class="codewrapper sourceCode" id="cb38">
+<div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1022,7 +1084,7 @@ dbl (7): year, visitors_stayover, visitors_cruise, avg_stay_nights, avg_spen...
 </h3>
 <pre class="output" tabindex="0"><code>[1] 120   9</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb40">
+<div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1046,7 +1108,7 @@ $ satisfaction_score  &lt;dbl&gt; 8.1, 7.9, 7.5, 7.7, 8.0, 7.6, 8.0, 7.8, 7.4, 7
 <p>The dataset has 120 rows and 9 columns (5 years x 4 quarters x 6
 origin countries = 120 rows).</p>
 <p><strong>Question 2:</strong> Data types?</p>
-<div class="codewrapper sourceCode" id="cb42">
+<div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1082,7 +1144,7 @@ origin countries = 120 rows).</p>
 <p><code>origin</code> is character (<code>chr</code>),
 <code>visitors_stayover</code> is numeric (<code>num</code>).</p>
 <p><strong>Question 3:</strong> Mean average spending?</p>
-<div class="codewrapper sourceCode" id="cb44">
+<div class="codewrapper sourceCode" id="cb45">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1096,7 +1158,7 @@ origin countries = 120 rows).</p>
 </div>
 <p>The mean <code>avg_spending_usd</code> is shown in the summary
 output. You can also get just the mean with:</p>
-<div class="codewrapper sourceCode" id="cb46">
+<div class="codewrapper sourceCode" id="cb47">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1108,7 +1170,7 @@ output. You can also get just the mean with:</p>
 <pre class="output" tabindex="0"><code>[1] 898.1667</code></pre>
 </div>
 <p><strong>Question 4:</strong> Rows per origin country?</p>
-<div class="codewrapper sourceCode" id="cb48">
+<div class="codewrapper sourceCode" id="cb49">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1156,7 +1218,7 @@ can put one function inside another.)</li>
 </button>
 <div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb50">
+<div class="codewrapper sourceCode" id="cb51">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1172,7 +1234,7 @@ can put one function inside another.)</li>
 </h3>
 <pre class="output" tabindex="0"><code>[1] 5</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb52">
+<div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
