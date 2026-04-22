@@ -35,6 +35,22 @@ material.
 | 14:45 – 15:45 | [Episode 4 — Your first visualization](04-visualization.html)      |
 | 15:45 – 16:00 | Wrap-up and [homework brief](homework.html)                        |
 
+::::::::::::::::::::::::::::::::::::: callout
+
+## Between Day 1 and Day 2: the homework
+
+The 48 hours between the two days is when the course content becomes a
+skill. A short practice assignment is waiting for you on a dedicated page,
+so you can reopen it from any device overnight:
+
+### **→ [Day 1 homework brief](homework.html)**
+
+Pick a dataset you already use, write a short R script that imports it,
+transforms it, summarises it, and charts it. Thirty to sixty minutes is
+plenty. Bring the script to the Day 2 open lab.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 ### Day 2 · Thursday 24 April
 
 | Time          | Topic                                                                       |
