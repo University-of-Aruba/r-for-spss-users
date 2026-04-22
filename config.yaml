@@ -78,6 +78,7 @@ episodes:
 # Information for Learners
 learners:
 - setup.md
+- homework.md
 - reference.md
 
 # Information for Instructors
