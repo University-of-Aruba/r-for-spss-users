@@ -425,8 +425,8 @@ keep building your skills.
 
 The between-session practice assignment is a separate page so it can be
 handed to you at the end of Day 1 and opened from any device overnight.
-See the [Homework brief](../instructor/homework.html) under the "For
-Learners" menu of this site.
+See the [Homework brief](homework.html) under the "For Learners" menu of
+this site.
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
