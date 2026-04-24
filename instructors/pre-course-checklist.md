@@ -11,9 +11,9 @@ Things only you can do. Work down the list; tick as you go.
 
 - [ ] **Knit Episode 6 end-to-end.** Open `episodes/06-reproducible-reporting.Rmd` in RStudio, click Knit, watch where it errors. The hidden data-load chunk I added fixes the missing-object class of error. If other errors remain (chunk-header display issues, inline-R rendering), fix them one at a time using "Run Current Chunk" to isolate. Do not push to GitHub until the episode knits cleanly end-to-end.
 - [ ] **Verify both surveys** in an incognito browser window so your Google login does not mask a broken link:
-  - Course evaluation: `https://docs.google.com/forms/d/e/1hXPLwEL637Ypz5W9xwjDMYimbmE8nfkFHEpriMY-tOw/viewform`
-  - DCDC Network onboarding: `https://docs.google.com/forms/d/e/1pcHjwkAhHPK8q6qqS0ns2rhr5AXX_wvBUbOQ0YACAQo/viewform`
-  - Confirm each form loads and accepts a test response. If broken or renamed, generate fresh links and replace in `episodes/07-next-steps.Rmd` at lines 449 and 455.
+  - Course evaluation: `https://docs.google.com/forms/d/e/1FAIpQLSeq_hRNTbsBXCrvHRUYky8h4aHDAIzrjRjHEhGxdkzuTAwTyQ/viewform`
+  - DCDC Network onboarding: `https://docs.google.com/forms/d/e/1FAIpQLScMSYe1trO9g_ajjftEMLk0k1I8fXDUBiyOyydGTCh7xX7Dcw/viewform`
+  - Confirm each form loads and accepts a test response. If broken or renamed, repeat the Forms → Send → link icon copy and replace in both `episodes/07-next-steps.Rmd` and this checklist.
 - [ ] **Tone check Episode 2 .R-extension callout.** Silent-read the page. If the expanded three-reasons version feels heavy inside a callout block, split it: keep the short "you will thank yourself later" line as the callout, move the three reasons into a paragraph of body text after.
 - [ ] **Pin the year in the cold open.** The opening script currently says "Twelve years ago." If a specific year is sharper for you ("In 2013"), swap it. Stick to whatever you choose.
 

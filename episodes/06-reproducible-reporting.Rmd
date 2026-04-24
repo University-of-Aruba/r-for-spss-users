@@ -491,22 +491,32 @@ This group also has an average satisfaction score of
 
 ## Capstone: a full report from one command
 
-<!-- TODO: add episodes/files/xander-bogaerts-report-template.Rmd — the
-     full multi-page R Markdown capstone referenced in Episode 1's opening.
-     Scaffold only for now; template to be written closer to delivery. -->
-
 The capstone of this course is a single R Markdown file that produces a
-polished, multi-page PDF report at the press of the Knit button. The worked
-example is the Xander Bogaerts baseball statistics report you saw in
+polished, self-contained HTML report at the press of the Knit button. The
+worked example is the Xander Bogaerts baseball statistics report you saw in
 Episode 1's opening — the same file, opened now with the skills from this
 episode in hand.
 
-The full template lives at
-`episodes/files/xander-bogaerts-report-template.Rmd`. The instructor will
-walk through its structure: a YAML header, a hidden setup chunk, a small
-number of analysis chunks, and prose with inline R for the narrative
-numbers. Everything above in this episode is inside that template — the
-capstone is assembly, not new material.
+Pull the template and its stylesheet from the course repository on the
+University of Aruba's GitHub into your workshop folder:
+
+```{r capstone-download, eval = FALSE}
+# Iteration: 1
+base <- "https://raw.githubusercontent.com/University-of-Aruba/r-for-spss-users/main/episodes/files"
+
+download.file(file.path(base, "xander-bogaerts-report-template.Rmd"),
+              "xander-bogaerts-report-template.Rmd")
+download.file(file.path(base, "xander-report.css"),
+              "xander-report.css")
+
+file.edit("xander-bogaerts-report-template.Rmd")
+```
+
+Both files land next to each other in the working directory, which is all
+the knit step needs. Walk through the template's structure: a YAML header,
+a hidden setup chunk, a small number of analysis chunks, and prose with
+inline R for the narrative numbers. Everything above in this episode is
+inside that template — the capstone is assembly, not new material.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
