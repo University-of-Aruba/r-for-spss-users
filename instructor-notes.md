@@ -40,7 +40,7 @@ Key principles:
 | Review and troubleshooting | 30 min | Address questions from between-session practice |
 | 05 - Statistical Analysis | 120 min | Core for survey researchers. The normality-testing section (histogram, Q-Q plot, Shapiro-Wilk, robustness note) maps directly onto the SPSS Explore output most participants will recognise. Take your time. |
 | Break | 15 min | |
-| 06 - Reproducible Reporting | 60 min | R Markdown is often the biggest "wow" for SPSS users. Ends with the Xander Bogaerts capstone section that Episode 1's opening teased — walk through the template at `episodes/files/xander-bogaerts-report-template.Rmd` if it has landed; otherwise describe its structure using the scaffold in the episode. |
+| 06 - Reproducible Reporting | 60 min | R Markdown is often the biggest "wow" for SPSS users. Ends with the Xander Bogaerts capstone section that Episode 1's opening teased. Participants pull `xander-bogaerts-report-template.Rmd` and `xander-report.css` from the UA GitHub raw URL via the `download.file()` block in the episode; walk through the template's structure live once both files are in their working directory. |
 | Break | 15 min | |
 | 07 - Where to Go from Here | 55 min | End with practical next steps. The new UA datasets subsection (CAS_election_data and island-research-reference-data) is a chance to live-demo `read.csv()` straight from a raw GitHub URL — most SPSS users have never seen data load over HTTPS without a manual download. |
 

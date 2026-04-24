@@ -334,6 +334,89 @@ sids <- countries |>
 head(sids)
 ```
 
+## A taste of text analysis
+
+The tools you already know — `dplyr` for filtering and counting, `ggplot2` for
+charts — are enough to start analysing text. You do not need a special package
+to count words.
+
+Here is a short sample of institutional Papiamento text. We will find its most
+frequent meaningful words.
+
+
+``` r
+library(dplyr)
+library(ggplot2)
+
+text <- "Pais Aruba ta un isla den Caribe cu hopi hende cordial y un cultura
+rico. E pueblo di Aruba ta biba di turismo, comercio y servicio publico.
+Gobierno di Aruba ta traha pa crea oportunidad pa tur ciudadano. Nos idioma
+Papiamento ta e idioma principal cu ta uni nos como pueblo. E Dutch Caribbean
+Data Community (DCDC) ta un network pa analista y trahador di datos di henter
+region, cu enfoke riba calidad, transparencia y cooperacion."
+
+# Split the text into words, lowercase everything, strip punctuation
+words <- text |>
+  tolower() |>
+  strsplit("[[:space:][:punct:]]+") |>
+  unlist()
+
+# Hand-curated Papiamento stopwords: the short function words that carry
+# little meaning on their own
+stopwords_pap <- c("e", "un", "nos", "su", "tur", "di", "pa", "na", "cu",
+  "riba", "den", "y", "o", "of", "si", "no", "ta", "lo", "por",
+  "mester", "tin", "a", "aki", "ey", "cual", "mas", "como", "")
+
+# Count words, remove stopwords, keep the top 10
+word_counts <- tibble(word = words) |>
+  filter(!word %in% stopwords_pap) |>
+  count(word, sort = TRUE) |>
+  slice_head(n = 10)
+
+ggplot(word_counts, aes(x = n, y = reorder(word, n))) +
+  geom_col(fill = "#44759e") +
+  labs(
+    title = "Most frequent meaningful words",
+    x = "Count",
+    y = NULL
+  ) +
+  theme_minimal()
+```
+
+<img src="fig/07-next-steps-rendered-text-demo-1.png" alt="" style="display: block; margin: auto;" />
+
+The same pattern works on any text — a column of survey comments, a PDF you
+have read into R, a folder full of reports. The steps are always: split into
+words, lowercase, drop stopwords, count, chart.
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## Actual wordclouds
+
+Bar charts communicate better than wordclouds for most analysis. But
+wordclouds are fun to share, and sometimes the right fit for a presentation
+slide. The `ggwordcloud` package plugs straight into the ggplot2 workflow:
+
+
+``` r
+install.packages("ggwordcloud")
+library(ggwordcloud)
+
+ggplot(word_counts, aes(label = word, size = n)) +
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 20) +
+  theme_minimal()
+```
+
+Install it when you have time after the course — nothing else depends on it.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+For a larger Papiamento-language playground, watch for the University of
+Aruba's corpus of governing programmes (`aruba-governing-programmes`), which
+collects the `Programa di Gobernacion` texts across coalitions for research
+and teaching use.
+
 ## Building a personal script library
 
 Over time, you will write scripts that solve specific problems: cleaning a
@@ -506,6 +589,32 @@ reproducible, shareable, and transparent.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Open lab: your homework in action
+
+The last slot of Day 2 is an open lab built around the [homework
+brief](homework.html) you worked through between sessions.
+
+Open your homework script. We will go around the room: a quick look at what
+each of you built, any errors you kept in a comment at the top, and one thing
+you would still like your script to do. The instructor works through
+extensions live.
+
+Good extension targets, from lightest to heaviest:
+
+1. **Refine the chart.** Try a second `geom_*`, a different colour mapping, or
+   a facet — re-run, see which version communicates best.
+2. **Add a second summary.** Re-run `group_by()` / `summarise()` on a
+   different grouping variable and compare.
+3. **Text in your data.** If your dataset has a free-text column (survey
+   comments, category labels, document titles), apply the tokenise → stopwords
+   → count → chart pattern from the text-analysis section above.
+4. **Move into R Markdown.** Lift your `.R` file into a new `.Rmd`, add a
+   title and two sentences of prose, and knit it. You now have a
+   one-page report.
+
+Bring questions to the instructor and to the person next to you. The goal is
+that you leave with a script you can run again next week on fresh data.
+
 ## Before you leave
 
 Please take a few minutes to complete these short surveys. Your feedback helps
@@ -514,13 +623,13 @@ us improve the course and strengthens the DCDC Network.
 **Course evaluation** --- tell us what worked, what didn't, and what you'd
 change. This directly shapes future sessions.
 
-[Complete the course evaluation survey](https://docs.google.com/forms/d/e/1hXPLwEL637Ypz5W9xwjDMYimbmE8nfkFHEpriMY-tOw/viewform)
+[Complete the course evaluation survey](https://docs.google.com/forms/d/e/1FAIpQLSeq_hRNTbsBXCrvHRUYky8h4aHDAIzrjRjHEhGxdkzuTAwTyQ/viewform)
 
 **DCDC Network onboarding** --- help us understand your data practices and
 connect you to the broader network. This feeds into DCDC research on digital
 competence across the Dutch Caribbean.
 
-[Complete the DCDC Network onboarding survey](https://docs.google.com/forms/d/e/1pcHjwkAhHPK8q6qqS0ns2rhr5AXX_wvBUbOQ0YACAQo/viewform)
+[Complete the DCDC Network onboarding survey](https://docs.google.com/forms/d/e/1FAIpQLScMSYe1trO9g_ajjftEMLk0k1I8fXDUBiyOyydGTCh7xX7Dcw/viewform)
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
