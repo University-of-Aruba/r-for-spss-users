@@ -269,9 +269,11 @@
       <div class="accordion-body">
         <ul><li><a href="#getting-help">Getting help</a></li>
 <li><a href="#dutch-caribbean-data-in-r">Dutch Caribbean data in R</a></li>
+<li><a href="#a-taste-of-text-analysis">A taste of text analysis</a></li>
 <li><a href="#building-a-personal-script-library">Building a personal script library</a></li>
 <li><a href="#continued-learning">Continued learning</a></li>
 <li><a href="#between-session-practice-assignment">Between-session practice assignment</a></li>
+<li><a href="#open-lab-your-homework-in-action">Open lab: your homework in action</a></li>
 <li><a href="#before-you-leave">Before you leave</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -711,6 +713,90 @@ join against any other dataset by country code.</p>
 <span><span class="fu">head</span><span class="op">(</span><span class="va">sids</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
+</section><section><h2 class="section-heading" id="a-taste-of-text-analysis">A taste of text analysis<a class="anchor" aria-label="anchor" href="#a-taste-of-text-analysis"></a></h2>
+<hr class="half-width"><p>The tools you already know — <code>dplyr</code> for filtering and
+counting, <code>ggplot2</code> for charts — are enough to start
+analysing text. You do not need a special package to count words.</p>
+<p>Here is a short sample of institutional Papiamento text. We will find
+its most frequent meaningful words.</p>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">text</span> <span class="op">&lt;-</span> <span class="st">"Pais Aruba ta un isla den Caribe cu hopi hende cordial y un cultura</span></span>
+<span><span class="st">rico. E pueblo di Aruba ta biba di turismo, comercio y servicio publico.</span></span>
+<span><span class="st">Gobierno di Aruba ta traha pa crea oportunidad pa tur ciudadano. Nos idioma</span></span>
+<span><span class="st">Papiamento ta e idioma principal cu ta uni nos como pueblo. E Dutch Caribbean</span></span>
+<span><span class="st">Data Community (DCDC) ta un network pa analista y trahador di datos di henter</span></span>
+<span><span class="st">region, cu enfoke riba calidad, transparencia y cooperacion."</span></span>
+<span></span>
+<span><span class="co"># Split the text into words, lowercase everything, strip punctuation</span></span>
+<span><span class="va">words</span> <span class="op">&lt;-</span> <span class="va">text</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tolower</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">strsplit</span><span class="op">(</span><span class="st">"[[:space:][:punct:]]+"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">unlist</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Hand-curated Papiamento stopwords: the short function words that carry</span></span>
+<span><span class="co"># little meaning on their own</span></span>
+<span><span class="va">stopwords_pap</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"e"</span>, <span class="st">"un"</span>, <span class="st">"nos"</span>, <span class="st">"su"</span>, <span class="st">"tur"</span>, <span class="st">"di"</span>, <span class="st">"pa"</span>, <span class="st">"na"</span>, <span class="st">"cu"</span>,</span>
+<span>  <span class="st">"riba"</span>, <span class="st">"den"</span>, <span class="st">"y"</span>, <span class="st">"o"</span>, <span class="st">"of"</span>, <span class="st">"si"</span>, <span class="st">"no"</span>, <span class="st">"ta"</span>, <span class="st">"lo"</span>, <span class="st">"por"</span>,</span>
+<span>  <span class="st">"mester"</span>, <span class="st">"tin"</span>, <span class="st">"a"</span>, <span class="st">"aki"</span>, <span class="st">"ey"</span>, <span class="st">"cual"</span>, <span class="st">"mas"</span>, <span class="st">"como"</span>, <span class="st">""</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Count words, remove stopwords, keep the top 10</span></span>
+<span><span class="va">word_counts</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>word <span class="op">=</span> <span class="va">words</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="op">!</span><span class="va">word</span> <span class="op">%in%</span> <span class="va">stopwords_pap</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">word</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">slice_head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">word_counts</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">n</span>, y <span class="op">=</span> <span class="fu">reorder</span><span class="op">(</span><span class="va">word</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#44759e"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Most frequent meaningful words"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Count"</span>,</span>
+<span>    y <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/07-next-steps-rendered-text-demo-1.png" alt="" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The same pattern works on any text — a column of survey comments, a
+PDF you have read into R, a folder full of reports. The steps are
+always: split into words, lowercase, drop stopwords, count, chart.</p>
+<div id="actual-wordclouds" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="actual-wordclouds" class="callout-inner">
+<h3 class="callout-title">Actual wordclouds</h3>
+<div class="callout-content">
+<p>Bar charts communicate better than wordclouds for most analysis. But
+wordclouds are fun to share, and sometimes the right fit for a
+presentation slide. The <code>ggwordcloud</code> package plugs straight
+into the ggplot2 workflow:</p>
+<div class="codewrapper sourceCode" id="cb16">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"ggwordcloud"</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">ggwordcloud</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">word_counts</span>, <span class="fu">aes</span><span class="op">(</span>label <span class="op">=</span> <span class="va">word</span>, size <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_text_wordcloud</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_size_area</span><span class="op">(</span>max_size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Install it when you have time after the course — nothing else depends
+on it.</p>
+</div>
+</div>
+</div>
+<p>For a larger Papiamento-language playground, watch for the University
+of Aruba’s corpus of governing programmes
+(<code>aruba-governing-programmes</code>), which collects the
+<code>Programa di Gobernacion</code> texts across coalitions for
+research and teaching use.</p>
 </section><section><h2 class="section-heading" id="building-a-personal-script-library">Building a personal script library<a class="anchor" aria-label="anchor" href="#building-a-personal-script-library"></a></h2>
 <hr class="half-width"><p>Over time, you will write scripts that solve specific problems:
 cleaning a particular dataset, running a standard analysis, producing a
@@ -731,7 +817,7 @@ script does:</p>
 <li><p><strong>Comment generously.</strong> You will forget why you
 wrote something in three months. Write comments that explain the
 <em>why</em>, not just the <em>what</em>:</p></li>
-</ol><div class="codewrapper sourceCode" id="cb16">
+</ol><div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -830,7 +916,7 @@ population)</li>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Here is an example using international tourism arrivals:</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -893,18 +979,46 @@ and transparent.</p>
 </div>
 </div>
 </div>
+</section><section><h2 class="section-heading" id="open-lab-your-homework-in-action">Open lab: your homework in action<a class="anchor" aria-label="anchor" href="#open-lab-your-homework-in-action"></a></h2>
+<hr class="half-width"><p>The last slot of Day 2 is an open lab built around the <a href="homework.html">homework brief</a> you worked through between
+sessions.</p>
+<p>Open your homework script. We will go around the room: a quick look
+at what each of you built, any errors you kept in a comment at the top,
+and one thing you would still like your script to do. The instructor
+works through extensions live.</p>
+<p>Good extension targets, from lightest to heaviest:</p>
+<ol style="list-style-type: decimal"><li>
+<strong>Refine the chart.</strong> Try a second <code>geom_*</code>,
+a different colour mapping, or a facet — re-run, see which version
+communicates best.</li>
+<li>
+<strong>Add a second summary.</strong> Re-run
+<code>group_by()</code> / <code>summarise()</code> on a different
+grouping variable and compare.</li>
+<li>
+<strong>Text in your data.</strong> If your dataset has a free-text
+column (survey comments, category labels, document titles), apply the
+tokenise → stopwords → count → chart pattern from the text-analysis
+section above.</li>
+<li>
+<strong>Move into R Markdown.</strong> Lift your <code>.R</code>
+file into a new <code>.Rmd</code>, add a title and two sentences of
+prose, and knit it. You now have a one-page report.</li>
+</ol><p>Bring questions to the instructor and to the person next to you. The
+goal is that you leave with a script you can run again next week on
+fresh data.</p>
 </section><section><h2 class="section-heading" id="before-you-leave">Before you leave<a class="anchor" aria-label="anchor" href="#before-you-leave"></a></h2>
 <hr class="half-width"><p>Please take a few minutes to complete these short surveys. Your
 feedback helps us improve the course and strengthens the DCDC
 Network.</p>
 <p><strong>Course evaluation</strong> — tell us what worked, what
 didn’t, and what you’d change. This directly shapes future sessions.</p>
-<p><a href="https://docs.google.com/forms/d/e/1hXPLwEL637Ypz5W9xwjDMYimbmE8nfkFHEpriMY-tOw/viewform" class="external-link">Complete
+<p><a href="https://docs.google.com/forms/d/e/1FAIpQLSeq_hRNTbsBXCrvHRUYky8h4aHDAIzrjRjHEhGxdkzuTAwTyQ/viewform" class="external-link">Complete
 the course evaluation survey</a></p>
 <p><strong>DCDC Network onboarding</strong> — help us understand your
 data practices and connect you to the broader network. This feeds into
 DCDC research on digital competence across the Dutch Caribbean.</p>
-<p><a href="https://docs.google.com/forms/d/e/1pcHjwkAhHPK8q6qqS0ns2rhr5AXX_wvBUbOQ0YACAQo/viewform" class="external-link">Complete
+<p><a href="https://docs.google.com/forms/d/e/1FAIpQLScMSYe1trO9g_ajjftEMLk0k1I8fXDUBiyOyydGTCh7xX7Dcw/viewform" class="external-link">Complete
 the DCDC Network onboarding survey</a></p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">

@@ -879,19 +879,33 @@ This group also has an average satisfaction score of
 </div>
 </div>
 </section><section><h2 class="section-heading" id="capstone-a-full-report-from-one-command">Capstone: a full report from one command<a class="anchor" aria-label="anchor" href="#capstone-a-full-report-from-one-command"></a></h2>
-<hr class="half-width"><!-- TODO: add episodes/files/xander-bogaerts-report-template.Rmd — the
-     full multi-page R Markdown capstone referenced in Episode 1's opening.
-     Scaffold only for now; template to be written closer to delivery. --><p>The capstone of this course is a single R Markdown file that produces
-a polished, multi-page PDF report at the press of the Knit button. The
-worked example is the Xander Bogaerts baseball statistics report you saw
-in Episode 1’s opening — the same file, opened now with the skills from
-this episode in hand.</p>
-<p>The full template lives at
-<code>episodes/files/xander-bogaerts-report-template.Rmd</code>. The
-instructor will walk through its structure: a YAML header, a hidden
-setup chunk, a small number of analysis chunks, and prose with inline R
-for the narrative numbers. Everything above in this episode is inside
-that template — the capstone is assembly, not new material.</p>
+<hr class="half-width"><p>The capstone of this course is a single R Markdown file that produces
+a polished, self-contained HTML report at the press of the Knit button.
+The worked example is the Xander Bogaerts baseball statistics report you
+saw in Episode 1’s opening — the same file, opened now with the skills
+from this episode in hand.</p>
+<p>Pull the template and its stylesheet from the course repository on
+the University of Aruba’s GitHub into your workshop folder:</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Iteration: 1</span></span>
+<span><span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/University-of-Aruba/r-for-spss-users/main/episodes/files"</span></span>
+<span></span>
+<span><span class="fu">download.file</span><span class="op">(</span><span class="fu">file.path</span><span class="op">(</span><span class="va">base</span>, <span class="st">"xander-bogaerts-report-template.Rmd"</span><span class="op">)</span>,</span>
+<span>              <span class="st">"xander-bogaerts-report-template.Rmd"</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span><span class="fu">file.path</span><span class="op">(</span><span class="va">base</span>, <span class="st">"xander-report.css"</span><span class="op">)</span>,</span>
+<span>              <span class="st">"xander-report.css"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">file.edit</span><span class="op">(</span><span class="st">"xander-bogaerts-report-template.Rmd"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Both files land next to each other in the working directory, which is
+all the knit step needs. Walk through the template’s structure: a YAML
+header, a hidden setup chunk, a small number of analysis chunks, and
+prose with inline R for the narrative numbers. Everything above in this
+episode is inside that template — the capstone is assembly, not new
+material.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
