@@ -1,12 +1,12 @@
 ---
 title: "Statistical Analysis in R"
-teaching: 80
-exercises: 40
+teaching: 60
+exercises: 30
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions
 
-- How do I run t-tests, ANOVA, correlations, and regression in R?
+- How do I run t-tests, correlations, and regression in R?
 - How does R output compare to SPSS output tables?
 - How do I extract and report results?
 
@@ -15,9 +15,10 @@ exercises: 40
 ::::::::::::::::::::::::::::::::::::: objectives
 
 - Run independent and paired samples t-tests
-- Conduct one-way ANOVA with post-hoc tests
-- Calculate correlations and run simple linear regression
-- Interpret R output by mapping it to familiar SPSS output tables
+- Calculate correlations
+- Fit and interpret a simple linear regression
+- Map R output back to familiar SPSS output tables
+- Extract results as a tidy data frame using `broom`
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -33,8 +34,6 @@ table below maps the SPSS dialogs you already know to their R equivalents:
 |------------------------------|--------------------------------------------------------|---------------------------------------------|
 | Independent-samples t-test   | Analyze > Compare Means > Independent-Samples T Test   | `t.test(y ~ group, data = df)`              |
 | Paired-samples t-test        | Analyze > Compare Means > Paired-Samples T Test        | `t.test(x, y, paired = TRUE)`               |
-| One-way ANOVA                | Analyze > Compare Means > One-Way ANOVA                | `aov(y ~ group, data = df)` + `summary()`   |
-| Post-hoc tests               | (checkbox in ANOVA dialog)                             | `TukeyHSD()`                                |
 | Bivariate correlation        | Analyze > Correlate > Bivariate                        | `cor.test(df$x, df$y)`                      |
 | Linear regression            | Analyze > Regression > Linear                          | `lm(y ~ x1 + x2, data = df)` + `summary()` |
 
@@ -48,157 +47,31 @@ library(broom)
 visitors <- read_csv("data/aruba_visitors.csv")
 ```
 
-### Checking normality
+::::::::::::::::::::::::::::::::::::: callout
 
-Before running parametric tests like the t-test or ANOVA, you need to assess
-whether your data are approximately normally distributed. In SPSS, you would go
-to **Analyze > Descriptive Statistics > Explore**, move your variable to the
-"Dependent List", click "Plots", and check the "Normality plots with tests"
-box. R gives you the same tools -- and more control over how they look.
+## A quick word on normality
 
-#### Visual inspection: histogram and Q-Q plot
+Parametric tests like the t-test assume roughly normal data, but they are
+surprisingly robust to violations of that assumption. A fast visual check with
+a histogram or a Q-Q plot is usually enough:
 
-You already know `ggplot2` from Episode 04, so let's use it. A histogram shows
-the shape of the distribution, and a Q-Q (quantile-quantile) plot compares your
-data to a theoretical normal distribution. If the points fall roughly along the
-diagonal line, the data are approximately normal.
-
-
-``` r
-# Iteration: 1
-# Histogram of average spending
+```r
 ggplot(visitors, aes(x = avg_spending_usd)) +
-  geom_histogram(bins = 20, fill = "#2a9d8f", color = "white", alpha = 0.8) +
-  labs(title = "Distribution of average spending",
-       x = "Average Spending (USD)",
-       y = "Count") +
+  geom_histogram(bins = 20) +
   theme_minimal()
-```
 
-<img src="fig/05-statistical-analysis-rendered-normality-histogram-1.png" alt="" style="display: block; margin: auto;" />
-
-
-``` r
-# Iteration: 1
-# Q-Q plot of average spending
 ggplot(visitors, aes(sample = avg_spending_usd)) +
-  stat_qq() +
-  stat_qq_line(color = "#e76f51", linewidth = 0.8) +
-  labs(title = "Q-Q plot of average spending",
-       x = "Theoretical quantiles",
-       y = "Sample quantiles") +
+  stat_qq() + stat_qq_line() +
   theme_minimal()
 ```
 
-<img src="fig/05-statistical-analysis-rendered-normality-qq-1.png" alt="" style="display: block; margin: auto;" />
+As a rule of thumb: with **n > 30 per group**, the Central Limit Theorem does
+most of the work for you. With small samples and visibly non-normal data,
+reach for a non-parametric alternative (`wilcox.test()` instead of `t.test()`).
+The formal Shapiro-Wilk test (`shapiro.test()`) is available when you need it,
+but on large samples it flags trivial deviations, so always look at the plot
+first.
 
-Points that hug the diagonal line suggest normality. Systematic deviations --
-S-curves, banana shapes, or points flying off at the tails -- indicate
-non-normality.
-
-#### Shapiro-Wilk test
-
-The Shapiro-Wilk test is the formal statistical test for normality. The null
-hypothesis is that the data are normally distributed, so a significant p-value
-(< 0.05) means you reject normality.
-
-
-``` r
-# Iteration: 1
-shapiro.test(visitors$avg_spending_usd)
-```
-
-``` output
-
-	Shapiro-Wilk normality test
-
-data:  visitors$avg_spending_usd
-W = 0.93876, p-value = 3.534e-05
-```
-
-In SPSS, this same test appears in the "Tests of Normality" table when you
-check the normality plots option in Explore.
-
-#### When does normality actually matter?
-
-Parametric tests like the t-test and ANOVA assume normality, but they are
-surprisingly robust to violations of this assumption -- especially with larger
-samples. As a rough guide:
-
-- With **n > 30 per group**, the Central Limit Theorem means the sampling
-  distribution of the mean is approximately normal regardless of the data
-  distribution. The t-test and ANOVA will perform well.
-- With **small samples** (n < 15 per group), normality matters more. Consider
-  non-parametric alternatives (Wilcoxon test, Kruskal-Wallis) if the data are
-  clearly non-normal.
-- **Always look at the plots first.** The Shapiro-Wilk test is sensitive to
-  trivial deviations in large samples, so a significant p-value does not
-  necessarily mean parametric tests are inappropriate.
-
-The combination of visual inspection and the formal test gives you a complete
-picture -- far more useful than relying on either one alone.
-
-::::::::::::::::::::::::::::::::::::: challenge
-
-## Challenge: Check normality for satisfaction scores
-
-1. Create a histogram of `satisfaction_score` using `ggplot2`.
-2. Create a Q-Q plot of `satisfaction_score`.
-3. Run the Shapiro-Wilk test on `satisfaction_score`.
-4. Based on all three, would you feel comfortable running a parametric test on
-   this variable? Why or why not?
-
-:::::::::::::::::::::::: solution
-
-## Solution
-
-
-``` r
-# Iteration: 1
-# 1: Histogram
-ggplot(visitors, aes(x = satisfaction_score)) +
-  geom_histogram(bins = 15, fill = "#2a9d8f", color = "white", alpha = 0.8) +
-  labs(title = "Distribution of satisfaction scores",
-       x = "Satisfaction Score",
-       y = "Count") +
-  theme_minimal()
-```
-
-<img src="fig/05-statistical-analysis-rendered-challenge-normality-1.png" alt="" style="display: block; margin: auto;" />
-
-``` r
-# 2: Q-Q plot
-ggplot(visitors, aes(sample = satisfaction_score)) +
-  stat_qq() +
-  stat_qq_line(color = "#e76f51", linewidth = 0.8) +
-  labs(title = "Q-Q plot of satisfaction scores",
-       x = "Theoretical quantiles",
-       y = "Sample quantiles") +
-  theme_minimal()
-```
-
-<img src="fig/05-statistical-analysis-rendered-challenge-normality-2.png" alt="" style="display: block; margin: auto;" />
-
-``` r
-# 3: Shapiro-Wilk test
-shapiro.test(visitors$satisfaction_score)
-```
-
-``` output
-
-	Shapiro-Wilk normality test
-
-data:  visitors$satisfaction_score
-W = 0.97421, p-value = 0.02086
-```
-
-``` r
-# 4: Interpretation depends on the output. With n = 120, the t-test is
-# robust to moderate non-normality. Check whether the histogram looks
-# roughly symmetric and the Q-Q points stay close to the line.
-```
-
-:::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### T-tests
@@ -305,96 +178,6 @@ mean difference
 In SPSS this would be **Analyze > Compare Means > Paired-Samples T Test**,
 where you select the two variables as a pair.
 
-### ANOVA
-
-#### One-way ANOVA
-
-In SPSS: **Analyze > Compare Means > One-Way ANOVA**. Move the dependent
-variable to the "Dependent List" and the factor to "Factor".
-
-Let's test whether satisfaction scores differ across origin countries:
-
-
-``` r
-# Fit the ANOVA model
-anova_model <- aov(satisfaction_score ~ origin, data = visitors)
-
-# View the ANOVA table
-summary(anova_model)
-```
-
-``` output
-             Df Sum Sq Mean Sq F value Pr(>F)    
-origin        5 11.610  2.3220   35.28 <2e-16 ***
-Residuals   114  7.502  0.0658                   
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-```
-
-::::::::::::::::::::::::::::::::::::: callout
-
-## Reading the ANOVA table --- SPSS comparison
-
-| SPSS output column | R output column |
-|--------------------|-----------------|
-| Sum of Squares     | `Sum Sq`        |
-| df                 | `Df`            |
-| Mean Square        | `Mean Sq`       |
-| F                  | `F value`       |
-| Sig.               | `Pr(>F)`        |
-
-The layout is almost identical --- R just uses slightly different column names.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-#### Post-hoc tests with TukeyHSD
-
-If the ANOVA is significant, you want to know *which* groups differ. In SPSS,
-you check the "Post Hoc" button in the ANOVA dialog and select Tukey. In R:
-
-
-``` r
-TukeyHSD(anova_model)
-```
-
-``` output
-  Tukey multiple comparisons of means
-    95% family-wise confidence level
-
-Fit: aov(formula = satisfaction_score ~ origin, data = visitors)
-
-$origin
-                            diff        lwr         upr     p adj
-Colombia-Canada           -0.495 -0.7301532 -0.25984681 0.0000002
-Netherlands-Canada        -0.020 -0.2551532  0.21515319 0.9998728
-Other-Canada              -0.420 -0.6551532 -0.18484681 0.0000143
-United States-Canada       0.100 -0.1351532  0.33515319 0.8199046
-Venezuela-Canada          -0.755 -0.9901532 -0.51984681 0.0000000
-Netherlands-Colombia       0.475  0.2398468  0.71015319 0.0000007
-Other-Colombia             0.075 -0.1601532  0.31015319 0.9394347
-United States-Colombia     0.595  0.3598468  0.83015319 0.0000000
-Venezuela-Colombia        -0.260 -0.4951532 -0.02484681 0.0211495
-Other-Netherlands         -0.400 -0.6351532 -0.16484681 0.0000408
-United States-Netherlands  0.120 -0.1151532  0.35515319 0.6781085
-Venezuela-Netherlands     -0.735 -0.9701532 -0.49984681 0.0000000
-United States-Other        0.520  0.2848468  0.75515319 0.0000001
-Venezuela-Other           -0.335 -0.5701532 -0.09984681 0.0009635
-Venezuela-United States   -0.855 -1.0901532 -0.61984681 0.0000000
-```
-
-This gives you pairwise comparisons with adjusted p-values, the difference in
-means, and 95% confidence intervals --- the same information as the SPSS
-"Multiple Comparisons" table.
-
-You can also visualize the post-hoc results:
-
-
-``` r
-plot(TukeyHSD(anova_model), las = 1, cex.axis = 0.7)
-```
-
-<img src="fig/05-statistical-analysis-rendered-tukey-plot-1.png" alt="" style="display: block; margin: auto;" />
-
 ### Correlation
 
 In SPSS: **Analyze > Correlate > Bivariate**. Move variables to the "Variables"
@@ -463,199 +246,6 @@ avg_spending_usd                  0.206              0.865
 hotel_occupancy_pct               1.000              0.575
 satisfaction_score                0.575              1.000
 ```
-
-### Chi-square test of independence
-
-All of the tests above work with numeric variables. When both variables are
-categorical, you need a different tool: the chi-square test of independence. In
-SPSS: **Analyze > Descriptive Statistics > Crosstabs**, move one variable to
-"Row(s)" and another to "Column(s)", then click "Statistics" and check the
-"Chi-square" box.
-
-#### Building a contingency table
-
-First, create a contingency table using `table()`. Let's test whether the
-distribution of visitor `origin` countries differs across `quarter`:
-
-
-``` r
-# Iteration: 1
-# Create the contingency table
-origin_quarter <- table(visitors$origin, visitors$quarter)
-origin_quarter
-```
-
-``` output
-               
-                Q1 Q2 Q3 Q4
-  Canada         5  5  5  5
-  Colombia       5  5  5  5
-  Netherlands    5  5  5  5
-  Other          5  5  5  5
-  United States  5  5  5  5
-  Venezuela      5  5  5  5
-```
-
-This is the same table you would see in the "Crosstabulation" output in SPSS.
-Each cell shows the observed count for that combination of origin and quarter.
-
-#### Running the chi-square test
-
-
-``` r
-# Iteration: 1
-chi_result <- chisq.test(origin_quarter)
-chi_result
-```
-
-``` output
-
-	Pearson's Chi-squared test
-
-data:  origin_quarter
-X-squared = 0, df = 15, p-value = 1
-```
-
-The output gives you three pieces of information, matching the SPSS
-"Chi-Square Tests" table:
-
-| SPSS output column         | R output              |
-|----------------------------|-----------------------|
-| Pearson Chi-Square value   | `X-squared`           |
-| df                         | `df`                  |
-| Asymp. Sig. (2-sided)     | `p-value`             |
-
-A significant p-value means the distribution of one variable depends on the
-other -- the row and column variables are not independent.
-
-#### Expected vs observed frequencies
-
-The expected frequencies tell you what the cell counts *would* look like if the
-two variables were completely independent. Comparing expected to observed is how
-you identify which cells are driving the result.
-
-
-``` r
-# Iteration: 1
-# Expected frequencies (what you'd see under independence)
-chi_result$expected |> round(1)
-```
-
-``` output
-               
-                Q1 Q2 Q3 Q4
-  Canada         5  5  5  5
-  Colombia       5  5  5  5
-  Netherlands    5  5  5  5
-  Other          5  5  5  5
-  United States  5  5  5  5
-  Venezuela      5  5  5  5
-```
-
-
-``` r
-# Iteration: 1
-# Standardized residuals -- large absolute values (> 2) flag notable cells
-chi_result$residuals |> round(2)
-```
-
-``` output
-               
-                Q1 Q2 Q3 Q4
-  Canada         0  0  0  0
-  Colombia       0  0  0  0
-  Netherlands    0  0  0  0
-  Other          0  0  0  0
-  United States  0  0  0  0
-  Venezuela      0  0  0  0
-```
-
-In SPSS, you would get these by checking "Expected" and "Standardized" under
-the "Cells" button in the Crosstabs dialog. Residuals greater than 2 or less
-than -2 point to cells where observed counts deviate substantially from what
-independence predicts.
-
-::::::::::::::::::::::::::::::::::::: challenge
-
-## Challenge: Chi-square analysis
-
-Create a new categorical variable called `spending_level` that classifies rows
-as "High" (above the median of `avg_spending_usd`) or "Low" (at or below the
-median). Then test whether `spending_level` is independent of `origin`.
-
-1. Create `spending_level` using `mutate()` and `if_else()`.
-2. Build a contingency table of `origin` by `spending_level`.
-3. Run `chisq.test()` and interpret the result.
-4. Examine the standardized residuals to see which origin countries spend more
-   (or less) than expected.
-
-:::::::::::::::::::::::: solution
-
-## Solution
-
-
-``` r
-# Iteration: 1
-# 1: Create spending_level
-visitors_spending <- visitors |>
-  mutate(spending_level = if_else(
-    avg_spending_usd > median(avg_spending_usd), "High", "Low"
-  ))
-
-# 2: Contingency table
-spending_table <- table(visitors_spending$origin,
-                        visitors_spending$spending_level)
-spending_table
-```
-
-``` output
-               
-                High Low
-  Canada          20   0
-  Colombia         0  20
-  Netherlands     18   2
-  Other            1  19
-  United States   20   0
-  Venezuela        0  20
-```
-
-``` r
-# 3: Chi-square test
-chi_spending <- chisq.test(spending_table)
-chi_spending
-```
-
-``` output
-
-	Pearson's Chi-squared test
-
-data:  spending_table
-X-squared = 109, df = 5, p-value < 2.2e-16
-```
-
-``` r
-# 4: Standardized residuals
-chi_spending$residuals |> round(2)
-```
-
-``` output
-               
-                 High   Low
-  Canada         3.24 -3.19
-  Colombia      -3.14  3.08
-  Netherlands    2.60 -2.56
-  Other         -2.82  2.77
-  United States  3.24 -3.19
-  Venezuela     -3.14  3.08
-```
-
-``` r
-# Positive residuals in the "High" column mean that origin country has
-# more high-spending rows than expected under independence.
-```
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Linear regression
 
@@ -797,96 +387,64 @@ results (filtering significant results, arranging by p-value, etc.).
 
 Let's put everything together in a workflow that mirrors what you would do in
 SPSS, but entirely in code. Our research question: **Does average spending
-differ by origin country, and what predicts higher spending?**
+differ between US and Netherlands visitors, and what else predicts spending?**
 
 
 ``` r
 # Step 1: Descriptive statistics by group
-visitors |>
+us_nl <- visitors |>
+  filter(origin %in% c("United States", "Netherlands"))
+
+us_nl |>
   group_by(origin) |>
   summarise(
     n = n(),
     mean_spending = mean(avg_spending_usd),
     sd_spending = sd(avg_spending_usd),
     mean_satisfaction = mean(satisfaction_score)
-  ) |>
-  arrange(desc(mean_spending))
+  )
 ```
 
 ``` output
-# A tibble: 6 × 5
+# A tibble: 2 × 5
   origin            n mean_spending sd_spending mean_satisfaction
   <chr>         <int>         <dbl>       <dbl>             <dbl>
-1 United States    20         1228.        48.2              8.00
-2 Canada           20         1139         63.0              7.90
-3 Netherlands      20          978.        49.0              7.88
-4 Other            20          850         64.2              7.48
-5 Colombia         20          654         68.6              7.4 
-6 Venezuela        20          540         46.9              7.14
+1 Netherlands      20          978.        49.0              7.88
+2 United States    20         1228.        48.2              8.00
 ```
 
 
 ``` r
 # Step 2: Visualize the distribution
-ggplot(visitors, aes(x = reorder(origin, avg_spending_usd, FUN = median),
-                     y = avg_spending_usd)) +
-  geom_boxplot(fill = "#2a9d8f", alpha = 0.6) +
-  labs(title = "Average Spending by Origin Country",
+ggplot(us_nl, aes(x = origin, y = avg_spending_usd, fill = origin)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(title = "Average Spending: US vs Netherlands",
        x = "Country of Origin",
        y = "Average Spending (USD)") +
-  theme_minimal()
+  theme_minimal() +
+  theme(legend.position = "none")
 ```
 
 <img src="fig/05-statistical-analysis-rendered-workflow-step2-1.png" alt="" style="display: block; margin: auto;" />
 
 
 ``` r
-# Step 3: ANOVA --- is there a significant difference?
-spending_anova <- aov(avg_spending_usd ~ origin, data = visitors)
-summary(spending_anova)
+# Step 3: T-test --- is there a significant difference?
+spending_t <- t.test(avg_spending_usd ~ origin, data = us_nl)
+tidy(spending_t)
 ```
 
 ``` output
-             Df  Sum Sq Mean Sq F value Pr(>F)    
-origin        5 7262707 1452541   441.7 <2e-16 ***
-Residuals   114  374890    3289                   
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# A tibble: 1 × 10
+  estimate estimate1 estimate2 statistic  p.value parameter conf.low conf.high
+     <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>    <dbl>     <dbl>
+1     -249      978.     1228.     -16.2 1.21e-18      38.0    -280.     -218.
+# ℹ 2 more variables: method <chr>, alternative <chr>
 ```
 
 
 ``` r
-# Step 4: Post-hoc --- which groups differ?
-tukey_results <- TukeyHSD(spending_anova)
-tidy(tukey_results) |>
-  filter(adj.p.value < 0.05) |>
-  arrange(adj.p.value)
-```
-
-``` output
-# A tibble: 15 × 7
-   term   contrast            null.value estimate conf.low conf.high adj.p.value
-   <chr>  <chr>                    <dbl>    <dbl>    <dbl>     <dbl>       <dbl>
- 1 origin Colombia-Canada              0   -485     -538.     -432.     2.43e-14
- 2 origin Other-Canada                 0   -289     -342.     -236.     2.43e-14
- 3 origin Venezuela-Canada             0   -599     -652.     -546.     2.43e-14
- 4 origin Netherlands-Colomb…          0    324.     272.      377.     2.43e-14
- 5 origin United States-Colo…          0    573.     521.      626.     2.43e-14
- 6 origin United States-Neth…          0    249.     196.      302.     2.43e-14
- 7 origin Venezuela-Netherla…          0   -438.    -491.     -386.     2.43e-14
- 8 origin United States-Other          0    377.     325.      430.     2.43e-14
- 9 origin Venezuela-Other              0   -310     -363.     -257.     2.43e-14
-10 origin Venezuela-United S…          0   -687.    -740.     -635.     2.43e-14
-11 origin Other-Colombia               0    196      143.      249.     6.49e-14
-12 origin Netherlands-Canada           0   -161.    -213.     -108.     2.75e-13
-13 origin Other-Netherlands            0   -128.    -181.      -75.9    1.83e- 9
-14 origin Venezuela-Colombia           0   -114.    -167.      -61.4    9.17e- 8
-15 origin United States-Cana…          0     88.5     35.9     141.     5.04e- 5
-```
-
-
-``` r
-# Step 5: Regression --- what predicts spending?
+# Step 4: Regression --- what else predicts spending?
 spending_model <- lm(avg_spending_usd ~ avg_stay_nights + origin + year,
                      data = visitors)
 tidy(spending_model) |>
@@ -909,7 +467,7 @@ tidy(spending_model) |>
 
 
 ``` r
-# Step 6: Model fit
+# Step 5: Model fit
 glance(spending_model) |>
   select(r.squared, adj.r.squared, p.value, AIC)
 ```
@@ -1122,5 +680,6 @@ glance(stay_model)
 - Every SPSS statistical test has a direct R equivalent, usually in a single function call
 - R output is more compact than SPSS --- `broom::tidy()` converts it to a clean table
 - The workflow in R is: load data, run test, extract results, visualize --- all in a script
+- ANOVA and chi-square (and other methods) follow the same pattern --- we point you to them in the follow-up material
 
 ::::::::::::::::::::::::::::::::::::::::::::::::

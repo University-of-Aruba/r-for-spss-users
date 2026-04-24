@@ -20,7 +20,7 @@ The workshop runs on two days at the University of Aruba, **22 and 24 April
 topic below links to the corresponding episode so you can jump directly to the
 material.
 
-### Day 1 · Tuesday 22 April
+### Day 1 · Wednesday 22 April
 
 | Time          | Topic                                                              |
 |---------------|--------------------------------------------------------------------|
@@ -51,15 +51,17 @@ plenty. Bring the script to the Day 2 open lab.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-### Day 2 · Thursday 24 April
+### Day 2 · Friday 24 April
 
 | Time          | Topic                                                                       |
 |---------------|-----------------------------------------------------------------------------|
-| 09:00 – 09:30 | Review and troubleshooting                                                  |
+| 09:00 – 09:30 | [Day 1 recap](files/day1-recap.html) and troubleshooting                    |
 | 09:30 – 09:45 | *Short break*                                                               |
 | 09:45 – 10:45 | [Episode 5 — Statistical analysis, part 1](05-statistical-analysis.html)    |
 | 10:45 – 11:00 | *Coffee break*                                                              |
-| 11:00 – 12:00 | [Episode 5 — Statistical analysis, part 2](05-statistical-analysis.html)    |
+| 11:00 – 11:35 | [Episode 5 — Statistical analysis, part 2](05-statistical-analysis.html)    |
+| 11:35 – 11:45 | *Stretch break*                                                             |
+| 11:45 – 12:00 | Episode 5 consolidation and questions                                       |
 | 12:00 – 13:00 | *Lunch*                                                                     |
 | 13:00 – 14:00 | [Episode 6 — Reproducible reporting](06-reproducible-reporting.html)        |
 | 14:00 – 14:15 | *Afternoon break*                                                           |
