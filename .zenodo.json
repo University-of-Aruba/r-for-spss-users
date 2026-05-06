@@ -31,10 +31,5 @@
       "relation": "isSupplementTo",
       "scheme": "url"
     }
-  ],
-  "grants": [
-    {
-      "id": "10.13039/501100003246::WCNJY25550"
-    }
   ]
 }
