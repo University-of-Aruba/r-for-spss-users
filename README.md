@@ -1,6 +1,6 @@
 # Introduction to R for SPSS Users
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20057762.svg)](https://doi.org/10.5281/zenodo.20057762)
 
 A hands-on workshop that builds on what you already know from SPSS to get you
 productive in R. No programming experience required.
