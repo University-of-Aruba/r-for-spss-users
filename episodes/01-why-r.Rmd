@@ -1,6 +1,6 @@
 ---
 title: "The Case for Switching"
-teaching: 45
+teaching: 35
 exercises: 0
 ---
 

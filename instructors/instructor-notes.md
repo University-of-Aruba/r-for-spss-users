@@ -5,7 +5,7 @@ title: 'Instructor Notes'
 ## General Teaching Approach
 
 This course follows the Carpentries live-coding pedagogy: the instructor types
-code live while participants follow along. Avoid slides for code — always
+code live while participants follow along. Avoid slides for code, always
 demonstrate in RStudio.
 
 Key principles:
@@ -24,25 +24,25 @@ Key principles:
 
 | Episode | Time | Notes |
 |---|---|---|
-| 01 - The Case for Switching | 45 min | Instructor demo only, no participant coding. Demo is the UA SIDS reference-list pull from `island-research-reference-data` (see Episode 1 instructor block). Also shows the Xander Bogaerts capstone HTML as the Friday-afternoon target — rendered version at `episodes/files/xander-bogaerts-report.html` and source at `episodes/files/xander-bogaerts-report-template.Rmd`. |
+| 01 - The Case for Switching | 35 min | Instructor demo only, no participant coding. Demo is the UA SIDS reference-list pull from `island-research-reference-data` (see Episode 1 instructor block). Also shows the Xander Bogaerts capstone HTML as the Friday-afternoon target, rendered version at `episodes/files/xander-bogaerts-report.html` and source at `episodes/files/xander-bogaerts-report-template.Rmd`. |
 | Break | 15 min | |
-| 02 - Your First R Session | 90 min | First hands-on. Go slow. Many will struggle with typos. The "Before you import — set up your workshop folder" subsection is a deliberate whole-room synchronized moment: project the download links on the screen, wait for green stickies in the Files pane before typing `read_csv()`. |
+| 02 - Your First R Session | 65 min | First hands-on. Go slow. Many will struggle with typos. The "Before you import, set up your workshop folder" subsection is a deliberate whole-room synchronized moment: project the download links on the screen, wait for green stickies in the Files pane before typing `read_csv()`. |
 | Break | 15 min | |
-| 03 - Data Manipulation | 90 min | The pipe operator is the key "aha" moment |
+| 03 - Data Manipulation | 60 min | The pipe operator is the key "aha" moment |
 | Break | 15 min | |
-| 04 - Visualization | 60 min | End on a high — everyone leaves with a beautiful chart |
-| Wrap-up + homework brief | 15 min | Project the [homework page](../learners/homework.md) on the screen. Walk through the four-step assignment out loud. Tell participants the page URL is bookmarked under "For Learners → Homework brief" on the course site so they can open it on any device overnight. Emphasise: 30–60 minutes is enough, do not attempt R Markdown yet (that is Day 2). Bring the script to Day 2 open lab. |
+| 04 - Visualization | 35 min | End on a high, everyone leaves with a beautiful chart |
+| Wrap-up + homework brief | 10 min | Project the [homework page](../learners/homework.md) on the screen. Walk through the four-step assignment out loud. Tell participants the page URL is bookmarked under "For Learners → Homework brief" on the course site so they can open it on any device overnight. Emphasise: 30–60 minutes is enough, do not attempt R Markdown yet (that is Day 2). Bring the script to the Day 2 recap; there is no open lab in the four-hour format. |
 
 ### Session 2 (5-6 hours with breaks)
 
 | Episode | Time | Notes |
 |---|---|---|
-| Review and troubleshooting | 30 min | Address questions from between-session practice |
-| 05 - Statistical Analysis | 120 min | Core for survey researchers. The normality-testing section (histogram, Q-Q plot, Shapiro-Wilk, robustness note) maps directly onto the SPSS Explore output most participants will recognise. Take your time. |
+| Review, homework and troubleshooting | 20 min | Address questions from between-session practice |
+| 05 - Statistical Analysis | 95 min, split either side of the coffee break | Core for survey researchers. The normality-testing section (histogram, Q-Q plot, Shapiro-Wilk, robustness note) maps directly onto the SPSS Explore output most participants will recognise. Take your time. |
 | Break | 15 min | |
-| 06 - Reproducible Reporting | 60 min | R Markdown is often the biggest "wow" for SPSS users. Ends with the Xander Bogaerts capstone section that Episode 1's opening teased. Participants pull `xander-bogaerts-report-template.Rmd` and `xander-report.css` from the UA GitHub raw URL via the `download.file()` block in the episode; walk through the template's structure live once both files are in their working directory. |
+| 06 - Reproducible Reporting | 50 min | R Markdown is often the biggest "wow" for SPSS users. Ends with the Xander Bogaerts capstone section that Episode 1's opening teased. Participants pull `xander-bogaerts-report-template.Rmd` and `xander-report.css` from the UA GitHub raw URL via the `download.file()` block in the episode; walk through the template's structure live once both files are in their working directory. |
 | Break | 15 min | |
-| 07 - Where to Go from Here | 55 min | End with practical next steps. The new UA datasets subsection (CAS_election_data and island-research-reference-data) is a chance to live-demo `read.csv()` straight from a raw GitHub URL — most SPSS users have never seen data load over HTTPS without a manual download. |
+| 07 - Where to Go from Here | 40 min | End with practical next steps. The new UA datasets subsection (CAS_election_data and island-research-reference-data) is a chance to live-demo `read.csv()` straight from a raw GitHub URL, most SPSS users have never seen data load over HTTPS without a manual download. |
 
 ## Per-episode scene transitions
 
@@ -54,7 +54,7 @@ Each episode opens with one atmospheric scene image at the top of the page (`fig
 | 2 | The iguana is optional. The coconut water is not. | "We're at the bar, R is open, the iguana is doing iguana things. Time to type something." |
 | 3 | You can't cook without ingredients. You can't wrangle without verbs. | "Three jars on the counter today: filter, select, mutate. Everything else in dplyr is a variation on those three." |
 | 4 | SPSS gives you a chart. ggplot2 gives you a language. | "ggplot is grammar, not buttons. By the end of this episode you'll be writing sentences." |
-| 5 | Same tests, fewer menus, more crabs. | "The tests you know from SPSS — t-test, ANOVA, chi-square, regression — are all here. The crabs are the new part. Trust the crabs." |
+| 5 | Same tests, fewer menus, more crabs. | "The tests you know from SPSS, t-test, ANOVA, chi-square, regression, are all here. The crabs are the new part. Trust the crabs." |
 | 6 | Your supervisor changed the sample. Again. Good thing you only need one button. | "This is the moment R Markdown earns the price of admission. One button, new data in, finished document out." |
 | 7 | You learned the basics. The map has a lot more islands. | "The basics are behind you. The next forty-five minutes are about where to go from here, with islands marked for you to chart." |
 
@@ -65,7 +65,7 @@ Pick one beat, deliver it, move into the page's first heading. Do not stack a se
 - **Installation problems**: The pre-course installation clinic should catch
   most of these. Have a USB drive with R and RStudio installers as backup.
 - **Typos**: SPSS users are not used to typing commands. Expect many syntax
-  errors. Normalize this — "error messages are how R talks to you."
+  errors. Normalize this, "error messages are how R talks to you."
 - **Parentheses and quotes**: The most common beginner errors. Show how RStudio
   auto-completes these.
 - **Loading packages**: Participants will forget `library()`. Remind them at
@@ -77,11 +77,11 @@ The course uses Dutch Caribbean datasets to keep examples relevant:
 - CBS Aruba tourism and CPI data (Excel downloads from cbs.aw)
 - World Bank indicators via the `WDI` package (used in Episode 7 only; Episode 1's demo was switched to the SIDS reference list below after the WDI tourism series was found missing for 2019-2023)
 - CBS Netherlands BES island data via `cbsodataR`
-- **CAS_election_data** — Aruba, Curacao, Sint Maarten election results 1985-2025 (tidy CSV at github.com/University-of-Aruba/CAS_election_data). Used in Episode 7.
-- **island-research-reference-data** — country reference list with SIDS, SNIJ, and World Bank classifications (CSV at github.com/University-of-Aruba/island-research-reference-data). Used in Episodes 1 and 7. A backup copy is committed at `episodes/data/countries_backup.csv` for offline fallback.
+- **CAS_election_data**, Aruba, Curacao, Sint Maarten election results 1985-2025 (tidy CSV at github.com/University-of-Aruba/CAS_election_data). Used in Episode 7.
+- **island-research-reference-data**, country reference list with SIDS, SNIJ, and World Bank classifications (CSV at github.com/University-of-Aruba/island-research-reference-data). Used in Episodes 1 and 7. A backup copy is committed at `episodes/data/countries_backup.csv` for offline fallback.
 
 Prepare cleaned versions of these datasets in the `episodes/data/` folder before
-the course. Test all data downloads — URLs and APIs can change.
+the course. Test all data downloads, URLs and APIs can change.
 
 ### Note on the elections example
 
@@ -102,4 +102,4 @@ island or institution:
 1. Replace datasets with locally relevant equivalents
 2. Adjust the SPSS operations covered based on your pre-course survey results
 3. Keep the "wow first, skills second" structure
-4. All materials are CC-BY 4.0 — please attribute the DCDC Network
+4. All materials are CC-BY 4.0, please attribute the DCDC Network
