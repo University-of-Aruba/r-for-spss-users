@@ -1,7 +1,7 @@
 ---
 title: "Your First R Session"
-teaching: 60
-exercises: 30
+teaching: 45
+exercises: 20
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions
@@ -168,7 +168,7 @@ library(tidyverse)
 ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.2.1     ✔ readr     2.2.0
 ✔ forcats   1.0.1     ✔ stringr   1.6.0
-✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
 ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
 ✔ purrr     1.2.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -461,7 +461,7 @@ spc_tbl_ [120 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
   ..   hotel_occupancy_pct = col_double(),
   ..   satisfaction_score = col_double()
   .. )
- - attr(*, "problems")=<externalptr> 
+ - attr(*, "problems")=<pointer: 0x5586a21b3e70> 
 ```
 
 This tells you: how many observations (rows), how many variables (columns),
@@ -501,13 +501,13 @@ summary(visitors)
 ```
 
 ``` output
-      year        quarter             origin          visitors_stayover
- Min.   :2019   Length:120         Length:120         Min.   :  180    
- 1st Qu.:2020   Class :character   Class :character   1st Qu.: 4050    
- Median :2021   Mode  :character   Mode  :character   Median : 5900    
- Mean   :2021                                         Mean   :15948    
- 3rd Qu.:2022                                         3rd Qu.:17875    
- Max.   :2023                                         Max.   :78200    
+      year           quarter          origin    visitors_stayover
+ Min.   :2019   Length   :120   Length   :120   Min.   :  180    
+ 1st Qu.:2020   N.unique :  4   N.unique :  6   1st Qu.: 4050    
+ Median :2021   N.blank  :  0   N.blank  :  0   Median : 5900    
+ Mean   :2021   Min.nchar:  2   Min.nchar:  5   Mean   :15948    
+ 3rd Qu.:2022   Max.nchar:  2   Max.nchar: 13   3rd Qu.:17875    
+ Max.   :2023                                   Max.   :78200    
  visitors_cruise   avg_stay_nights  avg_spending_usd hotel_occupancy_pct
  Min.   :    0.0   Min.   : 3.500   Min.   : 400.0   Min.   :12.10      
  1st Qu.:  242.5   1st Qu.: 4.575   1st Qu.: 677.5   1st Qu.:70.72      
@@ -685,7 +685,7 @@ spc_tbl_ [120 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
   ..   hotel_occupancy_pct = col_double(),
   ..   satisfaction_score = col_double()
   .. )
- - attr(*, "problems")=<externalptr> 
+ - attr(*, "problems")=<pointer: 0x5586a782d740> 
 ```
 
 `origin` is character (`chr`), `visitors_stayover` is numeric (`num`).
