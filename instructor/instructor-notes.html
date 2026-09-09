@@ -90,7 +90,7 @@
 </div>
     </div>
   </div>
-  <hr></header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
+</header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
       <span class="navbar-toggler-icon"></span>
       <span class="menu-title">Menu</span>
@@ -209,8 +209,7 @@
             </div>
 <!--/div.col -->
 
-            <hr>
-</div>
+          </div>
 <!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordion-chapters-toggle">
@@ -382,7 +381,7 @@
 <hr class="half-width">
 <p>This course follows the Carpentries live-coding pedagogy: the
 instructor types code live while participants follow along. Avoid slides
-for code — always demonstrate in RStudio.</p>
+for code, always demonstrate in RStudio.</p>
 <p>Key principles: - <strong>Start from what they know</strong>: Every R
 operation is introduced alongside its SPSS equivalent. Use SPSS
 terminology first, then introduce the R term. - <strong>Wow first,
@@ -412,11 +411,11 @@ assist with individual issues without stopping the class.</p>
 <tbody>
 <tr>
 <td>01 - The Case for Switching</td>
-<td>45 min</td>
+<td>35 min</td>
 <td>Instructor demo only, no participant coding. Demo is the UA SIDS
 reference-list pull from <code>island-research-reference-data</code>
 (see Episode 1 instructor block). Also shows the Xander Bogaerts
-capstone HTML as the Friday-afternoon target — rendered version at
+capstone HTML as the Friday-afternoon target, rendered version at
 <code>episodes/files/xander-bogaerts-report.html</code> and source at
 <code>episodes/files/xander-bogaerts-report-template.Rmd</code>.</td>
 </tr>
@@ -427,9 +426,9 @@ capstone HTML as the Friday-afternoon target — rendered version at
 </tr>
 <tr>
 <td>02 - Your First R Session</td>
-<td>90 min</td>
+<td>65 min</td>
 <td>First hands-on. Go slow. Many will struggle with typos. The “Before
-you import — set up your workshop folder” subsection is a deliberate
+you import, set up your workshop folder” subsection is a deliberate
 whole-room synchronized moment: project the download links on the
 screen, wait for green stickies in the Files pane before typing
 <code>read_csv()</code>.</td>
@@ -441,7 +440,7 @@ screen, wait for green stickies in the Files pane before typing
 </tr>
 <tr>
 <td>03 - Data Manipulation</td>
-<td>90 min</td>
+<td>60 min</td>
 <td>The pipe operator is the key “aha” moment</td>
 </tr>
 <tr>
@@ -451,18 +450,19 @@ screen, wait for green stickies in the Files pane before typing
 </tr>
 <tr>
 <td>04 - Visualization</td>
-<td>60 min</td>
-<td>End on a high — everyone leaves with a beautiful chart</td>
+<td>35 min</td>
+<td>End on a high, everyone leaves with a beautiful chart</td>
 </tr>
 <tr>
 <td>Wrap-up + homework brief</td>
-<td>15 min</td>
+<td>10 min</td>
 <td>Project the <a href="homework.html">homework page</a> on the screen.
 Walk through the four-step assignment out loud. Tell participants the
 page URL is bookmarked under “For Learners → Homework brief” on the
 course site so they can open it on any device overnight. Emphasise:
 30–60 minutes is enough, do not attempt R Markdown yet (that is Day 2).
-Bring the script to Day 2 open lab.</td>
+Bring the script to the Day 2 recap; there is no open lab in the
+four-hour format.</td>
 </tr>
 </tbody>
 </table>
@@ -483,13 +483,13 @@ Bring the script to Day 2 open lab.</td>
 </tr></thead>
 <tbody>
 <tr>
-<td>Review and troubleshooting</td>
-<td>30 min</td>
+<td>Review, homework and troubleshooting</td>
+<td>20 min</td>
 <td>Address questions from between-session practice</td>
 </tr>
 <tr>
 <td>05 - Statistical Analysis</td>
-<td>120 min</td>
+<td>95 min, split either side of the coffee break</td>
 <td>Core for survey researchers. The normality-testing section
 (histogram, Q-Q plot, Shapiro-Wilk, robustness note) maps directly onto
 the SPSS Explore output most participants will recognise. Take your
@@ -502,7 +502,7 @@ time.</td>
 </tr>
 <tr>
 <td>06 - Reproducible Reporting</td>
-<td>60 min</td>
+<td>50 min</td>
 <td>R Markdown is often the biggest “wow” for SPSS users. Ends with the
 Xander Bogaerts capstone section that Episode 1’s opening teased.
 Participants pull <code>xander-bogaerts-report-template.Rmd</code> and
@@ -518,10 +518,10 @@ directory.</td>
 </tr>
 <tr>
 <td>07 - Where to Go from Here</td>
-<td>55 min</td>
+<td>40 min</td>
 <td>End with practical next steps. The new UA datasets subsection
 (CAS_election_data and island-research-reference-data) is a chance to
-live-demo <code>read.csv()</code> straight from a raw GitHub URL — most
+live-demo <code>read.csv()</code> straight from a raw GitHub URL, most
 SPSS users have never seen data load over HTTPS without a manual
 download.</td>
 </tr>
@@ -579,8 +579,8 @@ be writing sentences.”</td>
 <tr>
 <td>5</td>
 <td>Same tests, fewer menus, more crabs.</td>
-<td>“The tests you know from SPSS — t-test, ANOVA, chi-square,
-regression — are all here. The crabs are the new part. Trust the
+<td>“The tests you know from SPSS, t-test, ANOVA, chi-square,
+regression, are all here. The crabs are the new part. Trust the
 crabs.”</td>
 </tr>
 <tr>
@@ -610,7 +610,7 @@ clinic should catch most of these. Have a USB drive with R and RStudio
 installers as backup.</li>
 <li>
 <strong>Typos</strong>: SPSS users are not used to typing commands.
-Expect many syntax errors. Normalize this — “error messages are how R
+Expect many syntax errors. Normalize this, “error messages are how R
 talks to you.”</li>
 <li>
 <strong>Parentheses and quotes</strong>: The most common beginner
@@ -627,10 +627,10 @@ Bank indicators via the <code>WDI</code> package (used in Episode 7
 only; Episode 1’s demo was switched to the SIDS reference list below
 after the WDI tourism series was found missing for 2019-2023) - CBS
 Netherlands BES island data via <code>cbsodataR</code> -
-<strong>CAS_election_data</strong> — Aruba, Curacao, Sint Maarten
+<strong>CAS_election_data</strong>, Aruba, Curacao, Sint Maarten
 election results 1985-2025 (tidy CSV at
 github.com/University-of-Aruba/CAS_election_data). Used in Episode 7. -
-<strong>island-research-reference-data</strong> — country reference list
+<strong>island-research-reference-data</strong>, country reference list
 with SIDS, SNIJ, and World Bank classifications (CSV at
 github.com/University-of-Aruba/island-research-reference-data). Used in
 Episodes 1 and 7. A backup copy is committed at
@@ -638,7 +638,7 @@ Episodes 1 and 7. A backup copy is committed at
 fallback.</p>
 <p>Prepare cleaned versions of these datasets in the
 <code>episodes/data/</code> folder before the course. Test all data
-downloads — URLs and APIs can change.</p>
+downloads, URLs and APIs can change.</p>
 <div class="section level3">
 <h3 id="note-on-the-elections-example">Note on the elections example<a class="anchor" aria-label="anchor" href="#note-on-the-elections-example"></a>
 </h3>
@@ -660,7 +660,7 @@ network’s neutrality.</p>
 another island or institution: 1. Replace datasets with locally relevant
 equivalents 2. Adjust the SPSS operations covered based on your
 pre-course survey results 3. Keep the “wow first, skills second”
-structure 4. All materials are CC-BY 4.0 — please attribute the DCDC
+structure 4. All materials are CC-BY 4.0, please attribute the DCDC
 Network</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
@@ -910,7 +910,7 @@ Make sure the data file is in the right relative location.</p>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.20.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.1.0)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.21.0)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.1.2)</a></p>
 		</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -933,8 +933,8 @@ Make sure the data file is in the right relative location.</p>
   "url": "https://University-of-Aruba.github.io/r-for-spss-users/instructor/instructor-notes.html",
   "identifier": "https://University-of-Aruba.github.io/r-for-spss-users/instructor/instructor-notes.html",
   "dateCreated": "2026-03-29",
-  "dateModified": "2026-05-05",
-  "datePublished": "2026-05-05"
+  "dateModified": "2026-09-09",
+  "datePublished": "2026-09-09"
 }
 
   </script><script>
