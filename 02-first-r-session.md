@@ -461,7 +461,7 @@ spc_tbl_ [120 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
   ..   hotel_occupancy_pct = col_double(),
   ..   satisfaction_score = col_double()
   .. )
- - attr(*, "problems")=<pointer: 0x564b1aa57cf0> 
+ - attr(*, "problems")=<pointer: 0x55d8869741b0> 
 ```
 
 This tells you: how many observations (rows), how many variables (columns),
@@ -685,7 +685,7 @@ spc_tbl_ [120 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
   ..   hotel_occupancy_pct = col_double(),
   ..   satisfaction_score = col_double()
   .. )
- - attr(*, "problems")=<pointer: 0x564b1754fd20> 
+ - attr(*, "problems")=<pointer: 0x55d888d56f20> 
 ```
 
 `origin` is character (`chr`), `visitors_stayover` is numeric (`num`).
